@@ -1,10 +1,24 @@
-
-<div style="align-items:center;">
-  <img src="assets/static/corona-dash-logo.png" alt="Logo do App" height="100" style="margin-bottom: 20px;">
-</div>
-
-[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
+<h1 align="center">
+  <br>
+  <a href="/"><img src="assets/static/corona-dash-logo.png" alt="Logo do App" height="100"></a>
+  <br>
+  Evolução do coronavírus no Brasil
+  <br>
+</h1>
+<p align="center">
+  <a href="/"><img src="https://forthebadge.com/images/badges/made-with-python.svg" alt="Made with Python" height="32"></a>
+  <a href="/"><img src="https://forthebadge.com/images/badges/powered-by-coffee.svg" alt="Powered by Coffee" height="32"></a>
+</p>
+<p align="center">
+  <a href="#visão-geral">Visão Geral</a> •
+  <a href="#objetivos">Objetivos</a> •
+  <a href="#conjunto-de-dados">Dados</a> •
+  <a href="#recursos-e-tecnologias-utilizadas">Frameworks</a> •
+  <a href="#uso">Uso</a> •
+  <a href="#contribuição">Contribuição</a> •
+  <a href="#licença">Licença</a> •
+  <a href="#contato">Contato</a>
+</p>
 
 ## Visão Geral
 É de conhecimento geral que a pandemia do coronavírus tem impactado significativamente o Brasil e o mundo. Assim, acompanhar a evolução dos casos, das taxas de transmissão e dos esforços de controle é de extrema importância.
