@@ -31,7 +31,7 @@ O conjunto de dados utilizado nesse projeto é disponibilizado diariamente pelo 
 
 O dataset fornece informações valiosas para acompanhar a evolução do COVID-19 no Brasil, permitindo análises e visualizações para entender a propagação da doença. Além disso, apresenta um total de 17 colunas que podem ser visualizadas abaixo:
 
-||<center>Variável</center>|<center>Tipo</center>|<center>Descrição</center>|
+||Variável|Tipo|Descrição|
 |:---|:---|:---|:---|
 |1|regiao|object|Macroregião do Brasil|
 |2|estado|object|Sigla do estado onde aconteceu o registro|
@@ -108,6 +108,7 @@ Se você tiver alguma dúvida, sugestão ou feedback, sinta-se à vontade para e
 
 Se desejar, confira meu [Portfólio online](https://eduardo-pereira.webflow.io/) para ver outros projetos e obter mais informações sobre meu trabalho.
 
+```html
 <div style="height: 50px; display: flex; justify-content: center;">
     <a href="https://www.linkedin.com/in/eduardo-jr-pereira/" target="_blank" title="Ver perfil no Linkedin">
         <img src="assets\static\logo-initials.png" style="margin: 20px">
