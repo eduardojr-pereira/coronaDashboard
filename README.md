@@ -88,7 +88,7 @@ O dataset fornece informações valiosas para acompanhar a evolução do COVID-1
 <hr>
 
 ## Estrutura de diretórios
-```css
+```bash
 coronaDashboard/
 │
 ├── app.py 
@@ -131,7 +131,6 @@ coronaDashboard/
 │
 └── tests/
     └── test_app.py
-
 ```
 
 <hr>
@@ -139,22 +138,27 @@ coronaDashboard/
 ## Uso
 ### Instalação:
 - Utilize o gerenciador de pacotes [pip](https://pip.pypa.io/en/stable/) para instalar a aplicação.
-
-`pip install -U -r requirements.txt`
+```bash
+pip install -U -r requirements.txt
+```
 
 ### Execução:
 - Navegar para o diretório no prompt de comando:
-
-`cd\coronaDashboard\app`
+```bash
+cd\coronaDashboard\app
+```
 
 - Definir a variável de ambiente FLASK_APP com o valor "app.py". 
 
-`set FLASK_APP=app.py`
+```bash
+set FLASK_APP=app.py
+```
 > Essa variável é usada pelo Flask para identificar o arquivo principal da aplicação Flask.
 
 - Iniciar o servidor de desenvolvimento do Flask e executar a aplicação:
-
-`flask run`
+```bash
+flask run
+```
 > Verifica a variável FLASK_APP definida anteriormente e inicia a execução da aplicação.
 <hr>
 
@@ -174,8 +178,13 @@ Se você tiver alguma dúvida, sugestão ou feedback, sinta-se à vontade para e
 - Email: [eduardojr.pereira@gmail.com](mailto:eduardojr.pereira@gmail.com "Enviar email")
 - [Linkedin](https://www.linkedin.com/in/eduardo-jr-pereira/ "Visitar perfil no Linkedin")
 
-Confira meu [Portfólio de Data Science](https://eduardo-pereira.webflow.io/) para ver outros projetos e obter mais informações sobre meu trabalho.
-
-<h1 align="center">
+Confira também meu [Portfólio](https://eduardo-pereira.webflow.io/) para ver outros projetos e obter mais informações sobre meu trabalho.
+<p align="center">
   <br>
-  <a href="https://eduardo-pereira.webflow.io/"><img src="assets\imagens\logo_initials.png" alt="Logo com" height="100"></a></h1>
+  <a href="https://eduardo-pereira.webflow.io/"><img src="assets\imagens\logo_initials.png" alt="Logo com iniciais EP" height="100"></a></p>
+<p align="center">
+  <a href="mailto:eduardojr.pereira@gmail.com"><img src="assets\imagens\gmail_icon.svg" alt="Logo com" height="30"></a>
+  <a href="https://www.linkedin.com/in/eduardo-jr-pereira/"><img src="assets\imagens\linkedin_icon.svg" alt="Logo com" height="30"></a>
+  <a href="https://github.com/eduardojr-pereira"><img src="assets\imagens\github_icon.svg" alt="Logo com" height="30"></a>
+  <a href="https://discord.com/channels/1095050260964966483/1111074732503203900"><img src="assets\imagens\discord_icon.svg" alt="Logo com" height="30"></a></p>
+<hr>
