@@ -1,0 +1,9 @@
+.inverted-icon {
+    filter: invert(0.5);
+    height: 30px;
+}
+
+.inverted-icon:hover {
+    filter: invert(1);
+    height: 35px;
+    }

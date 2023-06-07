@@ -1,0 +1,62 @@
+.Select-control {
+    cursor: pointer;
+    background-color: #515960;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #ffffff;
+}
+
+.Select-control:hover{
+    background-color: #272b30;
+    border:0;
+    border-bottom: 1px solid #F7A177;
+}
+
+.Select-control, .Select-value-label {
+    color: #ffffff !important ;
+}
+
+.is-open>.Select-control{
+    background-color: #272b30;
+    border:0;
+    border-bottom: 1px solid #F7A177;
+}
+
+.is-open>.Select-control .Select-arrow{
+    top:-2px;
+    border-color:transparent transparent #F7A177;
+    border-width:0 5px 5px
+}
+
+.is-focused:not(.is-open)>.Select-control{
+    background-color: #272b30;
+    border:0;
+    border-bottom: 1px solid #F7A177;
+}
+
+.Select-menu-outer{
+    border-bottom-right-radius:4px;
+    border-bottom-left-radius:4px;
+    background-color:#3a3f44;
+    border:1px solid #F7A177;
+    border-top-color:#F7A177;
+    box-sizing:border-box;
+    margin-top:-1px;
+    max-height:200px;
+    position:absolute;
+    top:100%;
+    width:100%;
+    z-index:-1;
+    -webkit-overflow-scrolling:touch
+}
+
+/* .VirtualizedSelectOption {
+    background-color: white;
+    color: Black;
+} */
+
+.VirtualizedSelectFocusedOption {
+    background-color: #272b30;
+    color: #ffffff;
+    font-weight: 600;
+}
