@@ -1,9 +1,10 @@
-<div style="text-align: center;">
-  <img src="assets/static/corona-dash-logo.png" alt="Logo do App" height="100" style="margin-bottom: 20px;">
 
-  <img src="https://forthebadge.com/images/badges/made-with-python.svg" alt="Powered by Coffee" style="margin-right: 20px;">
-  <img src="https://forthebadge.com/images/badges/powered-by-coffee.svg" alt="Powered by Coffee">
+<div style="align-items:center;">
+  <img src="assets/static/corona-dash-logo.png" alt="Logo do App" height="100" style="margin-bottom: 20px;">
 </div>
+
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
 
 ## Visão Geral
 É de conhecimento geral que a pandemia do coronavírus tem impactado significativamente o Brasil e o mundo. Assim, acompanhar a evolução dos casos, das taxas de transmissão e dos esforços de controle é de extrema importância.
@@ -106,24 +107,8 @@ Utilize o link abaixo para obter mais inforações sobre a licença:
 ## Contato
 Se você tiver alguma dúvida, sugestão ou feedback, sinta-se à vontade para entrar em contato utilizando os canais disponíveis.
 
-Se desejar, confira meu [Portfólio online](https://eduardo-pereira.webflow.io/) para ver outros projetos e obter mais informações sobre meu trabalho.
+- Email: [eduardojr.pereira@gmail.com](mailto:eduardojr.pereira@gmail.com "Enviar email")
+- [Linkedin](https://www.linkedin.com/in/eduardo-jr-pereira/ "Visitar perfil no Linkedin")
 
-```html
-<div style="height: 50px; display: flex; justify-content: center;">
-    <a href="https://www.linkedin.com/in/eduardo-jr-pereira/" target="_blank" title="Ver perfil no Linkedin">
-        <img src="assets\static\logo-initials.png" style="margin: 20px">
-    </a>
-    <a href="mailto:eduardojr.pereira@gmail.com" target="_blank" title="Enviar email">
-        <img src="assets\static\gmail-orange-icon.svg" style="margin: 20px;">
-    </a>
-    <a href="https://www.linkedin.com/in/eduardo-jr-pereira/" target="_blank" title="Ver perfil no Linkedin">
-        <img src="assets\static\linkedin-orange-icon.svg" style="margin: 20px">
-    </a>
-    <a href="https://github.com/eduardojr-pereira" target="_blank" title="Visitar repositório no Github">
-        <img src="assets\static\github-orange-icon.svg" style="margin: 20px;">
-    </a>
-    <a href="https://discord.com/channels/1095050260964966483/1111074732503203900" target="_blank" title="Chamar no Discord">
-        <img src="assets\static\discord-orange-icon.svg" style="margin: 20px;">
-    </a>
-</div>
-<p align="center" style="margin-top: 40px;"><i>Never perfect. Always improving!</p></i>
+Confira meu [Portfólio de Data Science](https://eduardo-pereira.webflow.io/) para ver outros projetos e obter mais informações sobre meu trabalho.
+
