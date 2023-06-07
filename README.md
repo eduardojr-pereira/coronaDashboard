@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="/"><img src="assets/static/corona-dash-logo.png" alt="Logo do App" height="100"></a>
+  <a href="/"><img src="assets\imagens\logo_app.png" alt="Logo do App" height="100"></a>
   <br>
   Evolução do coronavírus no Brasil
   <br>
@@ -14,6 +14,7 @@
   <a href="#objetivos">Objetivos</a> •
   <a href="#conjunto-de-dados">Dados</a> •
   <a href="#recursos-e-tecnologias-utilizadas">Frameworks</a> •
+  <a href="#estrutura-de-diretórios">Estrutura</a> •
   <a href="#uso">Uso</a> •
   <a href="#contribuição">Contribuição</a> •
   <a href="#licença">Licença</a> •
@@ -70,7 +71,7 @@ O dataset fornece informações valiosas para acompanhar a evolução do COVID-1
 <hr>
 
 ## Recursos e tecnologias utilizadas
-### Ambiente de desenvolvimento Integrado:
+### Ambientes de desenvolvimento Integrado (*IDE*) utilizados:
 - Jupyter Notebooks - *prototipagem do código*
 - Visual Studio Code
 ### Linguagens de programação:
@@ -84,6 +85,55 @@ O dataset fornece informações valiosas para acompanhar a evolução do COVID-1
 ![Dash Bootstrap Components](https://img.shields.io/badge/Dash_Bootstrap_Components-1.0.0-critical)
 ![Plotly](https://img.shields.io/badge/Plotly-5.11.0-critical)
 ![Flask](https://img.shields.io/badge/Flask-2.1.0-critical)
+<hr>
+
+## Estrutura de diretórios
+```css
+coronaDashboard/
+│
+├── app.py 
+├── README.md
+├── requirements.txt
+│   
+├── assets/
+│   ├── imagens/
+│   │   ├── discord_icon.svg    
+│   │   ├── github_icon.svg    
+│   │   ├── gmail_icon.svg    
+│   │   ├── linkedin_icon.svg    
+│   │   ├── logo_app.png    
+│   │   └── logo_initials.png    
+│   ├── custom_datepicker.css
+│   ├── custom_dropdown.css
+│   └── custon_icon.css
+│
+├── data/
+│   ├── processed/
+│   │   ├── covid_br_dataset.csv    
+│   │   └── covid_estados_dataset.csv
+│   └── raw/
+│       ├── brasilGeo.json    
+│       ├── HIST_PAINEL_COVIDBR_02jun2023.zip    
+│       ├── HIST_PAINEL_COVIDBR_2020_Parte1_02jun2023.csv
+│       ├── HIST_PAINEL_COVIDBR_2020_Parte2_02jun2023.csv
+│       ├── HIST_PAINEL_COVIDBR_2021_Parte1_02jun2023.csv
+│       ├── HIST_PAINEL_COVIDBR_2021_Parte2_02jun2023.csv
+│       ├── HIST_PAINEL_COVIDBR_2022_Parte1_02jun2023.csv
+│       ├── HIST_PAINEL_COVIDBR_2022_Parte2_02jun2023.csv
+│       └── HIST_PAINEL_COVIDBR_2023_Parte1_02jun2023.csv
+│
+├── notebooks/
+│   └── data_generation.ipynb
+│
+├── templates/
+│   ├── navbar.py
+│   └── footer_component.py
+│
+└── tests/
+    └── test_app.py
+
+```
+
 <hr>
 
 ## Uso
@@ -126,3 +176,6 @@ Se você tiver alguma dúvida, sugestão ou feedback, sinta-se à vontade para e
 
 Confira meu [Portfólio de Data Science](https://eduardo-pereira.webflow.io/) para ver outros projetos e obter mais informações sobre meu trabalho.
 
+<h1 align="center">
+  <br>
+  <a href="https://eduardo-pereira.webflow.io/"><img src="assets\imagens\logo_initials.png" alt="Logo com" height="100"></a></h1>
