@@ -183,8 +183,8 @@ Confira também meu [Portfólio](https://eduardo-pereira.webflow.io/) para ver o
   <br>
   <a href="https://eduardo-pereira.webflow.io/"><img src="assets\imagens\logo_initials.png" alt="Logo com iniciais EP" height="100"></a></p>
 <p align="center">
-  <a href="mailto:eduardojr.pereira@gmail.com"><img src="assets\imagens\gmail_icon.svg" alt="Logo com" height="30"></a>
-  <a href="https://www.linkedin.com/in/eduardo-jr-pereira/"><img src="assets\imagens\linkedin_icon.svg" alt="Logo com" height="30"></a>
-  <a href="https://github.com/eduardojr-pereira"><img src="assets\imagens\github_icon.svg" alt="Logo com" height="30"></a>
-  <a href="https://discord.com/channels/1095050260964966483/1111074732503203900"><img src="assets\imagens\discord_icon.svg" alt="Logo com" height="30"></a></p>
+  <a href="mailto:eduardojr.pereira@gmail.com"><img src="assets\imagens\gmail_icon.svg" alt="gmail" height="30"></a>
+  <a href="https://www.linkedin.com/in/eduardo-jr-pereira/"><img src="assets\imagens\linkedin_icon.svg" alt="linkedin" height="30"></a>
+  <a href="https://github.com/eduardojr-pereira"><img src="assets\imagens\github_icon.svg" alt="github" height="30"></a>
+  <a href="https://discord.com/channels/1095050260964966483/1111074732503203900"><img src="assets\imagens\discord_icon.svg" alt="discord" height="30"></a></p>
 <hr>
