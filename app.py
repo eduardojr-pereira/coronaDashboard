@@ -40,27 +40,29 @@ def toggle_navbar_collapse(n, is_open):
 
 
 # Callbacks para abrir os offcanvas
-def toggle_offcanvas_callback(open_id, offcanvas_id):
+def toggle_offcanvas_callback(open_id, open_id_footer, offcanvas_id):
     @app.callback(
         Output(offcanvas_id, "is_open"),
-        Input(open_id, "n_clicks"),
-        State(offcanvas_id, "is_open"),
+        [
+            Input(open_id, "n_clicks"),
+            Input(open_id_footer, "n_clicks")
+        ],
+        [State(offcanvas_id, "is_open")],
+        allow_duplicate=True
     )
-    def toggle_offcanvas(n_clicks, is_open):
+    def toggle_offcanvas(n_clicks, n_clicks_footer, is_open):
         if ctx.triggered:
             button_id = ctx.triggered[0]["prop_id"].split(".")[0]
             if button_id == open_id:
                 return not is_open
+            elif button_id == open_id_footer:
+                return not is_open
         return is_open
 
-toggle_offcanvas_callback("open-visaoGeral", "offcanvas-visaoGeral")
-
-toggle_offcanvas_callback("open-objetivos", "offcanvas-objetivos")
-
-toggle_offcanvas_callback("open-frameworks", "offcanvas-frameworks")
-
-toggle_offcanvas_callback("open-dados", "offcanvas-dados")
-
+toggle_offcanvas_callback("open-visaoGeral", "open-visaoGeral-footer", "offcanvas-visaoGeral")
+toggle_offcanvas_callback("open-objetivos", "open-objetivos-footer", "offcanvas-objetivos")
+toggle_offcanvas_callback("open-frameworks", "open-frameworks-footer", "offcanvas-frameworks")
+toggle_offcanvas_callback("open-dados", "open-dados-footer", "offcanvas-dados")
 
 if __name__ == "__main__":
     app.run_server(debug=True)

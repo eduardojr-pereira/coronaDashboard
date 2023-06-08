@@ -101,25 +101,21 @@ class SocialBar:
                     title="Chamar no Discord"
                 )
             ],
-            className="d-flex align-items-center justify-content-around mt-2 mb-2"
+            className="d-flex justify-content-around"
         )
 
 
 class DownloadCvButton:
     def __init__(self):
-        self.element = html.Div(
-            [
-                dbc.Button(
-                    "Download - CV",
-                    href="assets\CV_EduardoPereira.pdf",
-                    download="CV_EduardoPereira",
-                    external_link=True,
-                    title="Curriculum Vitae - Eduardo Pereira",
-                    className="btn btn-outline-warning btn-sm",
-                    style={"width": "175px"}
-                )
-            ],
-            className="d-flex justify-content-center align-items-center mt-2 mb-2 w-100"
+        self.element = dbc.Button(
+            "Download - CV",
+            href="assets\CV_EduardoPereira.pdf",
+            download="CV_EduardoPereira",
+            external_link=True,
+            title="Curriculum Vitae - Eduardo Pereira",
+            outline=True,
+            className="btn btn-outline-light button-animation",
+            style={"width": "175px"}
         )
 
 
@@ -206,9 +202,16 @@ class DropdownPortfolio:
                     target="_blank"
                 ),
                 dbc.DropdownMenuItem(divider=True),
-                dbc.DropdownMenuItem(html.P("Perfil Profissional:", className="text-center"), disabled=True),
+                dbc.DropdownMenuItem(html.P("Perfil Profissional:", className="text-center text-light"), disabled=True),
                 dbc.DropdownMenuItem(SocialBar().element),
-                dbc.DropdownMenuItem(DownloadCvButton().element)
+                dbc.DropdownMenuItem(
+                    html.Div(
+                        [
+                            DownloadCvButton().element
+                        ],
+                        className="d-flex justify-content-center align-items-center mt-2 mb-2 w-100"
+                    )
+                )
             ],
             nav=True,
             in_navbar=True,
@@ -257,6 +260,7 @@ class OffCanvas:
     def criar_offcanvas_visao_geral():
         offcanvas_visao_geral = dbc.Offcanvas(
             id="offcanvas-visaoGeral",
+            className= "offcanvas-animation",
             children=[
                 html.H3("Visão Geral", className="text-center text-white"),
                 html.Hr(),
@@ -297,6 +301,7 @@ class OffCanvas:
         
         offcanvas_objetivos = dbc.Offcanvas(
             id="offcanvas-objetivos",
+            className= "offcanvas-animation",
             children=[
                 html.H3("Objetivos", className="text-center text-white"),
                 html.Hr(),
@@ -316,6 +321,7 @@ class OffCanvas:
     def criar_offcanvas_dados():
         offcanvas_dados = dbc.Offcanvas(
             id="offcanvas-dados",
+            className= "offcanvas-animation",
             children=[
                 html.H3("Conjunto de Dados", className="position-relative text-center text-white"),
                 html.Div(
@@ -384,6 +390,7 @@ class OffCanvas:
 
         offcanvas_frameworks = dbc.Offcanvas(
             id="offcanvas-frameworks",
+            className= "offcanvas-animation",
             children=[
                 html.H3("Recursos e Frameworks utilizados", className="text-center text-white"),
                 html.Hr(),
