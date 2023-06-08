@@ -137,6 +137,7 @@ coronaDashboard/
 │   │   ├── linkedin_icon.svg    
 │   │   ├── logo_app.png    
 │   │   └── logo_initials.png    
+│   ├── custom_animation.css
 │   ├── custom_datepicker.css
 │   ├── custom_dropdown.css
 │   ├── custon_icon.css

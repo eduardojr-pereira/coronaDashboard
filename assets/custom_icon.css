@@ -1,6 +1,7 @@
 .inverted-icon {
     filter: invert(0.5);
     height: 30px;
+    transition: filter 0.3s, height 0.3s;
 }
 
 .inverted-icon:hover {
