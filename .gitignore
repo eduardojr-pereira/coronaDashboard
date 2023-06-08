@@ -1,4 +1,13 @@
+# Arquivos e diretórios a serem ignorados pelo Git
+# Arquivos de configuração local
+.config/
+
+# Dependências de pacotes
 coronaDash_env/
-coronaDash_env/*
 notebooks/.ipynb_checkpoints/
 
+# Arquivos gerados automaticamente
+__pycache__/
+
+# Arquivos de log
+*.log

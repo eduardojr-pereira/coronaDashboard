@@ -1,15 +1,14 @@
-<h1 align="center">
-  <br>
-  <a href="/"><img src="assets\imagens\logo_app.png" alt="Logo do App" height="100"></a>
+<p style="text-align: center; font-size: 15px; font-weight: bold;">
+  <img src="assets\imagens\logo_app.png" alt="Logo do App" height="100">
   <br>
   Evolução do coronavírus no Brasil
-  <br>
-</h1>
-<p align="center">
-  <a href="/"><img src="https://forthebadge.com/images/badges/made-with-python.svg" alt="Made with Python" height="32"></a>
-  <a href="/"><img src="https://forthebadge.com/images/badges/powered-by-coffee.svg" alt="Powered by Coffee" height="32"></a>
 </p>
-<p align="center">
+<p style="display: flex; justify-content: center; gap: 50px;">
+  <img src="https://forthebadge.com/images/badges/made-with-python.svg" alt="Made with Python" height="32">
+  <img src="https://forthebadge.com/images/badges/powered-by-coffee.svg" alt="Powered by Coffee" height="32">
+</p>
+<hr>
+<p style="display: flex; justify-content: space-around;">
   <a href="#visão-geral">Visão Geral</a> •
   <a href="#objetivos">Objetivos</a> •
   <a href="#conjunto-de-dados">Dados</a> •
@@ -20,6 +19,7 @@
   <a href="#licença">Licença</a> •
   <a href="#contato">Contato</a>
 </p>
+<hr>
 
 ## Visão Geral
 É de conhecimento geral que a pandemia do coronavírus tem impactado significativamente o Brasil e o mundo. Assim, acompanhar a evolução dos casos, das taxas de transmissão e dos esforços de controle é de extrema importância.
@@ -81,8 +81,8 @@ O dataset fornece informações valiosas para acompanhar a evolução do COVID-1
 ![Python](https://img.shields.io/badge/Python-3.9-informational)
 !["Numpy"](https://img.shields.io/badge/NumPy-1.20.3-critical)
 ![Pandas](https://img.shields.io/badge/Pandas-1.3.0-critical)
-![Dash](https://img.shields.io/badge/Dash-1.21.0-critical)
-![Dash Bootstrap Components](https://img.shields.io/badge/Dash_Bootstrap_Components-1.0.0-critical)
+![Dash](https://img.shields.io/badge/Dash-2.10.2-critical)
+![Dash Bootstrap Components](https://img.shields.io/badge/Dash_Bootstrap_Components-1.4.1-critical)
 ![Plotly](https://img.shields.io/badge/Plotly-5.11.0-critical)
 ![Flask](https://img.shields.io/badge/Flask-2.1.0-critical)
 <hr>
@@ -94,10 +94,13 @@ coronaDashboard/
 ├── app.py 
 ├── README.md
 ├── requirements.txt
+├── .gitignore
+├── .gitattributes
 │   
 ├── assets/
 │   ├── imagens/
 │   │   ├── discord_icon.svg    
+│   │   ├── favicon.ico
 │   │   ├── github_icon.svg    
 │   │   ├── gmail_icon.svg    
 │   │   ├── linkedin_icon.svg    
@@ -105,7 +108,8 @@ coronaDashboard/
 │   │   └── logo_initials.png    
 │   ├── custom_datepicker.css
 │   ├── custom_dropdown.css
-│   └── custon_icon.css
+│   ├── custon_icon.css
+│   └── CV_EduardoPereira.pdf
 │
 ├── data/
 │   ├── processed/
@@ -179,12 +183,17 @@ Se você tiver alguma dúvida, sugestão ou feedback, sinta-se à vontade para e
 - [Linkedin](https://www.linkedin.com/in/eduardo-jr-pereira/ "Visitar perfil no Linkedin")
 
 Confira também meu [Portfólio](https://eduardo-pereira.webflow.io/) para ver outros projetos e obter mais informações sobre meu trabalho.
-<p align="center">
-  <br>
+<p style="display: flex; justify-content: center; gap: 30px;">
   <a href="https://eduardo-pereira.webflow.io/"><img src="assets\imagens\logo_initials.png" alt="Logo com iniciais EP" height="100"></a></p>
-<p align="center">
+<p style="display: flex; justify-content: center; gap: 30px;">
   <a href="mailto:eduardojr.pereira@gmail.com"><img src="assets\imagens\gmail_icon.svg" alt="gmail" height="30"></a>
   <a href="https://www.linkedin.com/in/eduardo-jr-pereira/"><img src="assets\imagens\linkedin_icon.svg" alt="linkedin" height="30"></a>
   <a href="https://github.com/eduardojr-pereira"><img src="assets\imagens\github_icon.svg" alt="github" height="30"></a>
   <a href="https://discord.com/channels/1095050260964966483/1111074732503203900"><img src="assets\imagens\discord_icon.svg" alt="discord" height="30"></a></p>
 <hr>
+<p style="display: flex; justify-content: center; gap: 10px">
+  •<a href="#visão-geral">Voltar para o incício</a>•
+  
+</p>
+<hr>
+
