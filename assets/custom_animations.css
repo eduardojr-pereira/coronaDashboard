@@ -1,0 +1,35 @@
+/* Button animation */
+@keyframes animacaoBotao {
+  0% { transform: scale(1); border-color: #515960; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); border-color: #ffffff; }
+  }
+  
+  .button-animation {
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  border-color: #515960;
+  }
+  
+  .button-animation:hover,
+  .button-animation:focus,
+  .button-animation:active {
+  animation: animacaoBotao 0.5s;
+  animation-fill-mode: forwards;
+  border-color: #ffffff;
+  background-color: #272b30;
+  color: #ffffff;
+  }
+
+/* Offcanvas animation */
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.offcanvas-animation {
+  animation: slideInFromLeft 0.3s forwards;
+}

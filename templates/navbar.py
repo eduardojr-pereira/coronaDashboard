@@ -357,7 +357,8 @@ class OffCanvas:
                             href="https://dados.gov.br/home",
                             title="Fonte dos dados para o Covid-19",
                             target="_blank",
-                            className="btn btn-outline-warning btn-sm"
+                            outline=True,
+                            className="btn btn-outline-light button-animation"
                         ),
                         dbc.Button(
                             "Download",
@@ -365,7 +366,8 @@ class OffCanvas:
                             download="covid_dataset.zip",
                             external_link=True,
                             title="Baixar os dados brutos",
-                            className="btn btn-outline-warning btn-sm"
+                            outline=True,
+                            className="btn btn-outline-light button-animation"
                         ) 
                     ],
                     className="d-flex justify-content-between"
