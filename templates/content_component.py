@@ -26,7 +26,7 @@ class DatePicker:
     def __init__(self):
         self.element = dbc.Row(
             [
-                dbc.Col(html.P("Selecione uma data", className="d-flex justify-content-end text-light m-0")),
+                dbc.Col(html.P("Selecione uma data", className="d-flex justify-content-end text-light")),
                 dbc.Col(
                     [
                         dcc.DatePickerSingle(
@@ -164,7 +164,8 @@ class LeftCardBody():
                     type=spinner_type,
                     color= spinner_color
                 ),
-            ]
+            ],
+            className="text-center"
         )
 
 
@@ -174,8 +175,8 @@ class LeftCard:
             [
                 dbc.CardHeader(DropDownRegion().element),
                 dbc.CardBody(LeftCardBody().element)
-            ]
-            
+            ],
+            style={"height":"100%"}
         )
 
 
@@ -206,7 +207,7 @@ class DropDownMap():
 
 class RightCardMapBody():
     def __init__ (self):
-        self.element = html.Div(
+        self.element = dbc.Row(
             [
                 dcc.Loading(
                     dcc.Graph(
@@ -223,7 +224,7 @@ class RightCardMapBody():
                     type = spinner_type,
                     color = spinner_color
                 ),
-                html.P(id="mapa-texto", className="text-light mb-2")
+                html.Span(id="mapa-texto", className="text-light")
             ]
         )
         
@@ -256,7 +257,7 @@ class DropdownState():
                     md=6, sm=12
                 )
             ],
-            className="d-flex align-items-center"
+            className="align-items-center"
         )
 
 
@@ -279,25 +280,75 @@ class RightCardState():
     def __init__ (self):
         self.element = dbc.Card(
             [
-                dbc.CardHeader(DropdownState().element),
-                dbc.CardBody(RightCardStateBody().element)
+                dbc.CardHeader([DropdownState().element]),
+                dbc.CardBody([RightCardStateBody().element])
             ]
         )
 
 
 class RightCard():
     def __init__(self):
-        self.element = dbc.Row(
+        self.element =html.Div(
             [
-                dbc.Col(RightCardMap().element)
-            ]
-        ),
-        html.Br(),
-        dbc.Row(
-            [
-                dbc.Col(RightCardState().element)
+                RightCardMap().element, 
+                html.Br(), 
+                RightCardState().element
             ]
         )
+
+
+class BottomCardRow():
+    def __init__ (self):
+        self.element = dbc.Card(
+            [
+                dbc.CardHeader(html.H4("Taxa de Letalidade", className="text-center")),
+                dbc.CardBody(
+                    [
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    [
+                                        dcc.Loading(
+                                            dcc.Graph(
+                                                id="taxaLetalidade"
+                                            ),
+                                            type = spinner_type,
+                                            color = spinner_color
+                                        )
+                                    ]
+                                ),
+                                dbc.Col(
+                                    [
+                                        dcc.Loading(
+                                            dcc.Graph(
+                                                id="alguma-coisa-aqui"
+                                            )
+                                        )
+                                    ]
+                                )
+                                
+                            ]
+                        ),
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    [
+                                        dcc.Loading(
+                                            dcc.Graph(
+                                                id="scatter-plot-letalidade"
+                                            ),
+                                            type = spinner_type,
+                                            color = spinner_color
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                    ]
+                )
+            ]
+        )
+
 
 class Content:
     @staticmethod
@@ -311,6 +362,12 @@ class Content:
                     [
                         dbc.Col(LeftCard().element),
                         dbc.Col(RightCard().element)
+                    ]
+                ),
+                html.Br(),
+                dbc.Row(
+                    [
+                        dbc.Col(BottomCardRow().element)
                     ]
                 )
             ]

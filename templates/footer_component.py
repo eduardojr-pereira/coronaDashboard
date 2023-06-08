@@ -6,7 +6,7 @@ from templates.navbar import LogoInitials, DownloadCvButton, SocialBar
 class FooterComponent:
     def criar_footer(self):
         logo_initials = LogoInitials().element
-        donwload_btn = html.Div(DownloadCvButton().element)
+        donwload_btn = html.Div(DownloadCvButton().element, className="mb-3")
 
         about_me = html.P(
             "Sou um profissional com formação em Economia e pós-graduação em Ciência de Dados. "
