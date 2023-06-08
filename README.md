@@ -53,8 +53,11 @@ Através de ferramentas interativas como gráficos, mapas e análises de dados, 
   - [x] Facilitar a compreensão dos dados através de gráficos e tabelas interativas.
   - [X] Auxiliar na identificação de tendências e padrões.
 - [x] Possibilitar a comparação entre diferentes estados em relação ao número de casos e óbitos.
+- [] Criar script para realizar atualização automática dos dados.
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
+
+<hr>
 
 ## Conjunto de Dados
 
@@ -227,14 +230,15 @@ Utilize o link abaixo para obter mais inforações sobre a licença:
 
 ## Contato
 
-Se você tiver alguma dúvida, sugestão ou feedback, sinta-se à vontade para entrar em contato utilizando os canais disponíveis.
+Se você tiver alguma dúvida, sugestão ou feedback, por favor, não hesite em entrar em contato utilizando o email abaixo. Estou à disposição para ajudar e receber seus comentários.
 
-- Email: [eduardojr.pereira@gmail.com](mailto:eduardojr.pereira@gmail.com "Enviar email")
+```
+eduardojr.pereira@gmail.com
+```
+
 - [Linkedin](https://www.linkedin.com/in/eduardo-jr-pereira/ "Visitar perfil no Linkedin")
 
   > Confira também meu [Portfólio](https://eduardo-pereira.webflow.io/) para ver outros projetos e obter mais informações sobre meu trabalho.
-
-
 
 <div align="center">
   
