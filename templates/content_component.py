@@ -26,21 +26,22 @@ class DatePicker:
     def __init__(self):
         self.element = dbc.Row(
             [
-                dbc.Col(html.P("Selecione uma data", className="d-flex justify-content-end text-light")),
+                dbc.Col(html.P("Selecione uma data", className="d-flex justify-content-end text-light m-0")),
                 dbc.Col(
                     [
                         dcc.DatePickerSingle(
-                            id="date_picker",
+                            id="datepicker",
                             min_date_allowed = brasil_df['data'].min(),
                             max_date_allowed=brasil_df["data"].max(),
                             initial_visible_month=brasil_df["data"].max(),
                             date=brasil_df["data"].max(),
                             display_format="DD/MM/YYYY"   
-                        ) 
-                    ],
-                    className="d-flex justify-content-start"
+                        ),
+                        dcc.Store(id="datepicker-store")
+                    ]
                 )
-            ]
+            ],
+            className="d-flex align-items-center m-0"
         )
 
 
@@ -55,7 +56,7 @@ class TopCardsInner:
         middle_card_caption = html.H6(id="em-acompanhamento-texto")
 
         right_card_tittle = html.H5("Óbitos Acumulados")
-        right_card_subtitle = html.H2(id="obitos-acumulados-na-data", style={"color":"#3FA8CA"})
+        right_card_subtitle = html.H2(id="obitos-acumulados-na-data", style={"color":"#A93948"})
         right_card_caption = html.H6(id="novos-obitos-texto")
 
         self.element = dbc.Row(
@@ -98,7 +99,88 @@ class TopCard:
         )
 
 
-class DropDownRegion():
+class LeftCardHeader():
+    def __init__ (self):
+        self.element = dbc.Row(
+            [
+                dbc.Col(html.P("Selecione uma opção", className="d-flex justify-content-end text-light m-0")),
+                dbc.Col(
+                    [
+                        dcc.Dropdown(
+                            id="dropdown-map",
+                            options = [
+                                {"label":"Casos Acumulados", "value":"casosAcumulado"},
+                                {"label":"Óbitos Acumulados", "value":"obitosAcumulado"},
+                                {"label":"Taxa de Letalidade*", "value":"taxaLetalidade"},
+                                {"label":"Mortalidade*", "value":"mortalidade"}
+                            ],
+                            value="casosAcumulado",
+                            clearable=False,
+                            searchable=False
+                        )
+                    ]
+                )
+            ],
+            className="d-flex align-items-center"
+        )
+
+
+class LeftCardBody():
+    def __init__ (self):
+        self.element = dbc.Row(
+            [
+                dcc.Loading(
+                    dcc.Graph(
+                        id="map-chart"
+                    ),
+                    type = spinner_type,
+                    color = spinner_color
+                ),
+                dcc.Loading(
+                    dcc.Graph(
+                        id="stacked-bars-br"
+                    ),
+                    type = spinner_type,
+                    color = spinner_color
+                ),
+                html.P(id="mapa-texto", className="text-center text-secondary mt-3 mb-3"),
+                html.Hr(),
+                dcc.Loading(
+                    dcc.Graph(
+                        id="lines-chart-casos-brasil"
+                    ),
+                    type = spinner_type,
+                    color = spinner_color
+                ),
+                dcc.Loading(
+                    dcc.Graph(
+                        id="lines-chart-obitos-brasil"
+                    ),
+                    type = spinner_type,
+                    color = spinner_color
+                ),
+                html.P("**Clique nas legendas e utilize o rangeslider para filtrar.", className="text-center text-secondary mt-3 mb-3"),
+            ]
+        )
+        
+
+class LeftCardContent():
+    def __init__ (self):
+        self.element = html.Div(
+            [
+                dbc.Card(
+                    [
+                        dbc.CardHeader(LeftCardHeader().element),
+                        dbc.CardBody(LeftCardBody().element)
+                    ],
+                    className="h-100"
+                ),
+                html.Br()
+            ]
+        )
+
+
+class RightCardHeaderTop():
     def __init__ (self):
         self.element = dbc.Row(
             [
@@ -106,7 +188,7 @@ class DropDownRegion():
                 dbc.Col(
                     [
                         dcc.Dropdown(
-                            id="dropdown-regioes",
+                            id="dropdown-region",
                             options = [
                                 {"label":"Norte", "value":"Norte"},
                                 {"label":"Nordeste", "value":"Nordeste"},
@@ -125,22 +207,12 @@ class DropDownRegion():
         )
 
 
-class LeftCardBody():
+class RightCardBodyTop():
     def __init__ (self):
         self.element = html.Div(
             [
-                html.P(id="macroregiao-texto", style={"font-size":"18px", "color":"white"}),
-                dbc.Badge(id="total-macroregiao-texto", color="light", className="text-center"),
-                dcc.RadioItems(
-                    [
-                        {"label":" Casos Acumulados", "value":"casosAcumulado"},
-                        {"label":" Óbitos Acumulados", "value":"obitosAcumulado"},
-                    ],
-                    value = "casosAcumulado",
-                    labelStyle={"marginLeft":"10px"},
-                    inline=True,
-                    id="radio-casos-obitos-filtro"
-                ),
+                html.P(id="macroregiao-texto", className="text-light m-0", style={"font-size":"18px"}),
+                dbc.Badge(id="badge-texto", color="light", className="text-center"),
                 dcc.Loading(
                     dcc.Graph(
                         id="bar-chart-casos-obitos",
@@ -148,98 +220,23 @@ class LeftCardBody():
                     ),
                     type=spinner_type,
                     color= spinner_color
-                ),
-                dcc.Loading(
-                    dcc.Graph(
-                        id="stacked-bar-chart-on-hover"
-                    ),
-                    type=spinner_type,
-                    color= spinner_color
-                ),
-                html.Hr(),
-                dcc.Loading(
-                    dcc.Graph(
-                        id="pie-chart"
-                    ),
-                    type=spinner_type,
-                    color= spinner_color
-                ),
+                )
             ],
             className="text-center"
         )
 
 
-class LeftCard:
+class RightCardTopContent():
     def __init__ (self):
         self.element = dbc.Card(
             [
-                dbc.CardHeader(DropDownRegion().element),
-                dbc.CardBody(LeftCardBody().element)
-            ],
-            style={"height":"100%"}
-        )
-
-
-class DropDownMap():
-    def __init__ (self):
-        self.element = dbc.Row(
-            [
-                dbc.Col(html.P("Selecione para Visualizar no Mapa", className="d-flex justify-content-end text-light m-0")),
-                dbc.Col(
-                    [
-                        dcc.Dropdown(
-                            id="dropdown-mapa",
-                            options = [
-                                {"label":"Casos Acumulados", "value":"casosAcumulado"},
-                                {"label":"Óbitos Acumulados", "value":"obitosAcumulado"},
-                                {"label":"Taxa de Letalidade", "value":"taxaLetalidade"}
-                            ],
-                            value="casosAcumulado",
-                            clearable=False,
-                            searchable=False
-                        )
-                    ]
-                )
-            ],
-            className="d-flex align-items-center"
-        )
-
-
-class RightCardMapBody():
-    def __init__ (self):
-        self.element = dbc.Row(
-            [
-                dcc.Loading(
-                    dcc.Graph(
-                        id="mapa-brasil"
-                    ),
-                    type = spinner_type,
-                    color = spinner_color
-                ),
-                html.Hr(),
-                dcc.Loading(
-                    dcc.Graph(
-                        id="lines-chart-brasil"
-                    ),
-                    type = spinner_type,
-                    color = spinner_color
-                ),
-                html.Span(id="mapa-texto", className="text-light")
-            ]
-        )
-        
-
-class RightCardMap():
-    def __init__ (self):
-        self.element = dbc.Card(
-            [
-                dbc.CardHeader(DropDownMap().element),
-                dbc.CardBody(RightCardMapBody().element)
+                dbc.CardHeader(RightCardHeaderTop().element),
+                dbc.CardBody(RightCardBodyTop().element)
             ]
         )
 
 
-class DropdownState():
+class RightCardHeaderBottom():
     def __init__ (self):
         self.element = dbc.Row(
             [
@@ -253,15 +250,14 @@ class DropdownState():
                             searchable=False,
                             id="dropdown-estado"
                         )
-                    ],
-                    md=6, sm=12
+                    ]
                 )
             ],
-            className="align-items-center"
+            className="d-flex align-items-center"
         )
 
 
-class RightCardStateBody():
+class RightCardBodyBototm():
     def __init__ (self):
         self.element = dbc.Row(
             [
@@ -271,33 +267,41 @@ class RightCardStateBody():
                     ),
                     type = spinner_type,
                     color = spinner_color
+                ),
+                dcc.Loading(
+                    dcc.Graph(
+                        id="stacked-bar-chart-on-hover"
+                    ),
+                    type=spinner_type,
+                    color= spinner_color
                 )
             ]
         )
 
 
-class RightCardState():
+class RightCardBottomContent():
     def __init__ (self):
         self.element = dbc.Card(
             [
-                dbc.CardHeader([DropdownState().element]),
-                dbc.CardBody([RightCardStateBody().element])
+                dbc.CardHeader(RightCardHeaderBottom().element),
+                dbc.CardBody(RightCardBodyBototm().element)
             ]
         )
 
 
-class RightCard():
+class RightCardContent():
     def __init__(self):
         self.element =html.Div(
             [
-                RightCardMap().element, 
+                RightCardTopContent().element, 
                 html.Br(), 
-                RightCardState().element
+                RightCardBottomContent().element,
+                html.Br()
             ]
         )
 
 
-class BottomCardRow():
+class LastCardContent():
     def __init__ (self):
         self.element = dbc.Card(
             [
@@ -360,14 +364,13 @@ class Content:
                 html.Br(),
                 dbc.Row(
                     [
-                        dbc.Col(LeftCard().element),
-                        dbc.Col(RightCard().element)
+                        dbc.Col(LeftCardContent().element),
+                        dbc.Col(RightCardContent().element)
                     ]
                 ),
-                html.Br(),
                 dbc.Row(
                     [
-                        dbc.Col(BottomCardRow().element)
+                        dbc.Col(LastCardContent().element)
                     ]
                 )
             ]

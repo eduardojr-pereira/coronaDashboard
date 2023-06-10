@@ -53,7 +53,7 @@ Através de ferramentas interativas como gráficos, mapas e análises de dados, 
   - [x] Facilitar a compreensão dos dados através de gráficos e tabelas interativas.
   - [X] Auxiliar na identificação de tendências e padrões.
 - [x] Possibilitar a comparação entre diferentes estados em relação ao número de casos e óbitos.
-- [ ] Criar script para realizar atualização automática dos dados.
+- [ ] Web Scraping para realizar a atualização automática dos dados.
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
