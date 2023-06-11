@@ -177,7 +177,8 @@ coronaDashboard/
 ## Uso
 
 #### Clonar o Repositório
-> Clonar este repositório para o sem ambiente local:
+- Clonar este repositório para o seu ambiente local:
+
 ```bash
 git clone https://github.com/eduardojr-pereira/coronaDashboard.git
 ```
@@ -192,11 +193,11 @@ python -m -venv venv
 ```
 
 - Ative o ambiente virtual
-  - No Windows:
+> No Windows:
 ```bash
 venv\Scripts\activate
 ```
-  - No macOS/Linux:
+> No macOS/Linux:
 ```bash
 source venv/bin/activate
 ```
