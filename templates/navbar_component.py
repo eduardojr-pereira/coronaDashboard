@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 
 external_stylesheets=['https://use.fontawesome.com/releases/v5.8.1/css/all.css']
-last_update = pd.to_datetime(pd.read_csv("data/processed/covid_br_dataset.csv")['data'].max()).strftime('%d/%m/%Y')
+last_update = pd.to_datetime(pd.read_csv("data/processed/covid_br_dataset.csv", usecols=["data"])["data"].max()).strftime("%d/%m/%Y")
 
 
 class LogoInitials:

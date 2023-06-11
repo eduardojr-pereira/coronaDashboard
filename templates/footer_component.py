@@ -1,6 +1,11 @@
 import dash_bootstrap_components as dbc
 from dash import html
-from templates.navbar import LogoInitials, DownloadCvButton, SocialBar
+from templates.navbar_component import LogoInitials, DownloadCvButton, SocialBar
+
+
+
+#class ModalLetalidade(self):
+
 
 
 class FooterComponent:
@@ -106,8 +111,3 @@ class FooterComponent:
         )
 
         return footer
-    
-# Exemplo de uso do FooterComponent
-#footer_component = FooterComponent()
-#footer = footer_component.criar_footer()
-#className="d-flex justify-content-end"

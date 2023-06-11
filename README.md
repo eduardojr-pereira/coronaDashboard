@@ -47,13 +47,13 @@ Através de ferramentas interativas como gráficos, mapas e análises de dados, 
 
 ## Objetivos
 
-- [x] Fornecer dados atualizados e confiáveis.
-- [x] Permitir a visualização da evolução da pandemia em diferentes regiões do país.
-- [x] Oferecer ferramentas interativas para análise e visualização dos dados.
-  - [x] Facilitar a compreensão dos dados através de gráficos e tabelas interativas.
-  - [X] Auxiliar na identificação de tendências e padrões.
-- [x] Possibilitar a comparação entre diferentes estados em relação ao número de casos e óbitos.
-- [ ] Web Scraping para realizar a atualização automática dos dados.
+- Fornecer dados atualizados e confiáveis.
+- Permitir a visualização da evolução da pandemia em diferentes regiões do país.
+- Oferecer ferramentas interativas para análise e visualização dos dados.
+  - Facilitar a compreensão dos dados através de gráficos e tabelas interativas.
+  - Auxiliar na identificação de tendências e padrões.
+- Possibilitar a comparação entre diferentes estados em relação ao número de casos e óbitos.
+
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
@@ -122,11 +122,11 @@ O dataset fornece informações valiosas para acompanhar a evolução do COVID-1
 ```bash
 coronaDashboard/
 │
+├── .gitattributes
+├── .gitignore
 ├── app.py 
 ├── README.md
 ├── requirements.txt
-├── .gitignore
-├── .gitattributes
 │   
 ├── assets/
 │   ├── imagens/
@@ -164,7 +164,7 @@ coronaDashboard/
 ├── templates/
 │   ├── content_component.py
 │   ├── footer_component.py
-│   └── navbar.py
+│   └── navbar_component.py
 │
 └── tests/
     └── test_app.py
@@ -176,37 +176,62 @@ coronaDashboard/
 
 ## Uso
 
-### Instalação:
+### Clonar o Repositório
+> Clonar este repositório para o sem ambiente local:
+```bash
+git clone https://github.com/eduardojr-pereira/coronaDashboard.git
+```
 
-- Utilize o gerenciador de pacotes [pip](https://pip.pypa.io/en/stable/) para instalar a aplicação.
+### Configurar o ambiente
+
+> Acesse o diretório do projeto e crie um ambiente virtual
+
+```bash
+cd seu-repositorio
+python -m -venv venv
+```
+
+> Ative o ambiente virtual
+
+- No Windows:
+```bash
+venv\Scripts\activate
+```
+
+- No macOS / Linux:
+```bash
+source venv/bin/activate
+```
+
+### Instalar as dependências necessárias
+
+> Instale as bibliotecas necessárias usando o gerenciador de pacotes do Python [pip](https://pip.pypa.io/en/stable/).
 
 ```bash
 pip install -U -r requirements.txt
 ```
 
+> Essa atualização garante que todas as dependências necessárias sejam instaladas corretamente a partir do arquivo requirements.txt.
+
 ### Execução:
 
-- Navegar para o diretório no prompt de comando:
+> Navegar para o diretório no prompt de comando e executar o algoritmo com a entrada abaixo:
 
 ```bash
-cd\coronaDashboard\app
+python nome_do_arquivo.py
 ```
+> Substitua ***nome_do_arquivo.py*** pelo nome do arquivo Python que contém o código do seu algoritmo.
 
-- Definir a variável de ambiente FLASK_APP com o valor "app.py". 
+<p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
-```bash
-set FLASK_APP=app.py
-```
+<hr>
 
-> Essa variável é usada pelo Flask para identificar o arquivo principal da aplicação Flask.
+## Possíveis implementações futuras:
 
-- Iniciar o servidor de desenvolvimento do Flask e executar a aplicação:
-
-```bash
-flask run
-```
-
-> Verifica a variável FLASK_APP definida anteriormente e inicia a execução da aplicação.
+- [ ] Web Scraping para realizar a atualização automática dos dados;
+- [ ] Criar script js para configurar o set.locale no plotly.js e traduzir as datas para pt-br;
+- [ ] Verificar correlação entre as variáveis;
+- [ ] Utilizar _Clustering Models_ para identificar padrões intrínsecos nos dados;
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
