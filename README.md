@@ -176,36 +176,34 @@ coronaDashboard/
 
 ## Uso
 
-### Clonar o Repositório
+#### Clonar o Repositório
 > Clonar este repositório para o sem ambiente local:
 ```bash
 git clone https://github.com/eduardojr-pereira/coronaDashboard.git
 ```
 
-### Configurar o ambiente
+#### Configurar o ambiente
 
-> Acesse o diretório do projeto e crie um ambiente virtual
+- Acesse o diretório do projeto e crie um ambiente virtual
 
 ```bash
 cd seu-repositorio
 python -m -venv venv
 ```
 
-> Ative o ambiente virtual
-
-- No Windows:
+- Ative o ambiente virtual
+  - No Windows:
 ```bash
 venv\Scripts\activate
 ```
-
-- No macOS / Linux:
+  - No macOS/Linux:
 ```bash
 source venv/bin/activate
 ```
 
-### Instalar as dependências necessárias
+#### Instalar as dependências necessárias
 
-> Instale as bibliotecas necessárias usando o gerenciador de pacotes do Python [pip](https://pip.pypa.io/en/stable/).
+- Instale as bibliotecas necessárias usando o gerenciador de pacotes do Python [pip](https://pip.pypa.io/en/stable/).
 
 ```bash
 pip install -U -r requirements.txt
@@ -213,20 +211,21 @@ pip install -U -r requirements.txt
 
 > Essa atualização garante que todas as dependências necessárias sejam instaladas corretamente a partir do arquivo requirements.txt.
 
-### Execução:
+#### Execução:
 
-> Navegar para o diretório no prompt de comando e executar o algoritmo com a entrada abaixo:
+- Navegar para o diretório no prompt de comando e executar o algoritmo com o código abaixo:
 
 ```bash
 python nome_do_arquivo.py
 ```
+
 > Substitua ***nome_do_arquivo.py*** pelo nome do arquivo Python que contém o código do seu algoritmo.
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
 <hr>
 
-## Possíveis implementações futuras:
+## Possíveis implementações futuras
 
 - [ ] Web Scraping para realizar a atualização automática dos dados;
 - [ ] Criar script js para configurar o set.locale no plotly.js e traduzir as datas para pt-br;
