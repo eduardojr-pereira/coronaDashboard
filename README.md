@@ -226,23 +226,20 @@ python nome_do_arquivo.py
 
 <hr>
 
+## Contribuição
+
+Contribuições serão bem-vindas via ***pull requests***. Tenha certeza que os testes foram feitos.
+
+<p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
+
+<hr>
+
 ## Possíveis implementações futuras
 
 - [ ] Web Scraping para realizar a atualização automática dos dados;
 - [ ] Criar script js para configurar o set.locale no plotly.js e traduzir as datas para pt-br;
 - [ ] Verificar correlação entre as variáveis;
 - [ ] Utilizar _Clustering Models_ para identificar padrões intrínsecos nos dados;
-
-<p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
-
-<hr>
-
-## Contribuição
-
-Contribuições serão bem-vindas via ***pull requests***. Tenha certeza que os testes foram feitos.
-
-
-
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
