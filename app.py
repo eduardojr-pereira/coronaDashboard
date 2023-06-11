@@ -1,6 +1,6 @@
 #conda install -c conda-forge dash-bootstrap-components
 #conda install -c -conda-forge dash
-from templates.navbar import Navbar, OffCanvas
+from templates.navbar_component import Navbar, OffCanvas
 from templates.content_component import Content
 from templates.footer_component import FooterComponent
 from dash import ctx, Dash, dcc, html, Input, Output, State 
@@ -26,7 +26,7 @@ brasil_df = pd.read_csv("data\processed\covid_br_dataset.csv")
 estados_df = pd.read_csv("data\processed\covid_estados_dataset.csv")
 # Geo.json para o mapa do Brasil
 geo_data = json.load(open("data/raw/brasilGeo.json", "r"))
-geo_data["features"][0].keys()
+#geo_data["features"][0].keys()
 
 
 # Função para formatar valores a serem exibidos
@@ -34,12 +34,6 @@ def formatar_valor(valor):
     if pd.isna(valor):
         return "-"
     return str(f"{int(valor):,}".replace(",", "."))
-
-
-# Função para formatar a data selecionada
-def formatar_data(date):
-    selected_date = pd.to_datetime(date).strftime('%d/%m/%Y')
-    return selected_date
 
 
 # Padronizar paletas de cores
@@ -126,8 +120,9 @@ def update_card_infos(date):
     obitos_acumulados_na_data = formatar_valor(dff["obitosAcumulado"].values[0])
     novos_obitos_na_data = formatar_valor(dff["obitosNovos"].values[0])
     novos_obitos_texto = "Novos óbitos na data: {}".format(novos_obitos_na_data)
-
-    data_formatada = formatar_data(date)
+    
+    
+    data_formatada = pd.to_datetime(date).strftime('%d/%m/%Y')
     mapa_texto = "**Valores atualizados até a data selecionada: {}".format(data_formatada)
 
     return (
@@ -246,7 +241,8 @@ def update_map(dropdown_map_v, json_data):
 )
 def update_ranger_slider_br(date):
     dff_br = brasil_df[brasil_df["data"] <= date]
-      
+    #dff_br["data_formatada"]= pd.to_datetime(dff_br["data"], infer_datetime_format=True).dt.strftime("%d/%m/%Y")
+        
     lines_chart_casos_br = {
         "data": [
             {
@@ -255,14 +251,17 @@ def update_ranger_slider_br(date):
                 "type": "area",
                 "name": "Casos Acumulados",
                 "fill": "tozeroy",
-                "line": {"color": "#E6C1A6"}
+                "line": {"color": "#E6C1A6"},
+                "hovertemplate": "<b>Data: %{x}</b><br>Casos Acumulados: %{y:.0f}<extra></extra>",
+                #"customdata":dff_br["data_formatada", "casosAcumulado"]
             },
             {
                 "x": dff_br["data"],
                 "y": dff_br["casosNovos"],
                 "type": "line",
                 "name": "Novos Casos na data",
-                "line": {"color": "#D06450"}
+                "line": {"color": "#D06450"},
+                "hovertemplate": "<b>Data: %{x}</b><br>Novos Casos: %{y:.0f}<extra></extra>",
             }
         ],
         "layout": {
@@ -308,14 +307,16 @@ def update_ranger_slider_br(date):
                 "type": "area",
                 "name": "Óbitos Acumulados",
                 "fill": "tozeroy",
-                "line": {"color": "#30242A"}
+                "line": {"color": "#30242A"},
+                "hovertemplate": "<b>Data: %{x}</b><br>Óbitos Acumulados: %{y:.0f}<extra></extra>",
             },
             {
                 "x": dff_br["data"],
                 "y": dff_br["obitosNovos"],
                 "type": "line",
                 "name": "Óbitos na data",
-                "line": {"color": "#972930"}
+                "line": {"color": "#972930"},
+                "hovertemplate": "<b>Data: %{x}</b><br>Novos Óbitos: %{y:.0f}<extra></extra>",
             }
         ],
         "layout": {
