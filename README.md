@@ -176,14 +176,14 @@ coronaDashboard/
 
 ## Uso
 
-#### 1. Clonar o Repositório
+### 1. Clonar o Repositório
 - Clonar este repositório para o seu ambiente local:
 
 ```bash
 git clone https://github.com/eduardojr-pereira/coronaDashboard.git
 ```
 
-#### 2. Configurar o ambiente
+### 2. Configurar o ambiente
 
 - Acesse o diretório do projeto e crie um ambiente virtual
 
@@ -202,7 +202,7 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-#### 3. Instalar as dependências necessárias
+### 3. Instalar as dependências necessárias
 
 - Instale as bibliotecas necessárias usando o gerenciador de pacotes do Python [pip](https://pip.pypa.io/en/stable/).
 
@@ -212,7 +212,7 @@ pip install -U -r requirements.txt
 
 > Essa atualização garante que todas as dependências necessárias sejam instaladas corretamente a partir do arquivo requirements.txt.
 
-#### 4. Execução:
+### 4. Execução:
 
 - Navegar para o diretório no prompt de comando e executar o algoritmo com o código abaixo:
 
@@ -236,10 +236,10 @@ Contribuições serão bem-vindas via ***pull requests***. Tenha certeza que os 
 
 ## Possíveis implementações futuras
 
-- [ ] Web Scraping para realizar a atualização automática dos dados;
-- [ ] Criar script js para configurar o set.locale no plotly.js e traduzir as datas para pt-br;
-- [ ] Verificar correlação entre as variáveis;
-- [ ] Utilizar _Clustering Models_ para identificar padrões intrínsecos nos dados;
+- [ ] Web Scraping para realizar a atualização automática dos dados.
+- [ ] Criar script js para configurar o set.locale no plotly.js e traduzir as datas para pt-br.
+- [ ] Verificar correlação entre as variáveis.
+- [ ] Utilizar _Clustering Models_ para identificar padrões intrínsecos nos dados.
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 

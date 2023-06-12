@@ -138,7 +138,7 @@ class LeftCardBody():
                 ),
                 dcc.Loading(
                     dcc.Graph(
-                        id="stacked-bars-br"
+                        id="sunburst-macroregion"
                     ),
                     type = spinner_type,
                     color = spinner_color

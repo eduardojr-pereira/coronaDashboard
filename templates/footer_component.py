@@ -9,7 +9,7 @@ from templates.navbar_component import LogoInitials, DownloadCvButton, SocialBar
 
 
 class FooterComponent:
-    def criar_footer(self):
+    def create_footer(self):
         logo_initials = LogoInitials().element
         donwload_btn = html.Div(DownloadCvButton().element, className="mb-3")
 
@@ -40,8 +40,10 @@ class FooterComponent:
                 html.H6("Saiba mais"),
                 dbc.ButtonGroup(
                     [
-                        dbc.Button("Taxa de Letalidade", id="open-modal-letalidade", outline=True, className="button-animation"),
-                        dbc.Button("Taxa de Incidência", id="open-modal-incidencia", outline=True, className="button-animation"),
+                        dbc.Button("Incidência", id="open-modal-incidência", outline=True, className="button-animation"),
+                        dbc.Button("Letalidade", id="open-modal-letalidade", outline=True, className="button-animation"),
+                        dbc.Button("Mortalidade", id="open-modal-mortalidade", outline=True, className="button-animation"),
+                        
                     ],
                     vertical=True
                 )

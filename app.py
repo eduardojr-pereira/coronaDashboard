@@ -1,6 +1,6 @@
 #conda install -c conda-forge dash-bootstrap-components
 #conda install -c -conda-forge dash
-from templates.navbar_component import Navbar, OffCanvas
+from templates.navbar_component import NavbarComponent, OffCanvas
 from templates.content_component import Content
 from templates.footer_component import FooterComponent
 from dash import ctx, Dash, dcc, html, Input, Output, State 
@@ -24,8 +24,7 @@ app=Dash(
 # Carregar os dados
 brasil_df = pd.read_csv("data\processed\covid_br_dataset.csv")
 estados_df = pd.read_csv("data\processed\covid_estados_dataset.csv")
-# Geo.json para o mapa do Brasil
-geo_data = json.load(open("data/raw/brasilGeo.json", "r"))
+geo_data = json.load(open("data/raw/brasilGeo.json", "r")) # Geo.json para o mapa do Brasil
 #geo_data["features"][0].keys()
 
 
@@ -36,7 +35,7 @@ def formatar_valor(valor):
     return str(f"{int(valor):,}".replace(",", "."))
 
 
-# Padronizar paletas de cores
+# Padronizar cores
 cores_casos = plotly.colors.sequential.matter[:len(estados_df['estado'].unique())]
 cores_obitos = plotly.colors.sequential.Inferno_r[:len(estados_df['estado'].unique())]
 cores_letalidade = plotly.colors.sequential.Brwnyl[:len(estados_df['estado'].unique())]
@@ -45,54 +44,16 @@ cores_letalidade = plotly.colors.sequential.Brwnyl[:len(estados_df['estado'].uni
 # Layout do APP
 app.layout=html.Div(
     [
-        Navbar().criar_navbar(),
-        OffCanvas().criar_offcanvas_visao_geral(),
-        OffCanvas().criar_offcanvas_objetivos(),
-        OffCanvas().criar_offcanvas_dados(),
-        OffCanvas.criar_offcanvas_frameworks(),
+        NavbarComponent().create_navbar(),
+        OffCanvas().create_offcanvas_visao_geral(),
+        OffCanvas().create_offcanvas_objetivos(),
+        OffCanvas().create_offcanvas_dados(),
+        OffCanvas.create_offcanvas_frameworks(),
         Content.create_content(),
         html.Br(),
-        FooterComponent().criar_footer()
+        FooterComponent().create_footer()
     ]
 )
-
-
-# Callback para o toggle da navbar em telas menores
-@app.callback(
-    Output("navbar-collapse", "is_open"),
-    Input("navbar-toggler", "n_clicks"),
-    State("navbar-collapse", "is_open"),
-)
-def toggle_navbar_collapse(n, is_open):
-    if n:
-        return not is_open
-    return is_open
-
-
-# Callbacks para abrir Offcanvas
-def register_offcanvas_callback(open_id, open_id_footer, offcanvas_id):
-    @app.callback(
-        Output(offcanvas_id, "is_open"),
-        [
-            Input(open_id, "n_clicks"),
-            Input(open_id_footer, "n_clicks")
-        ],
-        [State(offcanvas_id, "is_open")],
-        allow_duplicate=True
-    )
-    def toggle_offcanvas_visibility(n_clicks, n_clicks_footer, is_open):
-        if ctx.triggered:
-            button_id = ctx.triggered[0]["prop_id"].split(".")[0]
-            if button_id == open_id:
-                return not is_open
-            elif button_id == open_id_footer:
-                return not is_open
-        return is_open
-
-register_offcanvas_callback("open-visaoGeral", "open-visaoGeral-footer", "offcanvas-visaoGeral")
-register_offcanvas_callback("open-objetivos", "open-objetivos-footer", "offcanvas-objetivos")
-register_offcanvas_callback("open-frameworks", "open-frameworks-footer", "offcanvas-frameworks")
-register_offcanvas_callback("open-dados", "open-dados-footer", "offcanvas-dados")
 
 
 # Callback para atualizar CardTop >>> CardsInner 
@@ -160,6 +121,51 @@ def estados_df_filter_on_date(date):
     df_grouped_on_date["mortalidade"] = df_grouped_on_date["obitosAcumulado"]/df_grouped_on_date["populacaoTCU2019"]*100000       
     
     return df_grouped_on_date.to_json()
+
+
+# Callback para renderizar sunburst com total de registros por macroregiao
+@app.callback(
+    Output("sunburst-macroregion", "figure"),
+    Input("datepicker-store","data")
+)
+def update_sunburst(json_data):
+    dff = pd.read_json(json_data)
+    df_grouped_by_region = dff.groupby("regiao").agg({"casosAcumulado":"sum","obitosAcumulado":"sum"}).reset_index()
+    
+    #Utilizando o método melt para criar a coluna "tipo dos registros"
+    df_melted = df_grouped_by_region.melt(
+        id_vars=['regiao'], 
+        value_vars=['casosAcumulado', 'obitosAcumulado'], 
+        var_name='tipo', 
+        value_name='quantidade'
+    )
+    tipos = {"casosAcumulado":"Casos", "obitosAcumulado":"Óbitos"}
+    df_melted['tipo'] = df_melted['tipo'].map(tipos)
+    
+    sunburst_macroregion = px.sunburst(
+        df_melted, 
+        path=['regiao', 'tipo'],
+        values='quantidade',
+        color='quantidade',
+        branchvalues='total',
+    )
+    sunburst_macroregion.update_traces(
+        hovertemplate="<b>%{label}</b> <br> Região: %{parent} <br> Total de Registros: %{value}"
+    )
+    sunburst_macroregion.update_layout(
+        title=dict(text="Casos e Óbitos Registrados<br>por Macroregião", x=0.5, font=dict(color="white")),
+        paper_bgcolor= "rgba(0, 0, 0, 0)",
+        plot_bgcolor='rgba(0, 0, 0, 0)',  
+        margin=dict(t=75, b=0, r=0, l=0),
+        coloraxis_showscale=False,
+        coloraxis=dict(colorscale='amp')
+        #coloraxis=dict(colorscale='ice') 
+        #coloraxis=dict(colorscale='oxy_r')
+        #coloraxis=dict(colorscale='earth')
+        #coloraxis=dict(colorscale='electric')
+    )
+
+    return sunburst_macroregion
 
 
 # Callback para renderizar o mapa do Brasil
@@ -314,7 +320,7 @@ def update_ranger_slider_br(date):
                 "x": dff_br["data"],
                 "y": dff_br["obitosNovos"],
                 "type": "line",
-                "name": "Óbitos na data",
+                "name": "Novos Óbitos na data",
                 "line": {"color": "#972930"},
                 "hovertemplate": "<b>Data: %{x}</b><br>Novos Óbitos: %{y:.0f}<extra></extra>",
             }
@@ -556,11 +562,56 @@ def update_charts_on_date_by_region(dropdown_region_v, dropdown_map_v, json_data
     return macro_title, badge_str, bar_chart
 
 
+# Callback para o toggle da navbar em telas menores
+@app.callback(
+    Output("navbar-collapse", "is_open"),
+    Input("navbar-toggler", "n_clicks"),
+    State("navbar-collapse", "is_open"),
+)
+def toggle_navbar_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
 
 
+# Callbacks para abrir/registrar Offcanvas
+def register_offcanvas_callback(open_id, open_id_footer, offcanvas_id):
+    @app.callback(
+        Output(offcanvas_id, "is_open"),
+        [
+            Input(open_id, "n_clicks"),
+            Input(open_id_footer, "n_clicks")
+        ],
+        [State(offcanvas_id, "is_open")],
+        allow_duplicate=True
+    )
+    def toggle_offcanvas_visibility(n_clicks, n_clicks_footer, is_open):
+        if ctx.triggered:
+            button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+            if button_id == open_id:
+                return not is_open
+            elif button_id == open_id_footer:
+                return not is_open
+        return is_open
+
+register_offcanvas_callback("open-visaoGeral", "open-visaoGeral-footer", "offcanvas-visaoGeral")
+register_offcanvas_callback("open-objetivos", "open-objetivos-footer", "offcanvas-objetivos")
+register_offcanvas_callback("open-frameworks", "open-frameworks-footer", "offcanvas-frameworks")
+register_offcanvas_callback("open-dados", "open-dados-footer", "offcanvas-dados")
+
+# Callbacks para abrir/registrar Modal´s (Incidência, Letalidade, Mortalidade)
+@app.callback(
+    Output("modal-container", "is_open"),
+    Input("open-modal-letalidade", "n_clicks"),
+    State("modal-container", "is_open")
+)
+def toggle_modal(n_clicks, is_open):
+    if n_clicks is not None and n_clicks > 0:
+        return not is_open
+    return is_open
 
 
-
-if __name__ == "__main__":
+# Iniciar o servidor do aplicativo Dash
+if __name__ == "__main__": 
     app.run_server(debug=True)
    
