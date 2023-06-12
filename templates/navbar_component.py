@@ -222,9 +222,9 @@ class DropdownPortfolio:
         )
 
 
-class Navbar:
+class NavbarComponent:
     @staticmethod
-    def criar_navbar():
+    def create_navbar():
         navbar = dbc.Navbar(
             dbc.Container(
                 [
@@ -257,7 +257,7 @@ class Navbar:
            
 class OffCanvas:
     @staticmethod
-    def criar_offcanvas_visao_geral():
+    def create_offcanvas_visao_geral():
         offcanvas_visao_geral = dbc.Offcanvas(
             id="offcanvas-visaoGeral",
             className= "offcanvas-animation",
@@ -290,7 +290,7 @@ class OffCanvas:
         return offcanvas_visao_geral
 
     @staticmethod
-    def criar_offcanvas_objetivos():
+    def create_offcanvas_objetivos():
         objetivos =[
             "Utilizar ferramentas de Ciências de Dados para fornecer dados atualizados e confiáveis sobre o COVID-19 no Brasil;",
             "Permitir a visualização da evolução da pandemia em diferentes regiões do país;",
@@ -318,7 +318,7 @@ class OffCanvas:
         return offcanvas_objetivos
 
     @staticmethod
-    def criar_offcanvas_dados():
+    def create_offcanvas_dados():
         offcanvas_dados = dbc.Offcanvas(
             id="offcanvas-dados",
             className= "offcanvas-animation",
@@ -377,7 +377,7 @@ class OffCanvas:
         return offcanvas_dados
 
     @staticmethod
-    def criar_offcanvas_frameworks():
+    def create_offcanvas_frameworks():
         frameworks = [
             {"item": "Numpy", "descricao": "biblioteca Python para realizar cálculos numéricos eficientes."},
             {"item": "Pandas", "descricao": "biblioteca Python para análise e manipulação de dados."},
