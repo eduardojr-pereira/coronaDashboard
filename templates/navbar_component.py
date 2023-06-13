@@ -274,10 +274,10 @@ class OffCanvas:
                     "compreensão clara da situação atual da pandemia no Brasil."
                 ),
                 html.Br(),
-                dcc.Markdown("""
+                dcc.Markdown('''
                     Nesse sentido, o aplicativo **coronaDash** visa suprir essa necessidade, fornecendo uma plataforma confiável e acessível
                     para a visualização e análise dos dados relacionados ao COVID-19.
-                """
+                '''
                 ),
                 html.Br(),
                 html.P(
@@ -326,7 +326,7 @@ class OffCanvas:
                 html.H3("Conjunto de Dados", className="position-relative text-center text-white"),
                 html.Div(
                     [
-                        dbc.Badge(f"Atualizado em: {last_update}", color="dark")
+                        dbc.Badge(f"Atualizado em: {last_update}", color="light")
                     ],
                     className="text-center w-100"
                 ),
@@ -403,3 +403,5 @@ class OffCanvas:
             ]
         )
         return offcanvas_frameworks
+
+

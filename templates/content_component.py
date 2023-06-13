@@ -3,9 +3,12 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 
 # Carregar os dados
-brasil_df = pd.read_csv("data\processed\covid_br_dataset.csv")
-estados_df = pd.read_csv("data\processed\covid_estados_dataset.csv")
+estados_df = pd.read_csv("data/processed/covid_estados_dataset.csv", usecols=["estado"])
+brasil_df = pd.read_csv("data/processed/covid_br_dataset.csv", usecols=["data"])
+first_date = brasil_df["data"].min()
+last_date = brasil_df["data"].max()
 
+# Determinar padrões para o spinner
 spinner_color = "BurlyWood"
 spinner_type = "dot"
 
@@ -16,7 +19,7 @@ class Header:
         self.element = html.Div(
             [
                 html.H1(self.title),
-                html.H3(self.subtitle, className="hide-on-smal-screen")
+                html.H3(self.subtitle)
             ],
             className="text-center text-light"
         )
@@ -31,10 +34,10 @@ class DatePicker:
                     [
                         dcc.DatePickerSingle(
                             id="datepicker",
-                            min_date_allowed = brasil_df['data'].min(),
-                            max_date_allowed=brasil_df["data"].max(),
-                            initial_visible_month=brasil_df["data"].max(),
-                            date=brasil_df["data"].max(),
+                            min_date_allowed = first_date,
+                            max_date_allowed=last_date,
+                            initial_visible_month=last_date,
+                            date=last_date,
                             display_format="DD/MM/YYYY"   
                         ),
                         dcc.Store(id="datepicker-store")
@@ -111,8 +114,9 @@ class LeftCardHeader():
                             options = [
                                 {"label":"Casos Acumulados", "value":"casosAcumulado"},
                                 {"label":"Óbitos Acumulados", "value":"obitosAcumulado"},
-                                {"label":"Taxa de Letalidade*", "value":"taxaLetalidade"},
-                                {"label":"Mortalidade*", "value":"mortalidade"}
+                                {"label":"Incidência", "value":"incidencia"},
+                                {"label":"Mortalidade", "value":"mortalidade"},         
+                                {"label":"Taxa de Letalidade", "value":"taxaLetalidade"}
                             ],
                             value="casosAcumulado",
                             clearable=False,
@@ -136,25 +140,18 @@ class LeftCardBody():
                     type = spinner_type,
                     color = spinner_color
                 ),
-                dcc.Loading(
-                    dcc.Graph(
-                        id="sunburst-macroregion"
-                    ),
-                    type = spinner_type,
-                    color = spinner_color
-                ),
                 html.P(id="mapa-texto", className="text-center text-secondary mt-3 mb-3"),
                 html.Hr(),
                 dcc.Loading(
                     dcc.Graph(
-                        id="lines-chart-casos-brasil"
+                        id="line-chart-casos-brasil"
                     ),
                     type = spinner_type,
                     color = spinner_color
                 ),
                 dcc.Loading(
                     dcc.Graph(
-                        id="lines-chart-obitos-brasil"
+                        id="line-chart-obitos-brasil"
                     ),
                     type = spinner_type,
                     color = spinner_color
@@ -188,7 +185,7 @@ class RightCardHeaderTop():
                 dbc.Col(
                     [
                         dcc.Dropdown(
-                            id="dropdown-region",
+                            id="dropdown-macroregion",
                             options = [
                                 {"label":"Norte", "value":"Norte"},
                                 {"label":"Nordeste", "value":"Nordeste"},
@@ -211,12 +208,18 @@ class RightCardBodyTop():
     def __init__ (self):
         self.element = html.Div(
             [
-                html.P(id="macroregiao-texto", className="text-light m-0", style={"font-size":"18px"}),
+                dcc.Loading(
+                    dcc.Graph(
+                        id="subplots-macroregion"
+                    ),
+                    type = spinner_type,
+                    color = spinner_color
+                ),                
+                html.P(id="macroregiao-texto", className="text-light m-0", style={"font-size":"19px"}),
                 dbc.Badge(id="badge-texto", color="light", className="text-center"),
                 dcc.Loading(
                     dcc.Graph(
-                        id="bar-chart-casos-obitos",
-                        hoverData={"points":[{"customdata":"SP"}]}
+                        id="bar-chart-macroregion"
                     ),
                     type=spinner_type,
                     color= spinner_color
@@ -257,13 +260,13 @@ class RightCardHeaderBottom():
         )
 
 
-class RightCardBodyBototm():
+class RightCardBodyBottom():
     def __init__ (self):
         self.element = dbc.Row(
             [
                 dcc.Loading(
                     dcc.Graph(
-                        id="lines-chart-estado"
+                        id="line-chart-estado"
                     ),
                     type = spinner_type,
                     color = spinner_color
@@ -284,7 +287,7 @@ class RightCardBottomContent():
         self.element = dbc.Card(
             [
                 dbc.CardHeader(RightCardHeaderBottom().element),
-                dbc.CardBody(RightCardBodyBototm().element)
+                dbc.CardBody(RightCardBodyBottom().element)
             ]
         )
 
