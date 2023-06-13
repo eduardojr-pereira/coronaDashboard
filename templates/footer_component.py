@@ -1,11 +1,6 @@
 import dash_bootstrap_components as dbc
-from dash import html
+from dash import html, dcc
 from templates.navbar_component import LogoInitials, DownloadCvButton, SocialBar
-
-
-
-#class ModalLetalidade(self):
-
 
 
 class FooterComponent:
@@ -40,9 +35,9 @@ class FooterComponent:
                 html.H6("Saiba mais"),
                 dbc.ButtonGroup(
                     [
-                        dbc.Button("Incidência", id="open-modal-incidência", outline=True, className="button-animation"),
-                        dbc.Button("Letalidade", id="open-modal-letalidade", outline=True, className="button-animation"),
-                        dbc.Button("Mortalidade", id="open-modal-mortalidade", outline=True, className="button-animation"),
+                        dbc.Button("Incidência", id="open-incidencia", outline=True, className="button-animation"),
+                        dbc.Button("Letalidade", id="open-letalidade", outline=True, className="button-animation"),
+                        dbc.Button("Mortalidade", id="open-mortalidade", outline=True, className="button-animation"),
                         
                     ],
                     vertical=True
@@ -111,5 +106,146 @@ class FooterComponent:
                 )
             )
         )
-
         return footer
+
+
+class ModalComponent:
+    @staticmethod
+    def create_modal(title, definition, interpretation, usage, restrictions, source, methodology, html_id):
+        return dbc.Modal(
+            [
+                dbc.ModalHeader(dbc.ModalTitle(title), className="d-flex justify-content-center"),
+                dbc.ModalBody(
+                    [
+                        html.H5("Conceituação:"),
+                        definition,
+                        html.Hr(),
+                        html.H5("Interpretação:"),
+                        interpretation,
+                        html.Hr(),
+                        html.H5("Uso:"),
+                        usage,
+                        html.Hr(),
+                        html.H5("Limitações:"),
+                        restrictions,
+                        html.Hr(),
+                        html.H5("Fonte:"),
+                        source,
+                        html.Hr(),
+                        html.H5("Método de Cálculo:"),
+                        methodology,
+                        html.Hr(),
+                    ]
+                )
+            ],
+            id=str(html_id),
+            is_open=False,
+            backdrop=True
+        )
+    
+    def create_modal_incidencia():
+        title = "Incidência"
+        definition = html.P(
+            "Número de óbitos confirmados de COVID-19 em relação ao total de casos confirmados "
+            "na população residente em determinado espaço geográfico, no período considerado."
+        )
+        interpretaion = html.P(
+            "Esta taxa dá a idéia de gravidade da doença, pois indica o percentual de pessoas "
+            "que morreram dentre os casos confirmados da doença."
+        )
+        usage = html.P(
+            "Relacionar o número de óbitos por determinada causa e o número de pessoas que foram acometidas por tal doença. "
+            "Também pode ser utilizada para companhar a qualidade da assistência médica oferecida à população."     
+        )
+        restrictions = html.P(
+            "Depende necessariamente do número de casos diagnosticados, que no caso do COVID-19, depende da "
+            "quantidade de exames diagnósticos realizados."
+        )
+        source = html.Ul(
+            [
+                html.Li("Ministério da Saúde."),
+                html.Li("Secretaria de Vigilância à Saúde (SVS): Guia de vigilância Epidemiológica."),
+                html.Li("Secretarias Estaduais e Municipais de Saúde.")
+            ]
+        )             
+        methodology = dcc.Markdown('''
+            $$
+            \\frac{\\text{Óbitos Confirmados}}{\\text{Casos Confirmados}}\\cdot{100}
+            $$
+        ''', mathjax=True
+        )
+        html_id="modal-incidencia"
+        
+        return ModalComponent.create_modal(title, definition, interpretaion, usage, restrictions, source, methodology, html_id) 
+
+    
+    def create_modal_letalidade():
+        title = "Taxa de Letalidade"
+        definition = html.P(
+            "Número de óbitos confirmados de COVID-19 em relação ao total de casos confirmados "
+            "na população residente em determinado espaço geográfico, no período considerado."
+        )
+        interpretaion = html.P(
+            "Esta taxa dá a idéia de gravidade da doença, pois indica o percentual de pessoas "
+            "que morreram dentre os casos confirmados da doença."
+        )
+        usage = html.P(
+            "Relacionar o número de óbitos por determinada causa e o número de pessoas que foram acometidas por tal doença. "
+            "Também pode ser utilizada para companhar a qualidade da assistência médica oferecida à população."     
+        )
+        restrictions = html.P(
+            "Depende necessariamente do número de casos diagnosticados, que no caso do COVID-19, depende da "
+            "quantidade de exames diagnósticos realizados."
+        )
+        source = html.Ul(
+            [
+                html.Li("Ministério da Saúde."),
+                html.Li("Secretaria de Vigilância à Saúde (SVS): Guia de vigilância Epidemiológica."),
+                html.Li("Secretarias Estaduais e Municipais de Saúde.")
+            ]
+        )             
+        methodology = dcc.Markdown('''
+            $$
+            \\frac{\\text{Óbitos Confirmados}}{\\text{Casos Confirmados}}\\cdot{100}
+            $$
+        ''', mathjax=True
+        )
+        html_id="modal-letalidade"
+        
+        return ModalComponent.create_modal(title, definition, interpretaion, usage, restrictions, source, methodology, html_id)
+        
+        
+    def create_modal_mortalidade():
+            title = "Mortalidade"
+            definition = html.P(
+                "Número de óbitos confirmados de COVID-19 em relação ao total de casos confirmados "
+                "na população residente em determinado espaço geográfico, no período considerado."
+            )
+            interpretaion = html.P(
+                "Esta taxa dá a idéia de gravidade da doença, pois indica o percentual de pessoas "
+                "que morreram dentre os casos confirmados da doença."
+            )
+            usage = html.P(
+                "Relacionar o número de óbitos por determinada causa e o número de pessoas que foram acometidas por tal doença. "
+                "Também pode ser utilizada para companhar a qualidade da assistência médica oferecida à população."     
+            )
+            restrictions = html.P(
+                "Depende necessariamente do número de casos diagnosticados, que no caso do COVID-19, depende da "
+                "quantidade de exames diagnósticos realizados."
+            )
+            source = html.Ul(
+                [
+                    html.Li("Ministério da Saúde."),
+                    html.Li("Secretaria de Vigilância à Saúde (SVS): Guia de vigilância Epidemiológica."),
+                    html.Li("Secretarias Estaduais e Municipais de Saúde.")
+                ]
+            )             
+            methodology = dcc.Markdown('''
+                $$
+                \\frac{\\text{Óbitos Confirmados}}{\\text{Casos Confirmados}}\\cdot{100}
+                $$
+            ''', mathjax=True
+            )
+            html_id="modal-mortalidade"
+            
+            return ModalComponent.create_modal(title, definition, interpretaion, usage, restrictions, source, methodology, html_id) 
