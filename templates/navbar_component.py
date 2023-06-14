@@ -3,7 +3,6 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 
 external_stylesheets=['https://use.fontawesome.com/releases/v5.8.1/css/all.css']
-last_update = pd.to_datetime(pd.read_csv("data/processed/covid_br_dataset.csv", usecols=["data"])["data"].max()).strftime("%d/%m/%Y")
 
 
 class LogoInitials:
@@ -326,7 +325,7 @@ class OffCanvas:
                 html.H3("Conjunto de Dados", className="position-relative text-center text-white"),
                 html.Div(
                     [
-                        dbc.Badge(f"Atualizado em: {last_update}", color="light")
+                        dbc.Badge(id="last-update-texto", color="light")
                     ],
                     className="text-center w-100"
                 ),
