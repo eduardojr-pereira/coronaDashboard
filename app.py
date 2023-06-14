@@ -5,6 +5,7 @@ from dash import ctx, Dash, html, Input, Output, State
 from plotly.subplots import make_subplots
 import plotly.colors 
 import plotly.graph_objects as go
+import plotly.express as px
 import dash_bootstrap_components as dbc
 import pandas as pd
 import json
@@ -36,9 +37,9 @@ def formatar_valor(valor):
 # Padronizar cores
 cores_casos = plotly.colors.sequential.OrRd[:len(estados_df['estado'].unique())]
 cores_obitos = plotly.colors.sequential.Brwnyl[:len(estados_df['estado'].unique())]
-cores_letalidade = plotly.colors.sequential.amp[:len(estados_df['estado'].unique())]
+cores_incidencia = plotly.colors.sequential.amp[:len(estados_df['estado'].unique())]
 cores_mortalidade = plotly.colors.sequential.Burg[:len(estados_df['estado'].unique())]
-cores_incidencia = plotly.colors.sequential.Redor[:len(estados_df['estado'].unique())]
+cores_letalidade = plotly.colors.sequential.Redor[:len(estados_df['estado'].unique())]
 
 
 # Layout do APP
@@ -68,6 +69,7 @@ app.layout=html.Div(
         Output("obitos-acumulados-na-data","children"),
         Output("novos-obitos-texto","children"),
         Output("mapa-texto", "children"),
+        Output("last-update-texto", "children"),
         Input("datepicker", "date"),
 )
 def update_card_infos(date):
@@ -87,7 +89,8 @@ def update_card_infos(date):
     
     
     data_formatada = pd.to_datetime(date).strftime('%d/%m/%Y')
-    mapa_texto = "**Valores atualizados até a data selecionada: {}".format(data_formatada)
+    mapa_texto = "Valores atualizados até a data selecionada: {}".format(data_formatada)
+    last_update_texto = "Última atualização {}".format(pd.to_datetime(brasil_df["data"].max()).strftime("%d/%m/%Y"))
 
     return (
         casos_acumulados_na_data,
@@ -96,13 +99,15 @@ def update_card_infos(date):
         em_acompanhamento_texto,
         obitos_acumulados_na_data,
         novos_obitos_texto,
-        mapa_texto
+        mapa_texto,
+        last_update_texto
     )
 
 
-# Callback para filtrar o estados_df e armazená-lo no dcc.Store
+# Callback para filtrar/agrupar o dataframe estados_df e armazená-lo no dcc.Store
 @app.callback(
-    Output("datepicker-store", "data"),
+    Output("datepicker-store-states", "data"),
+    Output("datepicker-store-regioes", "data"),
     Input("datepicker","date")
 )
 def estados_df_filter_on_date(date):
@@ -124,7 +129,19 @@ def estados_df_filter_on_date(date):
     df_grouped_on_date["mortalidade"] = df_grouped_on_date["obitosAcumulado"]/df_grouped_on_date["populacaoTCU2019"]*100000       
     df_grouped_on_date["taxaLetalidade"] = df_grouped_on_date["obitosAcumulado"]/df_grouped_on_date["casosAcumulado"]*100
 
-    return df_grouped_on_date.to_json()
+    df_macroregion = df_grouped_on_date.groupby("regiao").agg(
+        {
+            "casosAcumulado":"sum",
+            "obitosAcumulado":"sum",
+            "populacaoTCU2019":"sum",
+        }
+    ).reset_index() 
+
+    df_macroregion["incidencia"] = df_macroregion["casosAcumulado"]/df_macroregion["populacaoTCU2019"]*100000
+    df_macroregion["mortalidade"] = df_macroregion["obitosAcumulado"]/df_macroregion["populacaoTCU2019"]*100000       
+    df_macroregion["taxaLetalidade"] = df_macroregion["obitosAcumulado"]/df_macroregion["casosAcumulado"]*100
+
+    return df_grouped_on_date.to_json(), df_macroregion.to_json()
 
 
 # Callback para renderizar gráfico com evolução no Brasil
@@ -135,8 +152,7 @@ def estados_df_filter_on_date(date):
 )
 def update_ranger_slider_br(date):
     dff_br = brasil_df[brasil_df["data"] <= date]
-    #dff_br["data_formatada"]= pd.to_datetime(dff_br["data"], infer_datetime_format=True).dt.strftime("%d/%m/%Y")
-        
+            
     lines_chart_casos_br = go.Figure(
         data=[
             go.Scatter(
@@ -216,301 +232,294 @@ def update_ranger_slider_br(date):
     return lines_chart_casos_br, lines_chart_obitos_br
 
 
-# Callback para renderizar gráficos com distibuição de frequência por macroregião
+# Callback para renderizar gráficos com dados agrupados por macroregião
 @app.callback(
-    Output("subplots-macroregion", "figure"),
-    Input("datepicker-store","data")
+    Output("macroregion-chart", "figure"),
+    Input("dropdown-map", "value"),
+    Input("datepicker-store-regioes","data")
 )
-def update_subplots(json_data):
+def update_subplots(dropdown_map_v, json_data):
     dff = pd.read_json(json_data)
-    dff_macro = dff.groupby("regiao").agg({"casosAcumulado":"sum","obitosAcumulado":"sum"}).reset_index()
 
-    subplots_macroregion = make_subplots(
-        rows=1, cols=2, 
-        specs=[[{"type":"domain"}, {"type":"domain"}]],
-        vertical_spacing=0.01,
-        horizontal_spacing=0.01
-    )
+    subplots_macroregion=None
+
+    if dropdown_map_v == "casosAcumulado":
+        subplots_macroregion=go.Figure(
+            go.Pie(
+                labels=dff.sort_values("casosAcumulado", ascending=True)["regiao"], 
+                values=dff.sort_values("casosAcumulado", ascending=True)["casosAcumulado"], 
+                marker=dict(colors=cores_casos, line=dict(color="white", width=1)),
+                pull=[0,0,0,0,0.05],
+                texttemplate="%{label}"+"<br>%{percent}",
+                textposition="inside",
+                hovertemplate = "<b>Macroregião " + dff.sort_values("casosAcumulado", ascending=True)["regiao"] + 
+                                "</b><br>Casos Acumulados: %{value}"
+                                "<br></b>Percentual: %{percent}<extra></extra>"
+            )
+        )
+        subplots_macroregion.update_layout(
+            title=dict(text="Casos Acumulados por Macroregião", x=0.5)
+        )
+
+    if dropdown_map_v == "obitosAcumulado": 
+        subplots_macroregion=go.Figure(
+            go.Pie(
+                labels=dff.sort_values("obitosAcumulado", ascending=True)["regiao"], 
+                values=dff.sort_values("obitosAcumulado", ascending=True)["obitosAcumulado"], 
+                marker=dict(colors=cores_obitos, line=dict(color="white", width=1)),
+                pull=[0,0,0,0,0.05],
+                texttemplate="%{label}"+"<br>%{percent}",
+                textposition="inside",
+                hovertemplate = "<b>Macroregião " + dff.sort_values("obitosAcumulado", ascending=True)["regiao"] + 
+                                "</b><br>Óbitos Acumulados: %{value}"
+                                "<br>Percentual: %{percent}<extra></extra>"
+            )
+        )
+        subplots_macroregion.update_layout(
+            title=dict(text="Óbitos Acumulados por Macroregião", x=0.5)
+        )
     
-    pie_chart_casos = go.Pie(
-        labels=dff_macro.sort_values("casosAcumulado", ascending=True)["regiao"], 
-        values=dff_macro.sort_values("casosAcumulado", ascending=True)["casosAcumulado"], 
-        marker=dict(colors=cores_casos, line=dict(color="white", width=1)),
-        pull=[0,0,0,0,0.05],
-        texttemplate="%{label}"+"<br>%{percent}",
-        textposition="inside",
-        hovertemplate = "<b>Macroregião " + dff_macro.sort_values("casosAcumulado", ascending=True)["regiao"] + 
-                        "</b><br>Casos Acumulados: %{value}"
-                        "<br></b>Percentual: %{percent}<extra></extra>"
-    )
-    subplots_macroregion.add_trace(pie_chart_casos, row=1, col=1)
-    
-    pie_chart_obitos = go.Pie(
-        labels=dff_macro.sort_values("obitosAcumulado", ascending=True)["regiao"], 
-        values=dff_macro.sort_values("obitosAcumulado", ascending=True)["obitosAcumulado"], 
-        marker=dict(colors=cores_obitos, line=dict(color="white", width=1)),
-        pull=[0,0,0,0,0.05],
-        texttemplate="%{label}"+"<br>%{percent}",
-        textposition="inside",
-        hovertemplate = "<b>Macroregião " + dff_macro.sort_values("obitosAcumulado", ascending=True)["regiao"] + 
-                        "</b><br>Óbitos Acumulados: %{value}"
-                        "<br>Percentual: %{percent}<extra></extra>"
-    )
-    subplots_macroregion.add_trace(pie_chart_obitos, row=1, col=2)
-    
+    if dropdown_map_v == "incidencia":
+        subplots_macroregion=px.scatter(
+            dff,
+            x="casosAcumulado",
+            y="populacaoTCU2019",
+            size="casosAcumulado",
+            color="incidencia",
+            color_continuous_scale=cores_incidencia,
+            log_x=True,
+            log_y=True,
+            size_max=60
+        )
+        subplots_macroregion.update_layout(
+            title=dict(text="Incidência em cada Macroregião<br>(por 100 mil habitantes)", x=0.5),
+            xaxis=dict(title=dict(text="Casos Acumulados"), gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dash"),
+            yaxis=dict(title=dict(text="População - 2019"), gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dash"),
+            coloraxis=dict(
+                colorbar=dict(title=dict(text="Incidência"),
+                              bgcolor="rgba(0,0,0,0)",
+                              outlinewidth=0
+                )
+            )
+        )
+        subplots_macroregion.update_traces(
+            hovertemplate = "<b>Macroregião %{customdata[0]}</b><br>" 
+                            "População: %{customdata[1]:,.0f}<br>"
+                            "Casos: %{customdata[2]:,.0f}<br>"
+                            "Incidência: %{customdata[3]:,.2f}<br><extra></extra>",
+            customdata=dff[["regiao","populacaoTCU2019","casosAcumulado","incidencia"]]
+        )
+
+    if dropdown_map_v == "mortalidade":
+        subplots_macroregion=px.scatter(
+            dff,
+            x="obitosAcumulado",
+            y="populacaoTCU2019",
+            size="obitosAcumulado",
+            color="mortalidade",
+            color_continuous_scale=cores_mortalidade,
+            log_x=True,
+            log_y=True,
+            size_max=60
+        )
+        subplots_macroregion.update_layout(
+            title=dict(text="Mortalidade em cada Macroregião<br>(por 100 mil habitantes)", x=0.5),
+            xaxis=dict(title=dict(text="Óbitos Acumulados"), gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dash"),
+            yaxis=dict(title=dict(text="População - 2019"), gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dash"),
+            coloraxis=dict(
+                colorbar=dict(title=dict(text="Mortaliadde"),
+                              bgcolor="rgba(0,0,0,0)",
+                              outlinewidth=0
+                )
+            )
+        )
+        subplots_macroregion.update_traces(
+            hovertemplate = "<b>Macroregião %{customdata[0]}</b><br>" 
+                            "População: %{customdata[1]:,.0f}<br>"
+                            "Óbitos: %{customdata[2]:,.0f}<br>"
+                            "Mortalidade: %{customdata[3]:,.2f}<br><extra></extra>",
+            customdata=dff[["regiao","populacaoTCU2019","obitosAcumulado","mortalidade"]]
+        )
+
+    if dropdown_map_v == "taxaLetalidade":
+        subplots_macroregion=go.Figure(
+            go.Barpolar(
+                r=dff.sort_values("taxaLetalidade", ascending=True)["taxaLetalidade"],
+                theta=dff.sort_values("taxaLetalidade", ascending=True)["regiao"],
+                marker=dict(color=cores_letalidade, line=dict(color="white", width=1))
+            )
+        )
+        subplots_macroregion.update_layout(
+            title=dict(text="Taxa de Letalidade por Macroregião", x=0.5),
+            polar=dict(
+                radialaxis=dict(gridcolor="#515960", gridwidth=0.5, griddash="dashdot"),
+                bgcolor="rgba(0,0,0,0)"
+            )
+        )
+        subplots_macroregion.update_traces(
+            hovertemplate = "<b>Macroregião %{customdata[0]}</b><br>" 
+                            "Casos Acumulados: %{customdata[1]:,.0f}<br>"
+                            "Óbitos Acumulados: %{customdata[2]:,.0f}<br>"
+                            "Taxa de Letalidade: %{customdata[3]:,.2f}<br><extra></extra>",
+            customdata=dff[["regiao","casosAcumulado","obitosAcumulado","taxaLetalidade"]]
+        )
+
     subplots_macroregion.update_layout(
-        title_text = "Distribuição de Casos e Óbitos<br>Acumulados por Macroregião",
-        title_font=dict(color="white"),
-        title_x=0.5,
-        title_y=0.95,
+        font=dict(color="white"),
         plot_bgcolor="rgba(0, 0, 0, 0)", 
         paper_bgcolor="rgba(0, 0, 0, 0)", 
-        margin=dict(t=0, b=0, l=0, r=0), 
+        margin=dict(t=50, b=50, l=0, r=0), 
         showlegend=False,
         separators=", "
     )
     
-
     return subplots_macroregion
 
 
-# Callback para cria gráfico de barras filtrado por data e macroregiao
+# Callback para renderizar gráficos com dados filtrados por macroregião
 @app.callback(
-    Output("macroregiao-texto", "children"),
-    Output("badge-texto", "children"),
-    Output("bar-chart-macroregion", "figure"),
+    Output("subplots-states", "figure"),
     Input("dropdown-macroregion", "value"),
     Input("dropdown-map","value"),
-    Input("datepicker-store", "data")
+    Input("datepicker-store-states", "data")
 )
 def update_bar_chart_macroregion(dropdown_macroregion_v, dropdown_map_v, json_data):
     dff = pd.read_json(json_data)
     dff_macro = dff[dff["regiao"]==dropdown_macroregion_v]
+    
+    subplots_estados = None
 
     if dropdown_map_v == "casosAcumulado":
-        macro_title = "Casos Acumulados - {}".format(dropdown_macroregion_v)
-        badge_str = "Total: {}".format(formatar_valor(dff_macro["casosAcumulado"].sum()))
-
-        bar_chart = go.Figure(
-            data=go.Bar(
+        subplots_estados=go.Figure(
+            go.Bar(
                 x=dff_macro.sort_values("casosAcumulado", ascending=True)["siglaUF"],
                 y=dff_macro.sort_values("casosAcumulado", ascending=True)["casosAcumulado"],
                 marker=dict(color=cores_casos, line=dict(color="white", width=1)),
+                texttemplate="%{y:,.0f}",
                 hovertemplate = "<b>" + dff_macro.sort_values("casosAcumulado", ascending=True)["estado"] +
                                 "</b><br>Casos Acumulados: %{y:,.0f}<extra></extra>",
                 customdata=dff_macro.sort_values("casosAcumulado", ascending=True)["siglaUF"]
-            ),
-            layout=go.Layout(
-                xaxis=dict(
-                    title=dict(
-                        text="Estados",
-                        font=dict(color="white")
-                    ),
-                    tickfont=dict(color="white")
-                ),
-                yaxis=dict(
-                    title=dict(
-                        text="Casos Acumulados",
-                        font=dict(color="white")
-                    ),
-                    tickfont=dict(color="white"),
-                    gridcolor="rgba(255, 255, 255, 0.1)",
-                    gridwidth=0.5
-                ),
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
-                margin=dict(t=0, b=50, r=10, l=50),
-                showlegend=False,
-                separators=", "
             )
+        )
+        subplots_estados.update_layout(
+            title=dict(text=f"Casos Acumulados por Estados - {dropdown_macroregion_v}", x=0.5),
+            xaxis=dict(title="Estados"),
+            yaxis=dict(title="Casos Acumulados",gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dashdot")
         )
 
     if dropdown_map_v == "obitosAcumulado":
-        macro_title = "Óbitos Acumulados - {}".format(dropdown_macroregion_v)
-        badge_str = "Total: {}".format(formatar_valor(dff_macro["obitosAcumulado"].sum()))
-
-        bar_chart = go.Figure(
-        data=go.Bar(
-            x=dff_macro.sort_values("obitosAcumulado", ascending=True)["siglaUF"],
-            y=dff_macro.sort_values("obitosAcumulado", ascending=True)["obitosAcumulado"],
-            marker=dict(color=cores_obitos, line=dict(color="white", width=1)),
-            hovertemplate = "<b>" + dff_macro.sort_values("obitosAcumulado", ascending=True)["estado"] +
-                            "</b><br>Óbitos Acumulados: %{y:,.0f}<extra></extra>",
-            customdata=dff_macro.sort_values("obitosAcumulado", ascending=True)["siglaUF"]
-        ),
-        layout=go.Layout(
-            xaxis=dict(
-                title=dict(
-                    text="Estados",
-                    font=dict(color="white")
-                ),
-                tickfont=dict(color="white")
-            ),
-            yaxis=dict(
-                title=dict(
-                    text="Óbitos Acumulados",
-                    font=dict(color="white")
-                ),
-                tickfont=dict(color="white"),
-                gridcolor="rgba(255, 255, 255, 0.1)",
-                gridwidth=0.5
-            ),
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            margin=dict(t=0, b=50, r=10, l=50),
-            showlegend=False,
-            separators=", "
+        subplots_estados=go.Figure(
+            go.Bar(
+                x=dff_macro.sort_values("obitosAcumulado", ascending=True)["siglaUF"],
+                y=dff_macro.sort_values("obitosAcumulado", ascending=True)["obitosAcumulado"],
+                marker=dict(color=cores_obitos, line=dict(color="white", width=1)),
+                texttemplate="%{y:,.0f}",
+                hovertemplate = "<b>" + dff_macro.sort_values("obitosAcumulado", ascending=True)["estado"] +
+                                "</b><br>Óbitos Acumulados: %{y:,.0f}<extra></extra>",
+                customdata=dff_macro.sort_values("obitosAcumulado", ascending=True)["siglaUF"]
+            )
         )
+        subplots_estados.update_layout(
+            title=dict(text=f"Óbitos Acumulados por Estados - {dropdown_macroregion_v}", x=0.5),
+            xaxis=dict(title="Estados"),
+            yaxis=dict(title="Óbitos Acumulados",gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dashdot")
+        )
+        
+    if dropdown_map_v == "incidencia":
+        subplots_estados=px.scatter(
+            dff_macro,
+            x="casosAcumulado",
+            y="populacaoTCU2019",
+            size="casosAcumulado",
+            color="incidencia",
+            color_continuous_scale=cores_incidencia,
+            log_x=True,
+            log_y=True,
+            size_max=60
+        )
+        subplots_estados.update_layout(
+            title=dict(text=f"Incidência por Estados - {dropdown_macroregion_v}<br>(cada 100 mil habitantes)", x=0.5),
+            xaxis=dict(title=dict(text="Casos Acumulados"), gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dash"),
+            yaxis=dict(title=dict(text="População - 2019"), gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dash"),
+            coloraxis=dict(
+                colorbar=dict(title=dict(text="Incidência"),
+                              bgcolor="rgba(0,0,0,0)",
+                              outlinewidth=0
+                )
+            )
+        )
+        subplots_estados.update_traces(
+            hovertemplate = "<b>%{customdata[0]}</b><br>" 
+                            "População: %{customdata[1]:,.0f}<br>"
+                            "Casos: %{customdata[2]:,.0f}<br>"
+                            "Incidência: %{customdata[3]:,.2f}<br><extra></extra>",
+            customdata=dff_macro[["estado","populacaoTCU2019","casosAcumulado","incidencia"]]
+        )
+    
+    if dropdown_map_v == "mortalidade":
+        subplots_estados=px.scatter(
+            dff_macro,
+            x="obitosAcumulado",
+            y="populacaoTCU2019",
+            size="obitosAcumulado",
+            color="mortalidade",
+            color_continuous_scale=cores_mortalidade,
+            log_x=True,
+            log_y=True,
+            size_max=60
+        )
+        subplots_estados.update_layout(
+            title=dict(text=f"Mortalidade por Estados - {dropdown_macroregion_v}<br>(cada 100 mil habitantes)", x=0.5),
+            xaxis=dict(title=dict(text="Óbitos Acumulados"), gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dash"),
+            yaxis=dict(title=dict(text="População - 2019"), gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dash"),
+            coloraxis=dict(
+                colorbar=dict(title=dict(text="Mortalidade"),
+                              bgcolor="rgba(0,0,0,0)",
+                              outlinewidth=0
+                )
+            )
+        )
+        subplots_estados.update_traces(
+            hovertemplate = "<b>%{customdata[0]}</b><br>" 
+                            "População: %{customdata[1]:,.0f}<br>"
+                            "Obitos: %{customdata[2]:,.0f}<br>"
+                            "Mortalidade: %{customdata[3]:,.2f}<br><extra></extra>",
+            customdata=dff_macro[["estado","populacaoTCU2019","obitosAcumulado","mortalidade"]]
+        )
+  
+    if dropdown_map_v == "taxaLetalidade":
+        subplots_estados=go.Figure(
+            go.Barpolar(
+                r=dff_macro.sort_values("taxaLetalidade", ascending=True)["taxaLetalidade"],
+                theta=dff_macro.sort_values("taxaLetalidade", ascending=True)["estado"],
+                marker=dict(color=cores_letalidade, line=dict(color="white", width=1))
+            )
+        )
+        subplots_estados.update_layout(
+            title=dict(text=f"Letalidade por Estados - {dropdown_macroregion_v}", x=0.5),
+            polar=dict(
+                radialaxis=dict(gridcolor="#515960", gridwidth=0.5, griddash="dashdot"),
+                bgcolor="rgba(0,0,0,0)"
+            )
+        )
+        subplots_estados.update_traces(
+            hovertemplate = "<b>%{customdata[0]}</b><br>" 
+                            "Casos Acumulados: %{customdata[1]:,.0f}<br>"
+                            "Óbitos Acumulados: %{customdata[2]:,.0f}<br>"
+                            "Taxa de Letalidade: %{customdata[3]:,.2f}<br><extra></extra>",
+            customdata=dff_macro[["estado","casosAcumulado","obitosAcumulado","taxaLetalidade"]]
+        )
+       
+    subplots_estados.update_layout(
+        font=dict(color="white"),
+        plot_bgcolor="rgba(0, 0, 0, 0)", 
+        paper_bgcolor="rgba(0, 0, 0, 0)", 
+        margin=dict(t=50, b=50, l=0, r=0), 
+        showlegend=False,
+        separators=", "
     )
 
-    if dropdown_map_v == "incidencia":
-        macro_title = "Incidência - {}".format(dropdown_macroregion_v)
-        badge_str = "Incidência Média: {:.2f}".format(dff_macro["incidencia"].mean()).replace(".", ",")
-
-        bar_chart = go.Figure(
-            data=go.Bar(
-                x=dff_macro.sort_values("incidencia", ascending=True)["siglaUF"],
-                y=dff_macro.sort_values("incidencia", ascending=True)["incidencia"],
-                marker=dict(color=cores_incidencia, line=dict(color="white", width=1)),
-                text=[str(round(y, 2)).replace(".", ",") for y in dff_macro.sort_values("incidencia", ascending=True)["incidencia"]],
-                hovertemplate = "<b>" + dff_macro.sort_values("incidencia", ascending=True)["estado"] +
-                                "</b><br>incidencia: %{y:.2f}<extra></extra>",
-                customdata=dff_macro.sort_values("incidencia", ascending=True)["siglaUF"]
-            ),
-            layout=go.Layout(
-                xaxis=dict(
-                    title=dict(
-                        text="Estados",
-                        font=dict(color="white")
-                    ),
-                    tickfont=dict(color="white")
-                ),
-                yaxis=dict(
-                    title=dict(
-                        text="Incidência",
-                        font=dict(color="white")
-                    ),
-                    tickfont=dict(color="white"),
-                    gridcolor="rgba(255, 255, 255, 0.1)",
-                    gridwidth=0.5
-                ),
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
-                margin=dict(t=0, b=50, r=10, l=50),
-                showlegend=False,
-                separators=",."
-            )
-        )
-        
-        bar_chart.add_trace(
-            go.Scatter(
-                x=dff_macro["siglaUF"],
-                y=[dff_macro["incidencia"].mean()] * len(dff_macro),
-                mode="lines",
-                line=dict(color="white", dash="dashdot"),
-                hovertemplate="<b>{}</b><extra></extra>".format(badge_str)
-            )
-        )
-
-    if dropdown_map_v == "mortalidade":
-        macro_title = "Mortalidade - {}".format(dropdown_macroregion_v)
-        badge_str = "Mortalidade Média: {:.2f}".format(dff_macro["mortalidade"].mean()).replace(".", ",")
-
-        bar_chart = go.Figure(
-            data=go.Bar(
-                x=dff_macro.sort_values("mortalidade", ascending=True)["siglaUF"],
-                y=dff_macro.sort_values("mortalidade", ascending=True)["mortalidade"],
-                marker=dict(color=cores_mortalidade, line=dict(color="white", width=1)),
-                text=[str(round(y, 2)).replace(".", ",") for y in dff_macro.sort_values("mortalidade", ascending=True)["mortalidade"]],
-                hovertemplate = "<b>" + dff_macro.sort_values("mortalidade", ascending=True)["estado"] +
-                                "</b><br>Mortalidade: %{y:.2f}<extra></extra>",
-                customdata=dff_macro.sort_values("mortalidade", ascending=True)["siglaUF"]
-            ),
-            layout=go.Layout(
-                xaxis=dict(
-                    title=dict(
-                        text="Estados",
-                        font=dict(color="white")
-                    ),
-                    tickfont=dict(color="white")
-                ),
-                yaxis=dict(
-                    title=dict(
-                        text="Mortalidade",
-                        font=dict(color="white")
-                    ),
-                    tickfont=dict(color="white"),
-                    gridcolor="rgba(255, 255, 255, 0.1)",
-                    gridwidth=0.5
-                ),
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
-                margin=dict(t=0, b=50, r=10, l=50),
-                showlegend=False,
-                separators=",."
-            )
-        )
-        
-        bar_chart.add_trace(
-            go.Scatter(
-                x=dff_macro["siglaUF"],
-                y=[dff_macro["mortalidade"].mean()] * len(dff_macro),
-                mode="lines",
-                line=dict(color="white", dash="dashdot"),
-                hovertemplate="<b>{}</b><extra></extra>".format(badge_str)
-            )
-        )
-
-    if dropdown_map_v == "taxaLetalidade":
-        macro_title = "Taxa de Letalidade - {}".format(dropdown_macroregion_v)
-        badge_str = "Taxa de Letalidade Média: {:.2f} %".format(dff_macro["taxaLetalidade"].mean()).replace(".", ",")
-
-        bar_chart = go.Figure(
-            data=go.Bar(
-                x=dff_macro.sort_values("taxaLetalidade", ascending=True)["siglaUF"],
-                y=dff_macro.sort_values("taxaLetalidade", ascending=True)["taxaLetalidade"],
-                marker=dict(color=cores_letalidade, line=dict(color="white", width=1)),
-                text=[str(round(y, 2)).replace(".", ",") + "%" for y in dff_macro.sort_values("taxaLetalidade", ascending=True)["taxaLetalidade"]],
-                hovertemplate = "<b>" + dff_macro.sort_values("taxaLetalidade", ascending=True)["estado"] +
-                                "</b><br>Taxa de Letalidade: %{y:.2f} %<extra></extra>",
-                customdata=dff_macro.sort_values("taxaLetalidade", ascending=True)["siglaUF"]
-            ),
-            layout=go.Layout(
-                xaxis=dict(
-                    title=dict(
-                        text="Estados",
-                        font=dict(color="white")
-                    ),
-                    tickfont=dict(color="white")
-                ),
-                yaxis=dict(
-                    title=dict(
-                        text="Taxa de Letalidade*",
-                        font=dict(color="white")
-                    ),
-                    tickfont=dict(color="white"),
-                    gridcolor="rgba(255, 255, 255, 0.1)",
-                    gridwidth=0.5
-                ),
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
-                margin=dict(t=0, b=50, r=10, l=50),
-                showlegend=False,
-                separators=",."
-            )
-        )
-        
-        bar_chart.add_trace(
-            go.Scatter(
-                x=dff_macro["siglaUF"],
-                y=[dff_macro["taxaLetalidade"].mean()] * len(dff_macro),
-                mode="lines",
-                line=dict(color="red", dash="dashdot"),
-                hovertemplate="<b>{}</b><extra></extra>".format(badge_str)
-            )
-        )
-
-    return macro_title, badge_str, bar_chart
+    return subplots_estados
 
 
 # Callback para renderizar o mapa do Brasil
