@@ -41,7 +41,7 @@ class TopCardHeader:
                             display_format="DD/MM/YYYY"   
                         ),
                         dcc.Store(id="datepicker-store-states"),
-                        dcc.Store(id="datepicker-store-regioes")
+                        dcc.Store(id="datepicker-store-macroregion")
                     ]
                 )
             ],
