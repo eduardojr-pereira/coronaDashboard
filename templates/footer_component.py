@@ -37,8 +37,7 @@ class FooterComponent:
                     [
                         dbc.Button("Incidência", id="open-incidencia", outline=True, className="button-animation"),
                         dbc.Button("Letalidade", id="open-letalidade", outline=True, className="button-animation"),
-                        dbc.Button("Mortalidade", id="open-mortalidade", outline=True, className="button-animation"),
-                        
+                        dbc.Button("Mortalidade", id="open-mortalidade", outline=True, className="button-animation")        
                     ],
                     vertical=True
                 )
@@ -144,33 +143,40 @@ class ModalComponent:
         )
     
     def create_modal_incidencia():
-        title = "Incidência"
-        definition = html.P(
-            "Número de óbitos confirmados de COVID-19 em relação ao total de casos confirmados "
-            "na população residente em determinado espaço geográfico, no período considerado."
+        title = "Coeficiente de Incidência"
+        definition = dcc.Markdown('''
+            Número de casos confirmados de COVID-19 por 100.000 habitantes, na população residente em
+            determinado espaço geográfico, no período considerado.
+            
+            > A definição de caso confirmado de COVID-19 baseia-se em critérios adotados pelo Ministério da Saúde para orientar as ações de vigilância epidemiológica da doença em todo o país.
+        '''
         )
         interpretaion = html.P(
-            "Esta taxa dá a idéia de gravidade da doença, pois indica o percentual de pessoas "
-            "que morreram dentre os casos confirmados da doença."
+            "Estima o risco de ocorrência de casos de COVID-19 numa determinada população num período considerado."
         )
-        usage = html.P(
-            "Relacionar o número de óbitos por determinada causa e o número de pessoas que foram acometidas por tal doença. "
-            "Também pode ser utilizada para companhar a qualidade da assistência médica oferecida à população."     
+        usage = dcc.Markdown('''
+            - Analisar variações populacionais, geográficas e temporais da distribuição dos casos confirmados de COVID-19, como parte do conjunto de ações de vigilância epidemiológica da doença.
+            - Contribuir na avaliação dos níveis de saúde da população, prestando-se para comparações nacionais e internacionais.
+            - Subsidiar processos de planejamento, gestão e avaliação de políticas e ações de saúde direcionadas para a o enfrentamento do COVID-19 no contexto da prevenção e controle das doenças.
+        '''
         )
         restrictions = html.P(
-            "Depende necessariamente do número de casos diagnosticados, que no caso do COVID-19, depende da "
-            "quantidade de exames diagnósticos realizados."
+            "Depende das condições técnico-operacionais do sistema de vigilância epidemiológica, em cada área geográfica, "
+            "para detectar, notificar, investigar e realizar testes laboratoriais específicos para a confirmação diagnóstica de casos de COVID-19."
         )
-        source = html.Ul(
-            [
-                html.Li("Ministério da Saúde."),
-                html.Li("Secretaria de Vigilância à Saúde (SVS): Guia de vigilância Epidemiológica."),
-                html.Li("Secretarias Estaduais e Municipais de Saúde.")
-            ]
-        )             
+        source = dcc.Markdown(
+             '''
+                - Ministério da Saúde.
+                - Secretaria de Vigilância à Saúde (SVS): Guia de vigilância Epidemiológica.
+                - Secretarias Estaduais e Municipais de Saúde.
+                - População: Estimativas de 2019 utilizadas pelo TCU para determinação das cotas do FPM (sem sexo e faixa etária). 
+
+                > Disponível em: [DataSus.gov](https://datasus.saude.gov.br/populacao-residente/)
+             '''
+        )           
         methodology = dcc.Markdown('''
             $$
-            \\frac{\\text{Óbitos Confirmados}}{\\text{Casos Confirmados}}\\cdot{100}
+            \\frac{\\text{Casos Confirmados}}{\\text{Pop. Total Residente}}\\cdot{100000}
             $$
         ''', mathjax=True
         )
@@ -197,13 +203,16 @@ class ModalComponent:
             "Depende necessariamente do número de casos diagnosticados, que no caso do COVID-19, depende da "
             "quantidade de exames diagnósticos realizados."
         )
-        source = html.Ul(
-            [
-                html.Li("Ministério da Saúde."),
-                html.Li("Secretaria de Vigilância à Saúde (SVS): Guia de vigilância Epidemiológica."),
-                html.Li("Secretarias Estaduais e Municipais de Saúde.")
-            ]
-        )             
+        source = dcc.Markdown(
+             '''
+                - Ministério da Saúde.
+                - Secretaria de Vigilância à Saúde (SVS): Guia de vigilância Epidemiológica.
+                - Secretarias Estaduais e Municipais de Saúde.
+                - População: Estimativas de 2019 utilizadas pelo TCU para determinação das cotas do FPM (sem sexo e faixa etária). 
+
+                    > Disponível em: [DataSus.gov](https://datasus.saude.gov.br/populacao-residente/)
+             '''
+        )            
         methodology = dcc.Markdown('''
             $$
             \\frac{\\text{Óbitos Confirmados}}{\\text{Casos Confirmados}}\\cdot{100}
@@ -216,22 +225,23 @@ class ModalComponent:
         
         
     def create_modal_mortalidade():
-            title = "Mortalidade"
+            title = "Coeficiente de Mortalidade"
             definition = html.P(
-                "Número de óbitos confirmados de COVID-19 em relação ao total de casos confirmados "
-                "na população residente em determinado espaço geográfico, no período considerado."
+                "Número de óbitos por doenças COVID-19, por 100 mil habitantes, na população residente em "
+                "determinado espaço geográfico, no ano considerado."
             )
-            interpretaion = html.P(
-                "Esta taxa dá a idéia de gravidade da doença, pois indica o percentual de pessoas "
-                "que morreram dentre os casos confirmados da doença."
+            interpretaion = dcc.Markdown('''
+                - Estima o risco de morte pela COVID-19 consideradas e dimensiona a sua magnitude como problema de saúde pública.
+                - Reflete também a efetividade de medidas de prevenção e controle, bem como as condições de diagnóstico e da assistência médica dispensada.
+                - A taxa de mortalidade específica não padronizada por idade está sujeita à influência de variações na composição etária da população, o que exige cautela nas comparações entre áreas geográficas e para períodos distintos.
+            '''
             )
             usage = html.P(
-                "Relacionar o número de óbitos por determinada causa e o número de pessoas que foram acometidas por tal doença. "
-                "Também pode ser utilizada para companhar a qualidade da assistência médica oferecida à população."     
+                "Analisar variações populacionais, geográficas e temporais da mortalidade por COVID-19 em segmentos populacionais, "
+                "identificando situações de desigualdade e tendências que demandem ações e estudos específicos."
             )
             restrictions = html.P(
-                "Depende necessariamente do número de casos diagnosticados, que no caso do COVID-19, depende da "
-                "quantidade de exames diagnósticos realizados."
+                "Apresenta restrição de uso sempre que ocorra elevada proporção de óbitos sem assistência médica ou por causas mal definidas."
             )
             source = html.Ul(
                 [
@@ -242,7 +252,7 @@ class ModalComponent:
             )             
             methodology = dcc.Markdown('''
                 $$
-                \\frac{\\text{Óbitos Confirmados}}{\\text{Casos Confirmados}}\\cdot{100}
+                \\frac{\\text{Óbitos Confirmados}}{\\text{Pop. Total Residente}}\\cdot{100000}
                 $$
             ''', mathjax=True
             )

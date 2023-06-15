@@ -41,7 +41,8 @@ class TopCardHeader:
                             display_format="DD/MM/YYYY"   
                         ),
                         dcc.Store(id="datepicker-store-states"),
-                        dcc.Store(id="datepicker-store-macroregion")
+                        dcc.Store(id="datepicker-store-macroregion"),
+                        dcc.Store(id="datepicker-store-br")
                     ]
                 )
             ],
@@ -88,7 +89,7 @@ class TopCardBody:
                             [
                                 dcc.Loading(
                                     dcc.Graph(
-                                        id="line-chart-casos-brasil"
+                                        id="line-chart-casos-br"
                                     ),
                                     type=spinner_type,
                                     color=spinner_color
@@ -99,7 +100,7 @@ class TopCardBody:
                             [
                                 dcc.Loading(
                                     dcc.Graph(
-                                        id="line-chart-obitos-brasil"
+                                        id="line-chart-obitos-br"
                                     ),
                                     type=spinner_type,
                                     color=spinner_color
@@ -182,7 +183,7 @@ class LeftCardContent():
         )
 
 
-class RightCardHeader():
+class RightCardHeaderTop():
     def __init__ (self):
         self.element = dbc.Row(
             [
@@ -209,7 +210,7 @@ class RightCardHeader():
         )
 
 
-class RightCardBody():
+class RightCardBodyTop():
     def __init__ (self):
         self.element = dbc.Row(
             [                
@@ -225,17 +226,17 @@ class RightCardBody():
         )
         
 
-class RightCardContent():
+class RightCardContentTop():
     def __init__ (self):
         self.element = dbc.Card(
             [
-                dbc.CardHeader(RightCardHeader().element),
-                dbc.CardBody(RightCardBody().element)
+                dbc.CardHeader(RightCardHeaderTop().element),
+                dbc.CardBody(RightCardBodyTop().element)
             ]
         )
             
 
-class RowStatesCardHeader():
+class RightCardHeaderBottom():
     def __init__ (self):
         self.element = dbc.Row(
             [
@@ -243,11 +244,11 @@ class RowStatesCardHeader():
                 dbc.Col(
                     [
                         dcc.Dropdown(
-                            estados_df["estado"].unique(),
+                            options=[{"label": estado, "value": estado} for estado in sorted(estados_df["estado"].unique())],
                             value="São Paulo",
                             clearable=False,
                             searchable=False,
-                            id="dropdown-estado"
+                            id="dropdown-state"
                         )
                     ]
                 )
@@ -256,20 +257,20 @@ class RowStatesCardHeader():
         )
 
 
-class RowStatesCardBody():
+class RightCardBodyBottom():
     def __init__ (self):
         self.element = dbc.Row(
             [
                 dcc.Loading(
                     dcc.Graph(
-                        id="line-chart-estado"
+                        id="stacked-bar-chart"
                     ),
                     type = spinner_type,
                     color = spinner_color
                 ),
                 dcc.Loading(
                     dcc.Graph(
-                        id="stacked-bar-chart-on-hover"
+                        id="line-chart-state"
                     ),
                     type=spinner_type,
                     color= spinner_color
@@ -278,12 +279,23 @@ class RowStatesCardBody():
         )
 
 
-class RowStatesCardContent():
+class RightCardContentBottom():
     def __init__ (self):
         self.element = dbc.Card(
             [
-                dbc.CardHeader(RowStatesCardHeader().element),
-                dbc.CardBody(RowStatesCardBody().element)
+                dbc.CardHeader(RightCardHeaderBottom().element),
+                dbc.CardBody(RightCardBodyBottom().element)
+            ]
+        )
+
+
+class RightCardContent():
+    def __init__ (self):
+        self.element = html.Div(
+            [
+                RightCardContentTop().element,
+                html.Br(),
+                RightCardContentBottom().element
             ]
         )
 
@@ -356,11 +368,6 @@ class Content:
                     ]
                 ),
                 html.Br(),
-                dbc.Row(
-                    [
-                        dbc.Col(RowStatesCardContent().element)
-                    ]
-                ),
                 dbc.Row(
                     [
                         dbc.Col(LastCardContent().element)
