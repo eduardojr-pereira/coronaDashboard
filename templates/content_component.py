@@ -40,9 +40,9 @@ class TopCardHeader:
                             date=last_date,
                             display_format="DD/MM/YYYY"   
                         ),
-                        dcc.Store(id="datepicker-store-states"),
-                        dcc.Store(id="datepicker-store-macroregion"),
-                        dcc.Store(id="datepicker-store-br")
+                        dcc.Store(id="store-states-on-date"),
+                        dcc.Store(id="store-macroregion-on-date"),
+                        dcc.Store(id="store-states-until-date")
                     ]
                 )
             ],
@@ -263,14 +263,14 @@ class RightCardBodyBottom():
             [
                 dcc.Loading(
                     dcc.Graph(
-                        id="stacked-bar-chart"
+                        id="line-chart-state"
                     ),
                     type = spinner_type,
-                    color = spinner_color
+                    color = spinner_color,
                 ),
                 dcc.Loading(
                     dcc.Graph(
-                        id="line-chart-state"
+                        id="stacked-bar-chart"
                     ),
                     type=spinner_type,
                     color= spinner_color
@@ -300,57 +300,57 @@ class RightCardContent():
         )
 
 
-class LastCardContent():
-    def __init__ (self):
-        self.element = dbc.Card(
-            [
-                dbc.CardHeader(html.H4("Taxa de Letalidade", className="text-center")),
-                dbc.CardBody(
-                    [
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    [
-                                        dcc.Loading(
-                                            dcc.Graph(
-                                                id="taxaLetalidade"
-                                            ),
-                                            type = spinner_type,
-                                            color = spinner_color
-                                        )
-                                    ]
-                                ),
-                                dbc.Col(
-                                    [
-                                        dcc.Loading(
-                                            dcc.Graph(
-                                                id="alguma-coisa-aqui"
-                                            )
-                                        )
-                                    ]
-                                )
+# class LastCardContent():
+#     def __init__ (self):
+#         self.element = dbc.Card(
+#             [
+#                 dbc.CardHeader(html.H4("Taxa de Letalidade", className="text-center")),
+#                 dbc.CardBody(
+#                     [
+#                         dbc.Row(
+#                             [
+#                                 dbc.Col(
+#                                     [
+#                                         dcc.Loading(
+#                                             dcc.Graph(
+#                                                 id="taxaLetalidade"
+#                                             ),
+#                                             type = spinner_type,
+#                                             color = spinner_color
+#                                         )
+#                                     ]
+#                                 ),
+#                                 dbc.Col(
+#                                     [
+#                                         dcc.Loading(
+#                                             dcc.Graph(
+#                                                 id="alguma-coisa-aqui"
+#                                             )
+#                                         )
+#                                     ]
+#                                 )
                                 
-                            ]
-                        ),
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    [
-                                        dcc.Loading(
-                                            dcc.Graph(
-                                                id="scatter-plot-letalidade"
-                                            ),
-                                            type = spinner_type,
-                                            color = spinner_color
-                                        )
-                                    ]
-                                )
-                            ]
-                        )
-                    ]
-                )
-            ]
-        )
+#                             ]
+#                         ),
+#                         dbc.Row(
+#                             [
+#                                 dbc.Col(
+#                                     [
+#                                         dcc.Loading(
+#                                             dcc.Graph(
+#                                                 id="scatter-plot-letalidade"
+#                                             ),
+#                                             type = spinner_type,
+#                                             color = spinner_color
+#                                         )
+#                                     ]
+#                                 )
+#                             ]
+#                         )
+#                     ]
+#                 )
+#             ]
+#         )
 
 
 class Content:
@@ -370,7 +370,7 @@ class Content:
                 html.Br(),
                 dbc.Row(
                     [
-                        dbc.Col(LastCardContent().element)
+                        
                     ]
                 )
             ]
