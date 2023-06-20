@@ -478,7 +478,7 @@ def update_ranger_slider_state(dropdown_state_v, date):
             x=[casos_metropolitana, obitos_metropolitana], y=["Casos", "Óbitos"], 
             orientation="h", 
             name="Metropolitana",
-            marker = dict(color="#4C1CC8", line=dict(color="#515960", width=2)), 
+            marker = dict(color="MediumSlateBlue", line=dict(color="#ffffff", width=2)), 
             customdata=[casos_metropolitana, obitos_metropolitana],
             hovertemplate = "<br><b>%{label} - Região Metropolitana</b>"
                             "<br>Percentual: %{x:,.2f}%"
@@ -490,7 +490,7 @@ def update_ranger_slider_state(dropdown_state_v, date):
             x=[casos_interior, obitos_interior], y=["Casos", "Óbitos"], 
             orientation="h", 
             name="Interior",
-            marker = dict(color="#4C024B", line=dict(color="#515960", width=2)),
+            marker = dict(color="LemonChiffon", line=dict(color="#ffffff", width=2)),
             customdata=[casos_interior, obitos_interior],
             hovertemplate = "<br><b>%{label} - Áreas do Interior</b>"
                             "<br>Percentual: %{x:,.2f}%:"
@@ -566,10 +566,10 @@ def update_ranger_slider_state(dropdown_state_v, date):
 def update_index_charts(json_data):
     indices_df = pd.read_json(json_data)
 
-    colors1 = plotly.colors.sequential.Purples[:len(estados_df['estado'].unique())]
-    colors2 =  plotly.colors.sequential.BuPu[:len(estados_df['estado'].unique())]
-    colors3 = plotly.colors.sequential.matter[:len(estados_df['estado'].unique())]
-    colors4 = plotly.colors.sequential.Reds[:len(estados_df['estado'].unique())]
+    colors1 = plotly.colors.sequential.Purples_r[:len(estados_df['estado'].unique())]
+    colors2 =  plotly.colors.sequential.BuPu_r[:len(estados_df['estado'].unique())]
+    colors3 = plotly.colors.sequential.matter_r[:len(estados_df['estado'].unique())]
+    colors4 = plotly.colors.sequential.dense_r[:len(estados_df['estado'].unique())]
 
     scatter_gini = px.scatter(
             data_frame=indices_df,
@@ -717,7 +717,7 @@ def update_index_charts(json_data):
         matriz_correlacao,  
         text_auto=True, 
         aspect="auto", 
-        color_continuous_scale='Cividis_r'
+        color_continuous_scale='Dense'
     )
     confusion_matrix.update_layout(
         font=dict(color="white"),
