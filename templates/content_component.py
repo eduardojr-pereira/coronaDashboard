@@ -1,7 +1,5 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
-from dash.dash_table import DataTable
-from dash.dash_table.Format import Format, Scheme
 import pandas as pd
 
 # Carregar os dados

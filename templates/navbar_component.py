@@ -1,6 +1,5 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
-import pandas as pd
 
 external_stylesheets=['https://use.fontawesome.com/releases/v5.8.1/css/all.css']
 href_download_btn = "data\\raw\\HIST_PAINEL_COVIDBR_02jun2023.zip" # Atualizar diretório relativo
