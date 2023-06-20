@@ -105,12 +105,11 @@ O dataset fornece informações valiosas para acompanhar a evolução do COVID-1
 
 ### Frameworks Python utilizados no projeto:
 
-![Python](https://img.shields.io/badge/Python-3.9-informational)
-![Dash](https://img.shields.io/badge/Dash-2.10.2-critical)(https://plotly.com/dash/)
-![Dash Bootstrap Components](https://img.shields.io/badge/Dash_Bootstrap_Components-1.4.1-critical)
-!["Numpy"](https://img.shields.io/badge/NumPy-1.24.3-critical)
-![Pandas](https://img.shields.io/badge/Pandas-1.5.3-critical)
-![Plotly](https://img.shields.io/badge/Plotly-5.9.0-critical)
+<a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.9-informational"></a>
+<a href="https://plotly.com/"><img src="https://img.shields.io/badge/Plotly-5.9.0-critical"></a>
+<a href="https://plotly.com/dash/"><img src="https://img.shields.io/badge/Dash-2.10.2-critical"></a>
+<a href="https://dash-bootstrap-components.opensource.faculty.ai/"><img src="https://img.shields.io/badge/Dash_Bootstrap_Components-1.4.1-critical"></a>
+<a href="https://pandas.pydata.org/"><img src="https://img.shields.io/badge/Pandas-1.5.3-critical"></a>
 
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
@@ -122,46 +121,48 @@ O dataset fornece informações valiosas para acompanhar a evolução do COVID-1
 ```bash
 coronaDashboard/
 │
-├── .gitattributes
-├── .gitignore
-├── app.py 
-├── README.md
-├── requirements.txt
+├── 📄 .gitattributes
+├── 📄 .gitignore
+├── 📄 app.py 
+├── 📄 README.md
+├── 📄 requirements.txt
 │   
-├── assets/
-│   ├── imagens/
-│   │   ├── discord_icon.svg    
-│   │   ├── favicon.ico
-│   │   ├── github_icon.svg    
-│   │   ├── gmail_icon.svg    
-│   │   ├── linkedin_icon.svg    
-│   │   ├── logo_app.png    
-│   │   └── logo_initials.png    
-│   ├── custom_animation.css
-│   ├── custom_datepicker.css
-│   ├── custom_dropdown.css
-│   ├── custon_icon.css
-│   ├── custon_tabs.css
-│   └── CV_EduardoPereira.pdf
+├── 📂 assets/
+│   ├── 📂 imagens/
+│   │   ├── 📄 discord_icon.svg    
+│   │   ├── 📄 favicon.ico
+│   │   ├── 📄 github_icon.svg    
+│   │   ├── 📄 gmail_icon.svg    
+│   │   ├── 📄 linkedin_icon.svg    
+│   │   ├── 📄 logo_app.png    
+│   │   └── 📄 logo_initials.png    
+│   ├── 📄 custom_animation.css
+│   ├── 📄 custom_datepicker.css
+│   ├── 📄 custom_dropdown.css
+│   ├── 📄 custon_icon.css
+│   ├── 📄 custon_tabs.css
+│   └── 📄 CV_EduardoPereira.pdf
 │
-├── data/
-│   ├── processed/
-│   │   ├── covid_br_dataset.csv    
-│   │   └── covid_estados_dataset.csv
-│   └── raw/
-│       ├── brasilGeo.json    
-│       └── HIST_PAINEL_COVIDBR.zip
+├── 📂 data/
+│   ├── 📂 processed/
+│   │   ├── 📄 covid_br_dataset.csv    
+│   │   ├── 📄 covid_estados_dataset.csv
+│   │   └── 📄 indices_dataset.csv
+│   └── 📂 raw/
+│       ├── 📄 brasilGeo.json    
+│       ├── 📄 HIST_PAINEL_COVIDBR.zip
+│       └── 📄 indicesSocioeconomicos.zip
 │
-├── notebooks/
-│   └── data_clean.ipynb
+├── 📂 notebooks/
+│   └── 📄 data_clean.ipynb
 │
-├── templates/
-│   ├── content_component.py
-│   ├── footer_component.py
-│   └── navbar_component.py
+├── 📂 templates/
+│   ├── 📄 content_component.py
+│   ├── 📄 footer_component.py
+│   └── 📄 navbar_component.py
 │
-└── tests/
-    └── test_app.py
+└── 📂 tests/
+    └── 📄 test_app.py
 ```
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>

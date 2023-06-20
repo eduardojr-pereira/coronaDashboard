@@ -2,7 +2,6 @@ from templates.navbar_component import NavbarComponent, OffCanvas
 from templates.content_component import Content
 from templates.footer_component import FooterComponent, ModalComponent
 from dash import Dash, html, Input, Output, State, ctx 
-from flask_caching import Cache
 import plotly.colors 
 import plotly.graph_objects as go
 import plotly.express as px
