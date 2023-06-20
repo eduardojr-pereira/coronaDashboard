@@ -315,6 +315,7 @@ class TabsCardContent():
                 ),
                 dbc.CardBody(
                     [
+                        dcc.Store(id="indices-store"),
                         html.Div(
                             [
                                 dcc.Tabs(
@@ -390,6 +391,24 @@ class TabsCardContent():
                                             ],
                                             className="custom-tab",
                                             selected_className='custom-tab--selected'
+                                        ),
+                                        dcc.Tab(
+                                            label="Correlação",
+                                            children=[
+                                                html.Div(
+                                                    [
+                                                        dcc.Loading(
+                                                            dcc.Graph(
+                                                                id="confusion-matrix-chart"
+                                                            ),
+                                                            type=spinner_type,
+                                                            color=spinner_color
+                                                        )
+                                                    ]
+                                                )
+                                            ],
+                                            className="custom-tab",
+                                            selected_className='custom-tab--selected'
                                         )
                                      ]
                                 )
@@ -413,7 +432,7 @@ class ConfusionMatrixCardContent():
                                     [
                                         dcc.Loading(
                                             dcc.Graph(
-                                                id="matrix-corr-chart"
+                                                id="123"
                                             ),
                                             type=spinner_type,
                                             color=spinner_color

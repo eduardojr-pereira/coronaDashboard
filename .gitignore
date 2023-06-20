@@ -15,3 +15,4 @@ __pycache__/
 
 # Arquivos com extensão .csv do data/raw
 data/raw/*.csv
+data/raw/*.xls
