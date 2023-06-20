@@ -23,6 +23,7 @@ app=Dash(
 # Carregar os dados
 brasil_df = pd.read_csv("data\processed\covid_br_dataset.csv")
 estados_df = pd.read_csv("data\processed\covid_estados_dataset.csv")
+indices_df = pd.read_csv("data\processed\indices_dataset.csv")
 geo_data = json.load(open("data/raw/brasilGeo.json", "r")) 
 
 
@@ -106,6 +107,7 @@ def update_card_infos(date):
 @app.callback(
     Output("store-states-on-date", "data"),
     Output("store-macroregion-on-date", "data"),
+    Output("indices-store","data"),
     Input("datepicker","date")
 )
 def filter_on_date(date):
@@ -131,7 +133,8 @@ def filter_on_date(date):
     df_macroregion["mortalidade"] = df_macroregion["obitosAcumulado"]/df_macroregion["populacaoTCU2019"]*100000       
     df_macroregion["taxaLetalidade"] = df_macroregion["obitosAcumulado"]/df_macroregion["casosAcumulado"]*100   
 
-    return dff_states_on_date.to_json(), df_macroregion.to_json()
+    
+    return dff_states_on_date.to_json(), df_macroregion.to_json(), indices_df.to_json()
 
 
 # Callback para renderizar gráficos da evolução da pandemia no Brasil 
@@ -476,7 +479,7 @@ def update_ranger_slider_state(dropdown_state_v, date):
             x=[casos_metropolitana, obitos_metropolitana], y=["Casos", "Óbitos"], 
             orientation="h", 
             name="Metropolitana",
-            marker = dict(color="#EDBBA7"), 
+            marker = dict(color="#4C1CC8", line=dict(color="#515960", width=2)), 
             customdata=[casos_metropolitana, obitos_metropolitana],
             hovertemplate = "<br><b>%{label} - Região Metropolitana</b>"
                             "<br>Percentual: %{x:,.2f}%"
@@ -488,7 +491,7 @@ def update_ranger_slider_state(dropdown_state_v, date):
             x=[casos_interior, obitos_interior], y=["Casos", "Óbitos"], 
             orientation="h", 
             name="Interior",
-            marker = dict(color="#9CB8A0"),
+            marker = dict(color="#4C024B", line=dict(color="#515960", width=2)),
             customdata=[casos_interior, obitos_interior],
             hovertemplate = "<br><b>%{label} - Áreas do Interior</b>"
                             "<br>Percentual: %{x:,.2f}%:"
@@ -550,6 +553,191 @@ def update_ranger_slider_state(dropdown_state_v, date):
     )
 
     return bars_state, lines_state
+
+
+# Callback para renderizar gráficos relacionados aos indíces socioeconômicos
+@app.callback(
+        Output("scatter-chart-gini","figure"),
+        Output("scatter-chart-palma","figure"),
+        Output("scatter-chart-rendimento","figure"),
+        Output("scatter-chart-saude","figure"),
+        Output("confusion-matrix-chart","figure"),
+        Input("indices-store","data")
+)
+def update_index_charts(json_data):
+    indices_df = pd.read_json(json_data)
+
+    colors1 = plotly.colors.sequential.Purples[:len(estados_df['estado'].unique())]
+    colors2 =  plotly.colors.sequential.BuPu[:len(estados_df['estado'].unique())]
+    colors3 = plotly.colors.sequential.matter[:len(estados_df['estado'].unique())]
+    colors4 = plotly.colors.sequential.Reds[:len(estados_df['estado'].unique())]
+
+    scatter_gini = px.scatter(
+            data_frame=indices_df,
+            x="indiceGini",
+            y="taxaLetalidade",
+            size="incidencia",
+            color="densidadeDemografica",
+            color_continuous_scale=colors1,
+            size_max=60
+    )
+    scatter_gini.update_layout(
+        font=dict(color="white"),
+        title=dict(text=f"Índice de Gini vs. Letalidade<br>por Unidade da Federação - Brasil", x=0.5),
+        margin=dict(t=50, b=50, l=0, r=0), 
+        xaxis=dict(title="Índice de Gini", gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dashdot"),
+        yaxis=dict(title="Letalidade (Covid-19)", gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dashdot"),
+        coloraxis=dict(colorbar=dict(title=dict(text="Densidade<br>Demográfica"),bgcolor="rgba(0,0,0,0)",outlinewidth=0)),
+        plot_bgcolor="rgba(0, 0, 0, 0)", 
+        paper_bgcolor="rgba(0, 0, 0, 0)", 
+        separators=", "
+    )
+    scatter_gini.update_traces(
+        customdata=indices_df[["estado", "densidadeDemografica", "incidencia"]],
+        hovertemplate = (
+            "<b>%{customdata[0]}</b>"
+            "<br>Índice de Gini: %{x:,.2f}"
+            "<br>Taxa de Letalidade: %{y:,.2f}%"
+            "<br>Densidade Demográfica: %{customdata[1]:,.2f}"
+            "<br>Incidência: %{customdata[2]:,.2f}<extra></extra>"
+        )
+    )
+
+
+    scatter_palma = px.scatter(
+            data_frame=indices_df,
+            x="indicePalma",
+            y="taxaLetalidade",
+            size="incidencia",
+            color="densidadeDemografica",
+            color_continuous_scale=colors2,
+            size_max=60)
+    scatter_palma.update_layout(
+        font=dict(color="white"),
+        title=dict(text=f"Índice de Palma vs. Letalidade<br>por Unidade da Federação - Brasil", x=0.5),
+        margin=dict(t=50, b=50, l=0, r=0), 
+        xaxis=dict(title="Índice de Palma", gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dashdot"),
+        yaxis=dict(title="Letalidade (Covid-19)", gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dashdot"),
+        coloraxis=dict(colorbar=dict(title=dict(text="Densidade<br>Demográfica"),bgcolor="rgba(0,0,0,0)",outlinewidth=0)),
+        plot_bgcolor="rgba(0, 0, 0, 0)", 
+        paper_bgcolor="rgba(0, 0, 0, 0)", 
+        separators=", "
+    )
+    scatter_palma.update_traces(
+        customdata=indices_df[["estado", "densidadeDemografica", "incidencia"]],
+        hovertemplate = (
+            "<b>%{customdata[0]}</b>"
+            "<br>Índice de Palma: %{x:,.2f}"
+            "<br>Taxa de Letalidade: %{y:,.2f}%"
+            "<br>Densidade Demográfica: %{customdata[1]:,.2f}"
+            "<br>Incidência: %{customdata[2]:,.2f}<extra></extra>"
+        )
+    )
+
+
+    scatter_rendimento = px.scatter(
+        data_frame=indices_df,
+        x="rendimentoDomiciliar",
+        y="incidencia",
+        size="mortalidade",
+        color="densidadeDemografica",
+        color_continuous_scale=colors3,
+        size_max=60
+    )
+    scatter_rendimento.update_layout(
+        font=dict(color="white"),
+        title=dict(text=f"Rendimento Domiciliar Médio (R$) vs. Incidência<br>por Unidade da Federação - Brasil", x=0.5),
+        margin=dict(t=50, b=50, l=0, r=0), 
+        xaxis=dict(title="Rendimento Domiciliar Médio (R$)", gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dashdot"),
+        yaxis=dict(title="Incidência (Covid-19)", gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dashdot"),
+        coloraxis=dict(colorbar=dict(title=dict(text="Densidade<br>Demográfica"),bgcolor="rgba(0,0,0,0)",outlinewidth=0)),
+        plot_bgcolor="rgba(0, 0, 0, 0)", 
+        paper_bgcolor="rgba(0, 0, 0, 0)", 
+        separators=", "
+    )
+    scatter_rendimento.update_traces(
+        customdata=indices_df[["estado", "mortalidade", "densidadeDemografica"]],
+        hovertemplate=(
+            "<b>%{customdata[0]}</b>"
+            "<br>Rendimento Domiciliar Médio: R$ %{x:,.2f}"
+            "<br>Incidência: %{y:,.2f}"
+            "<br>Mortalidade: %{customdata[1]:,.2f}"
+            "<br>Densidade Demográfica: %{customdata[2]:,.2f}<extra></extra>"
+        )
+    )
+
+
+    scatter_saude = px.scatter(
+        data_frame=indices_df,
+        x="despesaMediaSaude",
+        y="incidencia",
+        size="mortalidade",
+        color="densidadeDemografica",
+        color_continuous_scale=colors4,
+        size_max=60
+    )
+    scatter_saude.update_layout(
+        font=dict(color="white"),
+        title=dict(text=f"Despesa Média com Saúde (R$) vs. Incidência<br>por Unidade da Federação - Brasil", x=0.5),
+        margin=dict(t=50, b=50, l=0, r=0), 
+        xaxis=dict(title="Despesa Média com Saúde (R$)", gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dashdot"),
+        yaxis=dict(title="Incidência (Covid-19)", gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dashdot"),
+        coloraxis=dict(colorbar=dict(title=dict(text="Densidade<br>Demográfica"),bgcolor="rgba(0,0,0,0)",outlinewidth=0)),
+        plot_bgcolor="rgba(0, 0, 0, 0)", 
+        paper_bgcolor="rgba(0, 0, 0, 0)", 
+        separators=", "
+    )
+    scatter_saude.update_traces(
+        customdata=indices_df[["estado", "mortalidade", "densidadeDemografica"]],
+        hovertemplate=(
+            "<b>%{customdata[0]}</b>"
+            "<br>Despesa Média com Saúde: R$ %{x:,.2f}"
+            "<br>Incidência: %{y:,.2f}"
+            "<br>Mortalidade: %{customdata[1]:,.2f}"
+            "<br>Densidade Demográfica: %{customdata[2]:,.2f}<extra></extra>"
+        )
+    )
+
+    # Confusion Matrix
+    cols ={
+        'rendimentoDomiciliar': 'Rendimento<br>Domiciliar',
+        'despesaMediaSaude': 'Despesa Média<br>com Saúde',
+        'indiceGini': 'Índice Gini',
+        'indicePalma': 'Índice Palma',
+        'densidadeDemografica': 'Densidade<br>Demográfica',
+        'taxaLetalidade': 'Letalidade',
+        'incidencia': 'Incidência',
+        'mortalidade': 'Mortalidade'
+    }
+    labels = list(cols.values())
+    data = list(cols.keys())
+    dados_selecionados = indices_df[data]
+    matriz_correlacao = dados_selecionados.corr()
+    
+    confusion_matrix = px.imshow(
+        matriz_correlacao,  
+        text_auto=True, 
+        aspect="auto", 
+        color_continuous_scale='Cividis_r'
+    )
+    confusion_matrix.update_layout(
+        font=dict(color="white"),
+        title=dict(text=f"Análise de Correlação entre os Indicadores", x=0.544),
+        margin=dict(t=50, b=10, l=0, r=0), 
+        xaxis=dict(tickvals=list(range(len(data))), ticktext=labels, tickangle=15),
+        yaxis=dict(tickvals=list(range(len(data))), ticktext=labels),
+        coloraxis_showscale=False,
+        plot_bgcolor="rgba(0, 0, 0, 0)", 
+        paper_bgcolor="rgba(0, 0, 0, 0)", 
+        separators=", "
+    )
+    confusion_matrix.update_traces(
+        texttemplate='%{z:,.2f}',
+        hovertemplate=("x = %{x}<br>y = %{y}<br><b>Correlação:</b> %{z}<extra></extra>"),
+        hoverlabel=dict(bgcolor="#515960")
+    )
+
+    return scatter_gini, scatter_palma, scatter_rendimento, scatter_saude, confusion_matrix
 
 
 # Callback para renderizar o mapa do Brasil
@@ -681,7 +869,7 @@ register_offcanvas_callback("open-frameworks", "open-frameworks-footer", "offcan
 register_offcanvas_callback("open-dados", "open-dados-footer", "offcanvas-dados")
 
 
-# Callbacks para abrir/registrar Modal´s (Incidência, Letalidade, Mortalidade)
+# Callbacks para abrir/registrar Modal´s (Índices de Gilme e Palma, Incidência, Mortalidade, Letalidade)
 def register_modal_callback(open_id, modal_id):
     @app.callback(
         Output(modal_id, "is_open"),
