@@ -85,7 +85,7 @@ O dataset fornece informações valiosas para acompanhar a evolução do COVID-1
 |16|emAcompanhamentoNovos|float64|Número de casos que estão em acompanhamento na data|
 |17|interior/metropolitana|float64|Código binário que indica se uma determinada região é classificada como metropolitana (valor 1) ou interior (valor 0)|
 
-*Fonte dos dados:* [Portal Brasileiro de Dados Abertos](https://dados.gov.br/home "Fonte: dataSUS")
+*Fonte dos dados:* [Ministério da Saúde](https://www.gov.br/saude/pt-br/composicao/seidigi/demas/covid19 "Fonte dos dados")
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
