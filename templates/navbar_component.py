@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 
 external_stylesheets=['https://use.fontawesome.com/releases/v5.8.1/css/all.css']
-
+href_download_btn = "data\\raw\\HIST_PAINEL_COVIDBR_02jun2023.zip" # Atualizar diretório relativo
 
 class LogoInitials:
     def __init__(self):
@@ -361,7 +361,7 @@ class OffCanvas:
                         ),
                         dbc.Button(
                             "Download",
-                            href="data//raw//HIST_PAINEL_COVIDBR_25mai2023.zip",                       
+                            href=href_download_btn,                       
                             download="covid_dataset.zip",
                             external_link=True,
                             title="Baixar os dados brutos",

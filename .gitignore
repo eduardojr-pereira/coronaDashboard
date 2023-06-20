@@ -1,6 +1,7 @@
 # Arquivos e diretórios a serem ignorados pelo Git
 # Arquivos de configuração local
 .config/
+.vscode/
 
 # Dependências de pacotes
 coronaDash_env/
@@ -11,3 +12,6 @@ __pycache__/
 
 # Arquivos de log
 *.log
+
+# Arquivos com extensão .csv do data/raw
+data/raw/*.csv

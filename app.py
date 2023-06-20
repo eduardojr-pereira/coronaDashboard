@@ -1,8 +1,8 @@
 from templates.navbar_component import NavbarComponent, OffCanvas
 from templates.content_component import Content
 from templates.footer_component import FooterComponent, ModalComponent
-from dash import ctx, Dash, html, Input, Output, State 
-from plotly.subplots import make_subplots
+from dash import Dash, html, Input, Output, State, ctx 
+from flask_caching import Cache
 import plotly.colors 
 import plotly.graph_objects as go
 import plotly.express as px
@@ -24,14 +24,13 @@ app=Dash(
 brasil_df = pd.read_csv("data\processed\covid_br_dataset.csv")
 estados_df = pd.read_csv("data\processed\covid_estados_dataset.csv")
 geo_data = json.load(open("data/raw/brasilGeo.json", "r")) 
-#geo_data["features"][0].keys()
 
 
 # Padronizar cores
 cores_casos = plotly.colors.sequential.OrRd[:len(estados_df['estado'].unique())]
 cores_obitos = plotly.colors.sequential.Brwnyl[:len(estados_df['estado'].unique())]
-cores_incidencia = plotly.colors.sequential.amp[:len(estados_df['estado'].unique())]
-cores_mortalidade = plotly.colors.sequential.Burg[:len(estados_df['estado'].unique())]
+cores_incidencia = plotly.colors.sequential.Burg[:len(estados_df['estado'].unique())]
+cores_mortalidade = plotly.colors.sequential.amp[:len(estados_df['estado'].unique())]
 cores_letalidade = plotly.colors.sequential.Redor[:len(estados_df['estado'].unique())]
 
 
@@ -46,9 +45,11 @@ app.layout=html.Div(
         Content.create_content(),
         html.Br(),
         FooterComponent().create_footer(),
+        ModalComponent.create_modal_gini(),
+        ModalComponent.create_modal_palma(),
         ModalComponent.create_modal_incidencia(),
-        ModalComponent.create_modal_letalidade(),
-        ModalComponent.create_modal_mortalidade()
+        ModalComponent.create_modal_mortalidade(),
+        ModalComponent.create_modal_letalidade()
     ]
 )
 
@@ -62,7 +63,6 @@ app.layout=html.Div(
         Output("em-acompanhamento-texto", "children"),
         Output("obitos-acumulados-na-data","children"),
         Output("novos-obitos-texto","children"),
-        Output("mapa-texto", "children"),
         Output("last-update-texto", "children"),
         Input("datepicker", "date"),
 )
@@ -89,7 +89,6 @@ def update_card_infos(date):
     
     
     data_formatada = pd.to_datetime(date).strftime('%d/%m/%Y')
-    mapa_texto = "Valores atualizados até a data selecionada: {}".format(data_formatada)
     last_update_texto = "Última atualização {}".format(pd.to_datetime(brasil_df["data"].max()).strftime("%d/%m/%Y"))
 
     return (
@@ -99,7 +98,6 @@ def update_card_infos(date):
         em_acompanhamento_texto,
         obitos_acumulados_na_data,
         novos_obitos_texto,
-        mapa_texto,
         last_update_texto
     )
 
@@ -629,20 +627,22 @@ def update_map(dropdown_map_v, json_data):
             marker_line_width=0.5,
             hovertemplate=hover_template,
             customdata=custom_data,
-            colorbar=dict(title=colorbar_title)
+            colorbar=dict(title=dict(text=colorbar_title, side="top"), orientation="h", xanchor="center", yanchor="bottom", x=0.5, y=-0.15)
         )
     )
     map_chart.update_layout(
         font=dict(color="white"),
         margin=dict(r=0, l=0, t=0, b=0),
-        mapbox_center=dict(lat=-15, lon=-55),
+        mapbox_center=dict(lat=-15, lon=-54),
         mapbox_style="carto-positron",
-        mapbox_zoom=3,
+        mapbox_zoom=3.35,
+        height=700,
         paper_bgcolor="rgba(0, 0, 0, 0)",
         plot_bgcolor="rgba(0, 0, 0, 0)",
         separators=", "
     )
-    
+    map_chart.update_geos(framecolor="rgba(0,0,0,0)")
+
     return map_chart
 
 
@@ -694,9 +694,11 @@ def register_modal_callback(open_id, modal_id):
             if button_id == open_id:
                 return not is_open
         return is_open
+register_modal_callback("open-gini","modal-gini")
+register_modal_callback("open-palma","modal-palma")
 register_modal_callback("open-incidencia","modal-incidencia")
-register_modal_callback("open-letalidade","modal-letalidade")
 register_modal_callback("open-mortalidade","modal-mortalidade")
+register_modal_callback("open-letalidade","modal-letalidade")
 
 
 # Iniciar o servidor do aplicativo Dash
