@@ -1,12 +1,13 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
+from dash.dash_table import DataTable
+from dash.dash_table.Format import Format, Scheme
 import pandas as pd
 
 # Carregar os dados
-estados_df = pd.read_csv("data/processed/covid_estados_dataset.csv", usecols=["estado"])
-brasil_df = pd.read_csv("data/processed/covid_br_dataset.csv", usecols=["data"])
-first_date = brasil_df["data"].min()
-last_date = brasil_df["data"].max()
+estados_df = pd.read_csv("data/processed/covid_estados_dataset.csv", usecols=["data", "estado"])
+first_date = estados_df["data"].min()
+last_date = estados_df["data"].max()
 
 # Determinar padrões para o spinner
 spinner_color = "BurlyWood"
@@ -62,6 +63,8 @@ class TopCardBody:
                                 html.H2(id="casos-acumulados-na-data", style={"color":"#F7A177"}),
                                 html.H6(id="novos-casos-texto")
                             ],
+                            md=4,
+                            sm=12,
                             style={"border-right":"2px solid #515960"}
                         ),
                         dbc.Col(
@@ -70,6 +73,8 @@ class TopCardBody:
                                 html.H2(id="total-recuperados", style={"color":"#3FA8CA"}),
                                 html.H6(id="em-acompanhamento-texto")   
                             ],
+                            md=4,
+                            sm=12,
                             style={"border-right":"2px solid #515960"}
                         ),
                         dbc.Col(
@@ -141,7 +146,8 @@ class LeftCardHeader():
                             ],
                             value="casosAcumulado",
                             clearable=False,
-                            searchable=False
+                            searchable=False,
+                            className="custom-dropdown"
                         )
                     ]
                 )
@@ -167,129 +173,126 @@ class LeftCardBody():
                     ),
                     type = spinner_type,
                     color = spinner_color
-                ),
-                html.P(id="mapa-texto", className="text-center text-secondary mt-0 mb-0")
+                )
             ]
         )
 
 
-class LeftCardContent():
+class MainLeftContent():
     def __init__ (self):
         self.element = dbc.Card(
             [
                 dbc.CardHeader(LeftCardHeader().element),
                 dbc.CardBody(LeftCardBody().element)
-            ]
-        )
-
-
-class RightCardHeaderTop():
-    def __init__ (self):
-        self.element = dbc.Row(
-            [
-                dbc.Col(html.P("Selecione uma Macroregião", className="d-flex justify-content-end text-light m-0")),
-                dbc.Col(
-                    [
-                        dcc.Dropdown(
-                            id="dropdown-macroregion",
-                            options = [
-                                {"label":"Norte", "value":"Norte"},
-                                {"label":"Nordeste", "value":"Nordeste"},
-                                {"label":"Centro-Oeste", "value":"Centro-Oeste"},
-                                {"label":"Sudeste", "value":"Sudeste"},
-                                {"label":"Sul", "value":"Sul"}
-                            ],
-                            value="Sudeste",
-                            clearable=False,
-                            searchable=False
-                        )
-                    ]
-                )
             ],
-            className="d-flex align-items-center"
+            className="h-100"
         )
 
-
-class RightCardBodyTop():
-    def __init__ (self):
-        self.element = dbc.Row(
-            [                
-                dcc.Loading(
-                    dcc.Graph(
-                        id="subplots-states"
-                    ),
-                    type=spinner_type,
-                    color= spinner_color
-                )
-            ],
-            className="text-center"
-        )
-        
 
 class RightCardContentTop():
     def __init__ (self):
         self.element = dbc.Card(
             [
-                dbc.CardHeader(RightCardHeaderTop().element),
-                dbc.CardBody(RightCardBodyTop().element)
-            ]
-        )
-            
-
-class RightCardHeaderBottom():
-    def __init__ (self):
-        self.element = dbc.Row(
-            [
-                dbc.Col(html.P("Selecione um Estado", className="d-flex justify-content-end text-light m-0")),
-                dbc.Col(
+                dbc.CardHeader(
                     [
-                        dcc.Dropdown(
-                            options=[{"label": estado, "value": estado} for estado in sorted(estados_df["estado"].unique())],
-                            value="São Paulo",
-                            clearable=False,
-                            searchable=False,
-                            id="dropdown-state"
+                        dbc.Row(
+                            [
+                                dbc.Col(html.P("Selecione uma Macroregião", className="d-flex justify-content-end text-light m-0")),
+                                dbc.Col(
+                                    [
+                                        dcc.Dropdown(
+                                            id="dropdown-macroregion",
+                                            options = [
+                                                {"label":"Norte", "value":"Norte"},
+                                                {"label":"Nordeste", "value":"Nordeste"},
+                                                {"label":"Centro-Oeste", "value":"Centro-Oeste"},
+                                                {"label":"Sudeste", "value":"Sudeste"},
+                                                {"label":"Sul", "value":"Sul"}
+                                            ],
+                                            value="Sudeste",
+                                            clearable=False,
+                                            searchable=False,
+                                            className="custom-dropdown"
+                                        )
+                                    ]
+                                )
+                            ],
+                            className="d-flex align-items-center"
+                        )
+                    ]
+                ),
+                dbc.CardBody(
+                    [
+                        dbc.Row(
+                            [                
+                                dcc.Loading(
+                                    dcc.Graph(
+                                        id="subplots-states"
+                                    ),
+                                    type=spinner_type,
+                                    color= spinner_color
+                                )
+                            ],
+                            className="text-center"
                         )
                     ]
                 )
-            ],
-            className="d-flex align-items-center"
-        )
-
-
-class RightCardBodyBottom():
-    def __init__ (self):
-        self.element = dbc.Row(
-            [
-                dcc.Loading(
-                    dcc.Graph(
-                        id="line-chart-state"
-                    ),
-                    type = spinner_type,
-                    color = spinner_color,
-                ),
-                dcc.Loading(
-                    dcc.Graph(
-                        id="stacked-bar-chart"
-                    ),
-                    type=spinner_type,
-                    color= spinner_color
-                )
             ]
         )
-
+            
 
 class RightCardContentBottom():
     def __init__ (self):
         self.element = dbc.Card(
             [
-                dbc.CardHeader(RightCardHeaderBottom().element),
-                dbc.CardBody(RightCardBodyBottom().element)
+                dbc.CardHeader(
+                    [
+                        dbc.Row(
+                            [
+                                dbc.Col(html.P("Selecione um Estado", className="d-flex justify-content-end text-light m-0")),
+                                dbc.Col(
+                                    [
+                                        dcc.Dropdown(
+                                            options=[{"label": estado, "value": estado} for estado in sorted(estados_df["estado"].unique())],
+                                            value="São Paulo",
+                                            clearable=False,
+                                            searchable=False,
+                                            id="dropdown-state"
+                                        )
+                                    ]
+                                )
+                            ],
+                            className="d-flex align-items-center"
+                        )
+                    ]
+                ),
+                dbc.CardBody(
+                    [
+                        dbc.Row(
+                            [
+                                dcc.Loading(
+                                    dcc.Graph(
+                                        id="line-chart-state"
+                                    ),
+                                    type = spinner_type,
+                                    color = spinner_color,
+                                ),
+                                dcc.Loading(
+                                    dcc.Graph(
+                                        id="stacked-bar-chart"
+                                    ),
+                                    type=spinner_type,
+                                    color= spinner_color
+                                )
+                            ]
+                        )
+                    ]
+                )
             ]
         )
+        
 
-
-class RightCardContent():
+class MainRightContent():
     def __init__ (self):
         self.element = html.Div(
             [
@@ -300,57 +303,130 @@ class RightCardContent():
         )
 
 
-# class LastCardContent():
-#     def __init__ (self):
-#         self.element = dbc.Card(
-#             [
-#                 dbc.CardHeader(html.H4("Taxa de Letalidade", className="text-center")),
-#                 dbc.CardBody(
-#                     [
-#                         dbc.Row(
-#                             [
-#                                 dbc.Col(
-#                                     [
-#                                         dcc.Loading(
-#                                             dcc.Graph(
-#                                                 id="taxaLetalidade"
-#                                             ),
-#                                             type = spinner_type,
-#                                             color = spinner_color
-#                                         )
-#                                     ]
-#                                 ),
-#                                 dbc.Col(
-#                                     [
-#                                         dcc.Loading(
-#                                             dcc.Graph(
-#                                                 id="alguma-coisa-aqui"
-#                                             )
-#                                         )
-#                                     ]
-#                                 )
-                                
-#                             ]
-#                         ),
-#                         dbc.Row(
-#                             [
-#                                 dbc.Col(
-#                                     [
-#                                         dcc.Loading(
-#                                             dcc.Graph(
-#                                                 id="scatter-plot-letalidade"
-#                                             ),
-#                                             type = spinner_type,
-#                                             color = spinner_color
-#                                         )
-#                                     ]
-#                                 )
-#                             ]
-#                         )
-#                     ]
-#                 )
-#             ]
-#         )
+class TabsCardContent():
+    def __init__(self):
+        self.element = dbc.Card(
+            [
+                dbc.CardHeader(
+                    [
+                        html.P("Indicadores Socioeconômicos no Contexto da Pré-Pandemia de Covid-19", style={"font-size":"20px", "margin":10})
+                    ],
+                    className="text-center text-light m-0 p-0"
+                ),
+                dbc.CardBody(
+                    [
+                        html.Div(
+                            [
+                                dcc.Tabs(
+                                    [
+                                        dcc.Tab(
+                                            label="Índice de Gini",
+                                            children=[
+                                                html.Div(
+                                                    [
+                                                        dcc.Loading(
+                                                            dcc.Graph(
+                                                                id="scatter-chart-gini"
+                                                            ),
+                                                            type=spinner_type,
+                                                            color=spinner_color
+                                                        )
+                                                    ]
+                                                )
+                                            ],
+                                            className="custom-tab",
+                                            selected_className='custom-tab--selected'
+                                        ),
+                                        dcc.Tab(
+                                            label="Índice de Palma",
+                                            children=[
+                                                html.Div(
+                                                    [
+                                                        dcc.Loading(
+                                                            dcc.Graph(
+                                                                id="scatter-chart-palma"
+                                                            ),
+                                                            type=spinner_type,
+                                                            color=spinner_color
+                                                        )
+                                                    ]
+                                                )
+                                            ],
+                                            className="custom-tab",
+                                            selected_className='custom-tab--selected'
+                                        ),
+                                        dcc.Tab(
+                                            label="Rendimento Médio per capita",
+                                            children=[
+                                                html.Div(
+                                                    [
+                                                        dcc.Loading(
+                                                            dcc.Graph(
+                                                                id="scatter-chart-rendimento"
+                                                            ),
+                                                            type=spinner_type,
+                                                            color=spinner_color
+                                                        )
+                                                    ]
+                                                )
+                                            ],
+                                            className="custom-tab",
+                                            selected_className='custom-tab--selected'
+                                        ),
+                                        dcc.Tab(
+                                            label="Despesa Média com Saúde",
+                                            children=[
+                                                html.Div(
+                                                    [
+                                                        dcc.Loading(
+                                                            dcc.Graph(
+                                                                id="scatter-chart-saude"
+                                                            ),
+                                                            type=spinner_type,
+                                                            color=spinner_color
+                                                        )
+                                                    ]
+                                                )
+                                            ],
+                                            className="custom-tab",
+                                            selected_className='custom-tab--selected'
+                                        )
+                                     ]
+                                )
+                            ]
+                        )
+                    ]
+                )
+            ]
+        )
+
+
+class ConfusionMatrixCardContent():
+    def __init__(self):
+        self.element = dbc.Card(
+            [
+                dbc.CardBody(
+                    [
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    [
+                                        dcc.Loading(
+                                            dcc.Graph(
+                                                id="matrix-corr-chart"
+                                            ),
+                                            type=spinner_type,
+                                            color=spinner_color
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                    ]
+                )
+            ],
+            style={"height":"100%"}
+        )
 
 
 class Content:
@@ -363,14 +439,38 @@ class Content:
                 html.Br(),
                 dbc.Row(
                     [
-                        dbc.Col(LeftCardContent().element),
-                        dbc.Col(RightCardContent().element)
+                        dbc.Col(
+                            [
+                                MainLeftContent().element
+                            ],
+                            md=6,
+                            sm=12
+                            
+                        ),
+                        dbc.Col(
+                            [
+                                MainRightContent().element
+                            ]
+                        )
                     ]
                 ),
                 html.Br(),
                 dbc.Row(
                     [
-                        
+                        dbc.Col(
+                            [
+                                TabsCardContent().element
+                            ],
+                            md=8,
+                            sm=12
+                        ),
+                        dbc.Col(
+                            [
+                                ConfusionMatrixCardContent().element
+                            ],
+                            md=4,
+                            sm=12
+                        )
                     ]
                 )
             ]

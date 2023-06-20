@@ -106,18 +106,18 @@ O dataset fornece informações valiosas para acompanhar a evolução do COVID-1
 ### Frameworks Python utilizados no projeto:
 
 ![Python](https://img.shields.io/badge/Python-3.9-informational)
-!["Numpy"](https://img.shields.io/badge/NumPy-1.20.3-critical)
-![Pandas](https://img.shields.io/badge/Pandas-1.3.0-critical)
-![Dash](https://img.shields.io/badge/Dash-2.10.2-critical)
+![Dash](https://img.shields.io/badge/Dash-2.10.2-critical)(https://plotly.com/dash/)
 ![Dash Bootstrap Components](https://img.shields.io/badge/Dash_Bootstrap_Components-1.4.1-critical)
-![Plotly](https://img.shields.io/badge/Plotly-5.11.0-critical)
-![Flask](https://img.shields.io/badge/Flask-2.1.0-critical)
+!["Numpy"](https://img.shields.io/badge/NumPy-1.24.3-critical)
+![Pandas](https://img.shields.io/badge/Pandas-1.5.3-critical)
+![Plotly](https://img.shields.io/badge/Plotly-5.9.0-critical)
+
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
 <hr>
 
-## Estrutura de diretórios
+## Estrutura de arquivos e pastas
 
 ```bash
 coronaDashboard/
@@ -141,6 +141,7 @@ coronaDashboard/
 │   ├── custom_datepicker.css
 │   ├── custom_dropdown.css
 │   ├── custon_icon.css
+│   ├── custon_tabs.css
 │   └── CV_EduardoPereira.pdf
 │
 ├── data/
@@ -149,17 +150,10 @@ coronaDashboard/
 │   │   └── covid_estados_dataset.csv
 │   └── raw/
 │       ├── brasilGeo.json    
-│       ├── HIST_PAINEL_COVIDBR_02jun2023.zip    
-│       ├── HIST_PAINEL_COVIDBR_2020_Parte1_02jun2023.csv
-│       ├── HIST_PAINEL_COVIDBR_2020_Parte2_02jun2023.csv
-│       ├── HIST_PAINEL_COVIDBR_2021_Parte1_02jun2023.csv
-│       ├── HIST_PAINEL_COVIDBR_2021_Parte2_02jun2023.csv
-│       ├── HIST_PAINEL_COVIDBR_2022_Parte1_02jun2023.csv
-│       ├── HIST_PAINEL_COVIDBR_2022_Parte2_02jun2023.csv
-│       └── HIST_PAINEL_COVIDBR_2023_Parte1_02jun2023.csv
+│       └── HIST_PAINEL_COVIDBR.zip
 │
 ├── notebooks/
-│   └── data_generation.ipynb
+│   └── data_clean.ipynb
 │
 ├── templates/
 │   ├── content_component.py
@@ -237,8 +231,7 @@ Contribuições serão bem-vindas via ***pull requests***. Tenha certeza que os 
 ## Possíveis implementações futuras
 
 - [ ] Web Scraping para realizar a atualização automática dos dados.
-- [ ] Criar script js para configurar o set.locale no plotly.js e traduzir as datas para pt-br.
-- [ ] Verificar correlação entre as variáveis.
+- [ ] Configurar o set.locale no plotly.js e traduzir as datas para pt-br.
 - [ ] Utilizar _Clustering Models_ para identificar padrões intrínsecos nos dados.
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>

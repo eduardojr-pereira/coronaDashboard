@@ -1,0 +1,56 @@
+.custom-tab {
+    color: #515960;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-top: 3px solid transparent !important;
+    border-left: 0px !important;
+    border-right: 0px !important;
+    border-bottom: 1px solid #ffffff !important;
+    background-color: #32383e !important;
+    padding: 12px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+  }
+  
+  .custom-tab--selected {
+    color: #ffffff !important;
+    background-color: #515960 !important;
+    border-top: 3px solid #ffffff !important;
+    border-left: 1px solid #ffffff !important;
+    border-right: 1px solid #ffffff !important;
+    font-weight: bold;
+  }
+  
+  .custom-tab--selected::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .custom-tab:hover {
+    background-color: #272b30 !important;
+    color:#ffffff;
+    cursor: pointer;
+  }
+  
+  .custom-tab:hover::before {
+    width: 100%;
+  }
+  
+  .custom-tab--selected:hover {
+    background-color: #272b30 !important;
+    color:#ffffff
+  }
+  
+  .custom-tab--selected:hover::before {
+    width: 0;
+  }
