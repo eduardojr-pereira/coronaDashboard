@@ -68,20 +68,13 @@ app.layout=html.Div(
 )
 def update_card_infos(date):
     dff = brasil_df[brasil_df["data"]==date]
-<<<<<<< HEAD
     
-=======
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
     # Função para formatar valores a serem exibidos
     def formatar_valor(valor):
         if pd.isna(valor):
             return "-"
         return str(f"{int(valor):,}".replace(",", " "))
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
     casos_acumulados_na_data = formatar_valor(dff["casosAcumulado"].values[0])
     novos_casos_na_data = formatar_valor(dff["casosNovos"].values[0])
     novos_casos_texto = "Novos casos na data: {}".format(novos_casos_na_data)
@@ -94,11 +87,6 @@ def update_card_infos(date):
     novos_obitos_na_data = formatar_valor(dff["obitosNovos"].values[0])
     novos_obitos_texto = "Novos óbitos na data: {}".format(novos_obitos_na_data)
     
-<<<<<<< HEAD
-=======
-    
-    data_formatada = pd.to_datetime(date).strftime('%d/%m/%Y')
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
     last_update_texto = "Última atualização {}".format(pd.to_datetime(brasil_df["data"].max()).strftime("%d/%m/%Y"))
 
     return (
@@ -351,11 +339,7 @@ def update_subplots_macro(dropdown_map_v, json_data):
     subplots_macroregion.update_layout(
         font=dict(color="white"),
         title=dict(text=title_temp, x=0.5),
-<<<<<<< HEAD
         margin=dict(t=50, b=25, l=0, r=0), 
-=======
-        margin=dict(t=50, b=50, l=0, r=0), 
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
         showlegend=False,
         plot_bgcolor="rgba(0, 0, 0, 0)", 
         paper_bgcolor="rgba(0, 0, 0, 0)", 
@@ -426,11 +410,7 @@ def update_ranger_slider_state(dropdown_state_v, date):
             x=[casos_metropolitana, obitos_metropolitana], y=["Casos", "Óbitos"], 
             orientation="h", 
             name="Metropolitana",
-<<<<<<< HEAD
             marker = dict(color="#789797", line=dict(color="#515960", width=2)), 
-=======
-            marker = dict(color="MediumSlateBlue", line=dict(color="#ffffff", width=2)), 
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
             customdata=[casos_metropolitana, obitos_metropolitana],
             hovertemplate = "<br><b>%{label} na Região Metropolitana</b>"
                             "<br>Percentual: %{x:,.2f}%"
@@ -442,11 +422,7 @@ def update_ranger_slider_state(dropdown_state_v, date):
             x=[casos_interior, obitos_interior], y=["Casos", "Óbitos"], 
             orientation="h", 
             name="Interior",
-<<<<<<< HEAD
             marker = dict(color="#325B6C", line=dict(color="#515960", width=2)),
-=======
-            marker = dict(color="LemonChiffon", line=dict(color="#ffffff", width=2)),
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
             customdata=[casos_interior, obitos_interior],
             hovertemplate = "<br><b>%{label} em Áreas do Interior</b>"
                             "<br>Percentual: %{x:,.2f}%:"
@@ -487,11 +463,7 @@ def update_ranger_slider_state(dropdown_state_v, date):
         title=dict(text=f"Dinâmica dos Casos<br>e Óbitos Acumulados - {dropdown_state_v}", x=0.5, y=0.95, xanchor="center", yanchor="top"),
         xaxis=dict(title="Data", rangeslider=dict(visible=True), gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dashdot"),
         yaxis2=dict(overlaying="y", side="right", gridcolor="rgba(255,255,255,0.1)", gridwidth=0.5, griddash="dashdot"),
-<<<<<<< HEAD
         margin=dict(t=80, b=50, r=10, l=50),  
-=======
-        margin=dict(t=80, b=60, r=10, l=50),  
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
         legend=dict(x=0.5, y=1.15, xanchor="center", yanchor="top", orientation="h"),
         hovermode="x unified",
         **layout_config
@@ -511,11 +483,7 @@ def update_ranger_slider_state(dropdown_state_v, date):
     lines_state_new.update_layout(
         title=dict(text=f"Novos Registros por Data - {dropdown_state_v}", x=0.5),
         xaxis=dict(title="Data", rangeslider=dict(visible=True), gridcolor="rgba(255, 255, 255, 0.1)", gridwidth=0.5, griddash="dashdot"),
-<<<<<<< HEAD
         margin=dict(t=80, b=50, r=10, l=50),
-=======
-        margin=dict(t=80, b=60, r=10, l=50),
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
         legend=dict(x=0.475, y=1.15, xanchor="center", yanchor="top", orientation="h"),
         hovermode="x unified",
         **layout_config
@@ -567,10 +535,6 @@ def update_index_charts(json_data):
         )
     )
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
     scatter_palma = px.scatter(
             data_frame=indices_df,
             x="indicePalma",
@@ -601,10 +565,6 @@ def update_index_charts(json_data):
         )
     )
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
     scatter_rendimento = px.scatter(
         data_frame=indices_df,
         x="rendimentoDomiciliar",
@@ -636,10 +596,6 @@ def update_index_charts(json_data):
         )
     )
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
     scatter_saude = px.scatter(
         data_frame=indices_df,
         x="despesaMediaSaude",
@@ -775,10 +731,6 @@ def update_map(dropdown_map_v, json_data):
                           "<br><b>Taxa de Letalidade: %{customdata[3]:,.2f}%</b><extra></extra>"
         )
         
-<<<<<<< HEAD
-=======
-
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
     map_chart = go.Figure(
         go.Choroplethmapbox(
             geojson=geo_data,
@@ -791,11 +743,7 @@ def update_map(dropdown_map_v, json_data):
             marker_line_width=0.5,
             hovertemplate=hover_template,
             customdata=custom_data,
-<<<<<<< HEAD
             colorbar=dict(title=dict(text=colorbar_title, side="bottom"), orientation="h", xanchor="center", yanchor="bottom", x=0.5, y=0.98)
-=======
-            colorbar=dict(title=dict(text=colorbar_title, side="bottom"), orientation="h", xanchor="center", yanchor="bottom", x=0.5, y=1.15)
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
         )
     )
     map_chart.update_layout(
@@ -804,19 +752,11 @@ def update_map(dropdown_map_v, json_data):
         mapbox_center=dict(lat=-15, lon=-54),
         mapbox_style="carto-positron",
         mapbox_zoom=3.35,
-<<<<<<< HEAD
         height=670,
-=======
-        height=700,
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
         paper_bgcolor="rgba(0, 0, 0, 0)",
         plot_bgcolor="rgba(0, 0, 0, 0)",
         separators=", "
     )
-<<<<<<< HEAD
-
-=======
->>>>>>> 5f235899277fb8f0ee4b45bce750955fd4587af8
     return map_chart
 
 
