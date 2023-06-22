@@ -11,6 +11,25 @@ last_date = estados_df["data"].max()
 spinner_color = "BurlyWood"
 spinner_type = "dot"
 
+# Determinar padrão para a modebar nos gráficos (Apenas Botão de Download)
+modebar_config={
+    "modeBarButtonsToRemove": [
+        "sendDataToCloud",
+        "zoom2d",
+        "pan2d",
+        "select2d",
+        "lasso2d",
+        "zoomIn2d",
+        "zoomOut2d",
+        "resetScale2d",
+        "hoverClosestCartesian",
+        "hoverCompareCartesian",
+        "toggleSpikelines",
+        "autoScale2d"
+    ]
+}
+
+
 class Header:
     def __init__(self, title, *subtitle):
         self.title = title
@@ -58,7 +77,7 @@ class TopContent:
                                 dbc.Col(
                                     [
                                         html.H5("Casos Acumulados"),
-                                        html.H2(id="casos-acumulados-na-data", style={"color":"#F7A177"}),
+                                        html.H2(id="casos-acumulados-na-data", style={"color":"#E6C1A6"}),
                                         html.H6(id="novos-casos-texto")
                                     ],
                                     md=4,
@@ -68,7 +87,7 @@ class TopContent:
                                 dbc.Col(
                                     [
                                         html.H5("Casos Recuperados"),
-                                        html.H2(id="total-recuperados", style={"color":"#3FA8CA"}),
+                                        html.H2(id="total-recuperados", style={"color":"#508186"}),
                                         html.H6(id="em-acompanhamento-texto")   
                                     ],
                                     md=4,
@@ -78,7 +97,7 @@ class TopContent:
                                 dbc.Col(
                                     [
                                         html.H5("Óbitos Acumulados"),
-                                        html.H2(id="obitos-acumulados-na-data", style={"color":"#A93948"}),
+                                        html.H2(id="obitos-acumulados-na-data", style={"color":"#972930"}),
                                         html.H6(id="novos-obitos-texto")
                                     ]
                                 )
@@ -92,7 +111,8 @@ class TopContent:
                                     [
                                         dcc.Loading(
                                             dcc.Graph(
-                                                id="line-chart-casos-br"
+                                                id="line-chart-casos-br",
+                                                config=modebar_config
                                             ),
                                             type=spinner_type,
                                             color=spinner_color
@@ -103,7 +123,8 @@ class TopContent:
                                     [
                                         dcc.Loading(
                                             dcc.Graph(
-                                                id="line-chart-obitos-br"
+                                                id="line-chart-obitos-br",
+                                                config=modebar_config
                                             ),
                                             type=spinner_type,
                                             color=spinner_color
@@ -156,14 +177,16 @@ class LeftContent():
                             [
                                 dcc.Loading(
                                     dcc.Graph(
-                                        id="macroregion-chart"
+                                        id="macroregion-chart",
+                                        config=modebar_config
                                     ),
                                     type = spinner_type,
                                     color = spinner_color
                                 ),
                                 dcc.Loading(
                                     dcc.Graph(
-                                        id="map-chart"
+                                        id="map-chart",
+                                        config=modebar_config
                                     ),
                                     type = spinner_type,
                                     color = spinner_color
@@ -208,7 +231,8 @@ class RightContent():
                             [
                                 dcc.Loading(
                                     dcc.Graph(
-                                        id="lines-chart-state"
+                                        id="lines-chart-state",
+                                        config=modebar_config
                                     ),
                                     type = spinner_type,
                                     color = spinner_color,
@@ -217,17 +241,19 @@ class RightContent():
                                     [
                                         dcc.Loading(
                                             dcc.Graph(
-                                                id="stacked-bar-chart"
+                                                id="stacked-bar-chart",
+                                                config=modebar_config
                                             ),
                                             type=spinner_type,
                                             color= spinner_color
                                         ),        
                                     ],
-                                    style={"marginTop":"50px", "marginBottom":"50px"}
+                                    style={"marginTop":"30px", "marginBottom":"50px"}
                                 ),
                                 dcc.Loading(
                                     dcc.Graph(
-                                        id="lines-chart-state-new"
+                                        id="lines-chart-state-new",
+                                        config=modebar_config
                                     ),
                                     type=spinner_type,
                                     color=spinner_color
@@ -264,7 +290,8 @@ class TabsContent():
                                                     [
                                                         dcc.Loading(
                                                             dcc.Graph(
-                                                                id="scatter-chart-gini"
+                                                                id="scatter-chart-gini",
+                                                                config=modebar_config
                                                             ),
                                                             type=spinner_type,
                                                             color=spinner_color
@@ -273,7 +300,7 @@ class TabsContent():
                                                 )
                                             ],
                                             className="custom-tab",
-                                            selected_className='custom-tab--selected'
+                                            selected_className='custom-tab--selected',
                                         ),
                                         dcc.Tab(
                                             label="Índice de Palma",
@@ -282,7 +309,8 @@ class TabsContent():
                                                     [
                                                         dcc.Loading(
                                                             dcc.Graph(
-                                                                id="scatter-chart-palma"
+                                                                id="scatter-chart-palma",
+                                                                config=modebar_config
                                                             ),
                                                             type=spinner_type,
                                                             color=spinner_color
@@ -300,7 +328,8 @@ class TabsContent():
                                                     [
                                                         dcc.Loading(
                                                             dcc.Graph(
-                                                                id="scatter-chart-rendimento"
+                                                                id="scatter-chart-rendimento",
+                                                                config=modebar_config
                                                             ),
                                                             type=spinner_type,
                                                             color=spinner_color
@@ -318,7 +347,8 @@ class TabsContent():
                                                     [
                                                         dcc.Loading(
                                                             dcc.Graph(
-                                                                id="scatter-chart-saude"
+                                                                id="scatter-chart-saude",
+                                                                config=modebar_config
                                                             ),
                                                             type=spinner_type,
                                                             color=spinner_color
@@ -336,7 +366,8 @@ class TabsContent():
                                                     [
                                                         dcc.Loading(
                                                             dcc.Graph(
-                                                                id="confusion-matrix-chart"
+                                                                id="confusion-matrix-chart",
+                                                                config=modebar_config
                                                             ),
                                                             type=spinner_type,
                                                             color=spinner_color
