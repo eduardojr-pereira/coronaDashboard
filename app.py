@@ -8,6 +8,7 @@ import plotly.express as px
 import dash_bootstrap_components as dbc
 import pandas as pd
 import json 
+import datetime
 
 
 # Instanciar APP
@@ -15,9 +16,9 @@ app=Dash(
     __name__,
     title="coronaDash - Eduardo Pereira",
     external_stylesheets=[dbc.themes.SLATE,'https://use.fontawesome.com/releases/v5.8.1/css/all.css'],
+    external_scripts=['https://cdn.plot.ly/plotly-locale-pt-br.js'],
     meta_tags=[{"name":"viewport","content":"width=device-width, inital-scale=1","http-equiv": "X-UA-Compatible", "content": "IE=9"}]
 )
-
 
 # Carregar os dados
 brasil_df = pd.read_csv("data\processed\covid_br_dataset.csv")
@@ -136,7 +137,7 @@ def filter_on_date(date):
 )
 def update_ranger_slider_br(date):
     dff_br = brasil_df[brasil_df["data"] <= date]
-            
+    
     lines_casos_br, lines_obitos_br = go.Figure(), go.Figure()
 
     lines_casos_br.add_trace(
@@ -147,7 +148,7 @@ def update_ranger_slider_br(date):
             name="Casos Acumulados",
             fill="tozeroy",
             line=dict(color="#E6C1A6"),
-            hovertemplate="Casos Acumulados: %{y:,.0f}<extra></extra>",
+            hovertemplate="<br>Casos Acumulados: %{y:,.0f}<extra></extra>",
         )
     )
     lines_casos_br.add_trace(

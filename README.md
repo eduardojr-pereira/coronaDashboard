@@ -229,11 +229,11 @@ Contribuições serão bem-vindas via ***pull requests***. Tenha certeza que os 
 
 <hr>
 
-## Possíveis implementações futuras
+<!-- ## Possíveis implementações futuras
 
 - [ ] Web Scraping para realizar a atualização automática dos dados.
 - [ ] Configurar o set.locale no plotly.js e traduzir as datas para pt-br.
-- [ ] Utilizar _Clustering Models_ para identificar padrões intrínsecos nos dados.
+- [ ] Utilizar _Clustering Models_ para identificar padrões intrínsecos nos dados. -->
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 

@@ -26,7 +26,8 @@ modebar_config={
         "hoverCompareCartesian",
         "toggleSpikelines",
         "autoScale2d"
-    ]
+    ],
+    "locale":"pt-br"
 }
 
 
@@ -60,7 +61,7 @@ class TopContent:
                                             max_date_allowed=last_date,
                                             initial_visible_month=last_date,
                                             date=last_date,
-                                            display_format="DD/MM/YYYY"   
+                                            display_format="DD/MM/YYYY"  
                                         ),
                                         dcc.Store(id="store-states-on-date")
                                     ]
