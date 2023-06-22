@@ -75,8 +75,7 @@ class ModalComponent:
         )
         source = dcc.Markdown(
             '''
-            - IBGE. Pesquisa Nacional por Amostra de Domicílios Contínua, 2020, acumulado de quintas visitas.
-            - Disponível em: [IBGE]("https://www.ibge.gov.br/" "Fonte PNAD Contínua-2020")	
+            - IBGE. Pesquisa Nacional por Amostra de Domicílios Contínua, 2019, acumulado de primeiras visitas.	
             '''
         )
         methodology = dcc.Markdown(
@@ -128,8 +127,7 @@ class ModalComponent:
         )
         source = dcc.Markdown(
             '''
-                - IBGE. Pesquisa Nacional por Amostra de Domicílios Contínua, 2020, acumulado de quintas visitas.
-                - Disponível em: [IBGE]("https://www.ibge.gov.br/" "Fonte PNAD Contínua-2020")	
+                - IBGE. Pesquisa Nacional por Amostra de Domicílios Contínua, 2019, acumulado de primeiras visitas.
             '''
         )
         methodology = dcc.Markdown(

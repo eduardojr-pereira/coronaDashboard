@@ -24,170 +24,101 @@ class Header:
         )
 
 
-class TopCardHeader:
+class TopContent:
     def __init__(self):
-        self.element = dbc.Row(
-            [
-                dbc.Col(html.P("Selecione uma data", className="d-flex justify-content-end text-light m-0")),
-                dbc.Col(
-                    [
-                        dcc.DatePickerSingle(
-                            id="datepicker",
-                            min_date_allowed = first_date,
-                            max_date_allowed=last_date,
-                            initial_visible_month=last_date,
-                            date=last_date,
-                            display_format="DD/MM/YYYY"   
-                        ),
-                        dcc.Store(id="store-states-on-date"),
-                        dcc.Store(id="store-macroregion-on-date"),
-                        dcc.Store(id="store-states-until-date")
-                    ]
-                )
-            ],
-            className="d-flex align-items-center m-0"
-        )
-
-
-class TopCardBody:
-    def __init__(self):
-        self.element = html.Div(
-            [
-                dbc.Row(
-                    [
-                        dbc.Col(
-                            [
-                                html.H5("Casos Acumulados"),
-                                html.H2(id="casos-acumulados-na-data", style={"color":"#F7A177"}),
-                                html.H6(id="novos-casos-texto")
-                            ],
-                            md=4,
-                            sm=12,
-                            style={"border-right":"2px solid #515960"}
-                        ),
-                        dbc.Col(
-                            [
-                                html.H5("Casos Recuperados"),
-                                html.H2(id="total-recuperados", style={"color":"#3FA8CA"}),
-                                html.H6(id="em-acompanhamento-texto")   
-                            ],
-                            md=4,
-                            sm=12,
-                            style={"border-right":"2px solid #515960"}
-                        ),
-                        dbc.Col(
-                            [
-                                html.H5("Óbitos Acumulados"),
-                                html.H2(id="obitos-acumulados-na-data", style={"color":"#A93948"}),
-                                html.H6(id="novos-obitos-texto")
-                            ]
-                        )
-                    ],
-                    className="text-center"
-                ),
-                html.Hr(),
-                dbc.Row(
-                    [
-                        dbc.Col(
-                            [
-                                dcc.Loading(
-                                    dcc.Graph(
-                                        id="line-chart-casos-br"
-                                    ),
-                                    type=spinner_type,
-                                    color=spinner_color
-                                )
-                            ]
-                        ),
-                        dbc.Col(
-                            [
-                                dcc.Loading(
-                                    dcc.Graph(
-                                        id="line-chart-obitos-br"
-                                    ),
-                                    type=spinner_type,
-                                    color=spinner_color
-                                )
-                            ]
-                        )
-                    ]
-                )
-            ]
-        )
-
-
-class TopCardContent:
-    def __init__ (self):
         self.element = dbc.Card(
             [
-                dbc.CardHeader(TopCardHeader().element),
-                dbc.CardBody(TopCardBody().element)
-            ]
-        )
-
-
-class LeftCardHeader():
-    def __init__ (self):
-        self.element = dbc.Row(
-            [
-                dbc.Col(html.P("Selecione uma opção", className="d-flex justify-content-end text-light m-0")),
-                dbc.Col(
+                dbc.CardHeader(
                     [
-                        dcc.Dropdown(
-                            id="dropdown-map",
-                            options = [
-                                {"label":"Casos Acumulados", "value":"casosAcumulado"},
-                                {"label":"Óbitos Acumulados", "value":"obitosAcumulado"},
-                                {"label":"Incidência", "value":"incidencia"},
-                                {"label":"Mortalidade", "value":"mortalidade"},         
-                                {"label":"Taxa de Letalidade", "value":"taxaLetalidade"}
+                        dbc.Row(
+                            [
+                                dbc.Col(html.P("Selecione uma data", className="d-flex justify-content-end text-light m-0")),
+                                dbc.Col(
+                                    [
+                                        dcc.DatePickerSingle(
+                                            id="datepicker",
+                                            min_date_allowed = first_date,
+                                            max_date_allowed=last_date,
+                                            initial_visible_month=last_date,
+                                            date=last_date,
+                                            display_format="DD/MM/YYYY"   
+                                        ),
+                                        dcc.Store(id="store-states-on-date")
+                                    ]
+                                )
                             ],
-                            value="casosAcumulado",
-                            clearable=False,
-                            searchable=False,
-                            className="custom-dropdown"
+                            className="d-flex align-items-center m-0"
+                        )
+                    ]
+                ),
+                dbc.CardBody(
+                    [
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    [
+                                        html.H5("Casos Acumulados"),
+                                        html.H2(id="casos-acumulados-na-data", style={"color":"#F7A177"}),
+                                        html.H6(id="novos-casos-texto")
+                                    ],
+                                    md=4,
+                                    sm=12,
+                                    style={"border-right":"2px solid #515960"}
+                                ),
+                                dbc.Col(
+                                    [
+                                        html.H5("Casos Recuperados"),
+                                        html.H2(id="total-recuperados", style={"color":"#3FA8CA"}),
+                                        html.H6(id="em-acompanhamento-texto")   
+                                    ],
+                                    md=4,
+                                    sm=12,
+                                    style={"border-right":"2px solid #515960"}
+                                ),
+                                dbc.Col(
+                                    [
+                                        html.H5("Óbitos Acumulados"),
+                                        html.H2(id="obitos-acumulados-na-data", style={"color":"#A93948"}),
+                                        html.H6(id="novos-obitos-texto")
+                                    ]
+                                )
+                            ],
+                            className="text-center"
+                        ),
+                        html.Hr(),
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    [
+                                        dcc.Loading(
+                                            dcc.Graph(
+                                                id="line-chart-casos-br"
+                                            ),
+                                            type=spinner_type,
+                                            color=spinner_color
+                                        )
+                                    ]
+                                ),
+                                dbc.Col(
+                                    [
+                                        dcc.Loading(
+                                            dcc.Graph(
+                                                id="line-chart-obitos-br"
+                                            ),
+                                            type=spinner_type,
+                                            color=spinner_color
+                                        )
+                                    ]
+                                )
+                            ]
                         )
                     ]
                 )
-            ],
-            className="d-flex align-items-center"
-        )
-
-
-class LeftCardBody():
-    def __init__ (self):
-        self.element = dbc.Row(
-            [
-                dcc.Loading(
-                    dcc.Graph(
-                        id="macroregion-chart"
-                    ),
-                    type = spinner_type,
-                    color = spinner_color
-                ),
-                dcc.Loading(
-                    dcc.Graph(
-                        id="map-chart"
-                    ),
-                    type = spinner_type,
-                    color = spinner_color
-                )
             ]
         )
 
 
-class MainLeftContent():
-    def __init__ (self):
-        self.element = dbc.Card(
-            [
-                dbc.CardHeader(LeftCardHeader().element),
-                dbc.CardBody(LeftCardBody().element)
-            ],
-            className="h-100"
-        )
-
-
-class RightCardContentTop():
+class LeftContent():
     def __init__ (self):
         self.element = dbc.Card(
             [
@@ -195,19 +126,19 @@ class RightCardContentTop():
                     [
                         dbc.Row(
                             [
-                                dbc.Col(html.P("Selecione uma Macroregião", className="d-flex justify-content-end text-light m-0")),
+                                dbc.Col(html.P("Selecione uma opção", className="d-flex justify-content-end text-light m-0")),
                                 dbc.Col(
                                     [
                                         dcc.Dropdown(
-                                            id="dropdown-macroregion",
+                                            id="dropdown-map",
                                             options = [
-                                                {"label":"Norte", "value":"Norte"},
-                                                {"label":"Nordeste", "value":"Nordeste"},
-                                                {"label":"Centro-Oeste", "value":"Centro-Oeste"},
-                                                {"label":"Sudeste", "value":"Sudeste"},
-                                                {"label":"Sul", "value":"Sul"}
+                                                {"label":"Casos Acumulados", "value":"casosAcumulado"},
+                                                {"label":"Óbitos Acumulados", "value":"obitosAcumulado"},
+                                                {"label":"Incidência", "value":"incidencia"},
+                                                {"label":"Mortalidade", "value":"mortalidade"},         
+                                                {"label":"Taxa de Letalidade", "value":"taxaLetalidade"}
                                             ],
-                                            value="Sudeste",
+                                            value="casosAcumulado",
                                             clearable=False,
                                             searchable=False,
                                             className="custom-dropdown"
@@ -222,24 +153,31 @@ class RightCardContentTop():
                 dbc.CardBody(
                     [
                         dbc.Row(
-                            [                
+                            [
                                 dcc.Loading(
                                     dcc.Graph(
-                                        id="subplots-states"
+                                        id="macroregion-chart"
                                     ),
-                                    type=spinner_type,
-                                    color= spinner_color
+                                    type = spinner_type,
+                                    color = spinner_color
+                                ),
+                                dcc.Loading(
+                                    dcc.Graph(
+                                        id="map-chart"
+                                    ),
+                                    type = spinner_type,
+                                    color = spinner_color
                                 )
-                            ],
-                            className="text-center"
+                            ]
                         )
                     ]
                 )
-            ]
+            ],
+            className="h-100"
         )
-            
 
-class RightCardContentBottom():
+
+class RightContent():
     def __init__ (self):
         self.element = dbc.Card(
             [
@@ -270,17 +208,29 @@ class RightCardContentBottom():
                             [
                                 dcc.Loading(
                                     dcc.Graph(
-                                        id="line-chart-state"
+                                        id="lines-chart-state"
                                     ),
                                     type = spinner_type,
                                     color = spinner_color,
                                 ),
+                                html.Div(
+                                    [
+                                        dcc.Loading(
+                                            dcc.Graph(
+                                                id="stacked-bar-chart"
+                                            ),
+                                            type=spinner_type,
+                                            color= spinner_color
+                                        ),        
+                                    ],
+                                    style={"marginTop":"50px", "marginBottom":"50px"}
+                                ),
                                 dcc.Loading(
                                     dcc.Graph(
-                                        id="stacked-bar-chart"
+                                        id="lines-chart-state-new"
                                     ),
                                     type=spinner_type,
-                                    color= spinner_color
+                                    color=spinner_color
                                 )
                             ]
                         )
@@ -288,20 +238,9 @@ class RightCardContentBottom():
                 )
             ]
         )
-        
-
-class MainRightContent():
-    def __init__ (self):
-        self.element = html.Div(
-            [
-                RightCardContentTop().element,
-                html.Br(),
-                RightCardContentBottom().element
-            ]
-        )
 
 
-class TabsCardContent():
+class TabsContent():
     def __init__(self):
         self.element = dbc.Card(
             [
@@ -414,11 +353,12 @@ class TabsCardContent():
                         )
                     ]
                 )
-            ]
+            ],
+            className="h-100"
         )
 
 
-class ConfusionMatrixCardContent():
+class TabsAlertContent():
     def __init__(self):
         self.element = dbc.Card(
             [
@@ -427,16 +367,31 @@ class ConfusionMatrixCardContent():
                         dbc.Row(
                             [
                                 dbc.Col(
-                                    [
-                                        dcc.Loading(
-                                            dcc.Graph(
-                                                id="123"
+                                    html.Div(
+                                        [
+                                            html.H5([html.I(className="fas fa-sticky-note"), " Notas"], className="text-center text-warning"),
+                                            html.Hr(className="my-2"),
+                                            html.P("Sobre os índices utilizados:", className="text-center text-light"),
+                                            dcc.Markdown(
+                                                '''
+                                                    - Dados selecionados para 2019, ou seja, levou-se em consideração o cenário pré-pandêmico do Brasil.
+                                                    - Rendimentos deflacionados para reais médios do próprio ano.
+                                                    - Exclusive as pessoas cuja condição no arranjo domiciliar era pensionista, empregado doméstico ou parente do empregado doméstico.
+                                                '''
                                             ),
-                                            type=spinner_type,
-                                            color=spinner_color
-                                        )
-                                    ]
-                                )
+                                            html.P("Fonte:", className="text-center text-light"),
+                                            dcc.Markdown(
+                                                '''
+                                                    IBGE. Pesquisa Nacional por Amostra de Domicílios Contínua, 2019, acumulado de primeiras visitas. 	
+                                                '''
+                                            ),
+                                            html.Span("Disponível em: "),
+                                            html.A("IBGE", href="https://www.ibge.gov.br/", target="_blank", title="Fonte PNAD Contínua-2019"),
+                                            html.Hr(className="my-2")
+                                        ],
+                                        className="h-100 p-5 bg-dark rounded-5",
+                                    )
+                                )  
                             ]
                         )
                     ]
@@ -452,13 +407,13 @@ class Content:
         content = dbc.Container(
             [
                 Header("Coronavírus no Brasil", "Navegando pela pandemia").element,
-                TopCardContent().element,
+                TopContent().element,
                 html.Br(),
                 dbc.Row(
                     [
                         dbc.Col(
                             [
-                                MainLeftContent().element
+                                LeftContent().element
                             ],
                             md=6,
                             sm=12
@@ -466,7 +421,7 @@ class Content:
                         ),
                         dbc.Col(
                             [
-                                MainRightContent().element
+                                RightContent().element
                             ]
                         )
                     ]
@@ -476,14 +431,14 @@ class Content:
                     [
                         dbc.Col(
                             [
-                                TabsCardContent().element
+                                TabsContent().element
                             ],
                             md=8,
                             sm=12
                         ),
                         dbc.Col(
                             [
-                                ConfusionMatrixCardContent().element
+                                TabsAlertContent().element
                             ],
                             md=4,
                             sm=12
