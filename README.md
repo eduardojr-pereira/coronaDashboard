@@ -13,7 +13,9 @@
 <div align= "center">
   <img src="assets\imagens\logo_app.png" alt="Logo do App" height="100"> <h3>Evolução do coronavírus no Brasil</h3>
 </div>
-
+<div align= "center">
+<a href="https://creativecommons.org/licenses/by-nc/4.0/"><img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg" height="32"></a>
+</div>
 <hr>
 
 <!-- CONTENT -->
@@ -299,7 +301,6 @@ Contribuições serão bem-vindas via ***pull requests***. Tenha certeza que os 
 <hr>
 
 ## Licença
-
 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licença Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />Este projeto está licenciado com uma Licença <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Atribuição-NãoComercial 4.0 Internacional</a>.
 
 Autor: Eduardo Junior Pereira
