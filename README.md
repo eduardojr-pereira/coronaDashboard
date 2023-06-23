@@ -304,8 +304,6 @@ Contribuições serão bem-vindas via ***pull requests***. Tenha certeza que os 
 
 Autor: Eduardo Junior Pereira
 
-[CC-BY-NC]()
-
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
 <hr>
