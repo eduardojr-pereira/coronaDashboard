@@ -109,7 +109,11 @@ O dataset fornece informações valiosas para acompanhar a evolução do COVID-1
 <a href="https://plotly.com/dash/"><img src="https://img.shields.io/badge/Dash-2.10.2-critical"></a>
 <a href="https://dash-bootstrap-components.opensource.faculty.ai/"><img src="https://img.shields.io/badge/Dash_Bootstrap_Components-1.4.1-critical"></a>
 <a href="https://pandas.pydata.org/"><img src="https://img.shields.io/badge/Pandas-1.5.3-critical"></a>
+
+### Extensão usada para versionar arquivos grandes no Git:
 <a href="https://git-lfs.github.com/"><img src="https://img.shields.io/badge/Git_LFS-3.3.0-critical"></a>
+
+> O Git LFS é uma extensão do Git que permite armazenar e gerenciar arquivos grandes de forma eficiente, mantendo apenas os metadados desses arquivos no repositório Git, enquanto os próprios arquivos são armazenados em um servidor Git LFS separado.
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
@@ -194,6 +198,7 @@ git clone https://github.com/eduardojr-pereira/coronaDashboard.git
 ### 2. Configurar o ambiente
 
 - Acesse o diretório do projeto e crie um ambiente virtual:
+
 ```bash
 cd seu-repositorio
 python -m -venv coronaDash_env
@@ -201,14 +206,19 @@ python -m -venv coronaDash_env
 
 - Ative o ambiente virtual:
 > No Windows:
+
 ```bash
 coronaDash_env\Scripts\activate
 ```
+
 > No macOS/Linux:
+
 ```bash
 source coronaDash_env/bin/activate
 ```
+
 > No Anaconda Prompt:
+
 ```bash
 conda activate coronaDash_env
 ```
