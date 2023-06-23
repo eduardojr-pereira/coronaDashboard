@@ -300,7 +300,7 @@ Contribuições serão bem-vindas via ***pull requests***. Tenha certeza que os 
 
 ## Licença
 
-Este arquivo está licenciado sob a licença Creative Commons Attribution-NonCommercial (CC-BY-NC).
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licença Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />Este projeto está licenciado com uma Licença <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Atribuição-NãoComercial 4.0 Internacional</a>.
 
 Autor: Eduardo Junior Pereira
 
