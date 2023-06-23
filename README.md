@@ -105,12 +105,12 @@ O dataset fornece informações valiosas para acompanhar a evolução do COVID-1
 
 ### Frameworks Python utilizados no projeto:
 
-<a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.9-informational"></a>
-<a href="https://plotly.com/"><img src="https://img.shields.io/badge/Plotly-5.9.0-critical"></a>
-<a href="https://plotly.com/dash/"><img src="https://img.shields.io/badge/Dash-2.10.2-critical"></a>
-<a href="https://dash-bootstrap-components.opensource.faculty.ai/"><img src="https://img.shields.io/badge/Dash_Bootstrap_Components-1.4.1-critical"></a>
-<a href="https://pandas.pydata.org/"><img src="https://img.shields.io/badge/Pandas-1.5.3-critical"></a>
-<a href="https://git-lfs.github.com/"><img src="https://img.shields.io/badge/Git_LFS-3.3.0-critical"></a>
+<a href="https://www.python.org/" target="_blank"><img src="https://img.shields.io/badge/Python-3.9-informational"></a>
+<a href="https://plotly.com/" target="_blank"><img src="https://img.shields.io/badge/Plotly-5.9.0-critical"></a>
+<a href="https://plotly.com/dash/" target="_blank"><img src="https://img.shields.io/badge/Dash-2.10.2-critical"></a>
+<a href="https://dash-bootstrap-components.opensource.faculty.ai/" target="_blank"><img src="https://img.shields.io/badge/Dash_Bootstrap_Components-1.4.1-critical"></a>
+<a href="https://pandas.pydata.org/" target="_blank"><img src="https://img.shields.io/badge/Pandas-1.5.3-critical"></a>
+<a href="https://git-lfs.github.com/" target="_blank"><img src="https://img.shields.io/badge/Git_LFS-3.3.0-critical"></a>
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
