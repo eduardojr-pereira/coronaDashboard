@@ -3,9 +3,8 @@
 
 <!-- SHIELDS -->
 <div align="center">
-<img src="https://forthebadge.com/images/badges/made-with-python.svg" 
-  alt="Made with Python" height="32">
-<img src="https://forthebadge.com/images/badges/powered-by-coffee.svg" alt="Powered by Coffee" height="32">
+<a href="https://www.python.org/"><img src="https://forthebadge.com/images/badges/made-with-python.svg" height="32"></a>
+<a href="/"><img src="https://forthebadge.com/images/badges/powered-by-coffee.svg" height="32"></a>
 </div>
 
 <br />
