@@ -5,6 +5,7 @@
 <div align="center">
 <a href="https://www.python.org/"><img src="https://forthebadge.com/images/badges/made-with-python.svg" height="32"></a>
 <a href="/"><img src="https://forthebadge.com/images/badges/powered-by-coffee.svg" height="32"></a>
+<a href="https://creativecommons.org/licenses/by-nc/4.0/"><img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-critical.svg" height="32"></a>
 </div>
 
 <br />
@@ -13,9 +14,7 @@
 <div align= "center">
   <img src="assets\imagens\logo_app.png" alt="Logo do App" height="100"> <h3>Evolução do coronavírus no Brasil</h3>
 </div>
-<div align= "center">
-<a href="https://creativecommons.org/licenses/by-nc/4.0/"><img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg" height="32"></a>
-</div>
+
 <hr>
 
 <!-- CONTENT -->
