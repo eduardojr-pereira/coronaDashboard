@@ -110,7 +110,7 @@ O dataset fornece informações valiosas para acompanhar a evolução do COVID-1
 <a href="https://plotly.com/dash/"><img src="https://img.shields.io/badge/Dash-2.10.2-critical"></a>
 <a href="https://dash-bootstrap-components.opensource.faculty.ai/"><img src="https://img.shields.io/badge/Dash_Bootstrap_Components-1.4.1-critical"></a>
 <a href="https://pandas.pydata.org/"><img src="https://img.shields.io/badge/Pandas-1.5.3-critical"></a>
-
+<a href="https://www.python.org/"><img src="https://img.shields.io/badge/git-lfs-3.3.0-informational"></a>
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
@@ -171,6 +171,20 @@ coronaDashboard/
 
 ## Uso
 
+### Pré-requisistos
+
+Certifique-se de ter o ***Git LFS*** instalado no seu sistema antes de clonar este repositório. 
+Caso ainda não tenha, siga as instruções abaixo para instalar o Git LFS:
+
+1. Visite o site oficial do Git LFS em https://git-lfs.github.com/ e siga as instruções de instalação para o seu sistema operacional.
+
+2. Após a instalação, abra o terminal e execute o seguinte comando para verificar se o Git LFS foi instalado corretamente:
+
+```bash
+git lfs version
+```
+> Se você visualizar a versão do Git LFS instalada, isso significa que o Git LFS foi configurado corretamente.
+
 ### 1. Clonar o Repositório
 - Clonar este repositório para o seu ambiente local:
 
@@ -180,21 +194,24 @@ git clone https://github.com/eduardojr-pereira/coronaDashboard.git
 
 ### 2. Configurar o ambiente
 
-- Acesse o diretório do projeto e crie um ambiente virtual
-
+- Acesse o diretório do projeto e crie um ambiente virtual:
 ```bash
 cd seu-repositorio
-python -m -venv venv
+python -m -venv coronaDash_env
 ```
 
-- Ative o ambiente virtual
+- Ative o ambiente virtual:
 > No Windows:
 ```bash
-venv\Scripts\activate
+coronaDash_env\Scripts\activate
 ```
 > No macOS/Linux:
 ```bash
-source venv/bin/activate
+source coronaDash_env/bin/activate
+```
+> No Anaconda Prompt:
+```bash
+conda activate coronaDash_env
 ```
 
 ### 3. Instalar as dependências necessárias
@@ -212,10 +229,38 @@ pip install -U -r requirements.txt
 - Navegar para o diretório no prompt de comando e executar o algoritmo com o código abaixo:
 
 ```bash
-python nome_do_arquivo.py
+python app.py
 ```
 
-> Substitua ***nome_do_arquivo.py*** pelo nome do arquivo Python que contém o código do seu algoritmo.
+### Notas
+> Após ter o repositório clonado e o Git LFS configurado corretamente, você pode utilizar o arquivo CSV grande sem problemas. O Git LFS irá lidar com o gerenciamento adequado do arquivo durante o push e o pull.
+
+Para adicionar novas alterações ao arquivo CSV `data/processed/covid_estados_dataset.csv`, utilize os seguintes comandos:
+
+1. Primeiro, adicione o arquivo ao Git LFS para que ele seja gerenciado corretamente:
+
+```bash
+git lfs track "data/processed/covid_estados_dataset.csv"
+```
+
+2. Em seguida, adicione o arquivo modificado ao *stage area* usando o comando `git add`:
+
+```bash
+git add data/processed/covid_estados_dataset.csv
+``` 
+
+3. Faça o *commit* das alterações:
+
+```bash
+git commit -m "Descrição do commit"
+```
+
+4. Finalmente, faça o push das alterações para o repositório remoto:
+
+```bash
+git push origin branch
+```
+> Substitua *"branch"* pelo nome da branch que você deseja fazer o push.
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
@@ -229,11 +274,16 @@ Contribuições serão bem-vindas via ***pull requests***. Tenha certeza que os 
 
 <hr>
 
-<!-- ## Possíveis implementações futuras
+## Possíveis implementações/melhorias futuras
 
-- [ ] Web Scraping para realizar a atualização automática dos dados.
-- [ ] Configurar o set.locale no plotly.js e traduzir as datas para pt-br.
-- [ ] Utilizar _Clustering Models_ para identificar padrões intrínsecos nos dados. -->
+- [x] Utilizar _Clustering Models_ para identificar padrões intrínsecos nos dados.
+- [x] Configurar plotly-locale para traduzir modebar dos gráficos para pt-br.
+- [ ] Traduzir as datas do dcc.datepickerSingle para pt-br.
+- [ ] Web Scraping para realizar a atualização dos dados.
+- [ ] Ampliar análise refrente aos índices sociais e econômicos.
+- [ ] Incluir comparativo acerca da quantidade e taxa de ocupação dos leitos complementares por Estado.
+- [ ] Incluir dados referentes à campanha de vacinação dos Estados.
+- [ ] Verificar correlação entre o fluxo de passageiros nos aeroportos por Estado e o coeficiente de incidência.
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
@@ -241,9 +291,11 @@ Contribuições serão bem-vindas via ***pull requests***. Tenha certeza que os 
 
 ## Licença
 
-Utilize o link abaixo para obter mais inforações sobre a licença:
+Este arquivo está licenciado sob a licença Creative Commons Attribution-NonCommercial (CC-BY-NC).
 
-[ainda nao definida - ***atenção escolher licença***]()
+Autor: Eduardo Junior Pereira
+
+[CC-BY-NC]()
 
 <p align="right"><a href="#readme-top">• VOLTAR PARA O TOPO •</a></p>
 
