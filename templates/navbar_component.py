@@ -107,7 +107,7 @@ class DownloadCvButton:
     def __init__(self):
         self.element = dbc.Button(
             "Download - CV",
-            href="assets\CV_EduardoPereira.pdf",
+            href="https://drive.google.com/file/d/1KsDqlciv2BpCuvGBKzs6cPz5N5n4rjyr/view?usp=sharing",
             download="CV_EduardoPereira",
             external_link=True,
             title="Curriculum Vitae - Eduardo Pereira",
